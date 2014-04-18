@@ -1,12 +1,8 @@
-# League Skeleton
+# Infusionsoft PHP SDK
 
 [![Build Status](https://travis-ci.org/infusionsoft/php-sdk.png?branch=master)](https://travis-ci.org/infusionsoft/php-sdk)
 [![Total Downloads](https://poser.pugx.org/infusionsoft/php-sdk/downloads.png)](https://packagist.org/packages/infusionsoft/php-sdk)
 [![Latest Stable Version](https://poser.pugx.org/infusionsoft/php-sdk/v/stable.png)](https://packagist.org/packages/infusionsoft/php-sdk)
-
-**Replace Skeleton with your own package name in the above URLs**
-
-:package_description
 
 
 ## Install
