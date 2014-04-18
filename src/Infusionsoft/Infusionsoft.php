@@ -183,7 +183,11 @@ class Infusionsoft {
 	 */
 	public function __get($name)
 	{
-		$services = array('contacts');
+		$services = array(
+			'affiliatePrograms', 'affiliates', 'contacts', 'data', 'discounts',
+			'emails', 'files', 'funnels', 'invoices', 'orders', 'products',
+			'search', 'shipping', 'webForms'
+		);
 
 		if (method_exists($this, $name) and in_array($name, $services))
 		{
@@ -193,9 +197,74 @@ class Infusionsoft {
 		throw new \UnexpectedValueException(sprintf('Invalid property: %s', $name));
 	}
 
+	public function affiliatePrograms()
+	{
+		return $this->getApi('AffiliateProgram');
+	}
+
+	public function affiliates()
+	{
+		return $this->getApi('Affiliate');
+	}
+
 	public function contacts()
 	{
 		return $this->getApi('ContactService');
+	}
+
+	public function data()
+	{
+		return $this->getApi('DataService');
+	}
+
+	public function discounts()
+	{
+		return $this->getApi('DiscountService');
+	}
+
+	public function emails()
+	{
+		return $this->getApi('EmailService');
+	}
+
+	public function files()
+	{
+		return $this->getApi('FileService');
+	}
+
+	public function funnels()
+	{
+		return $this->getApi('FunnelService');
+	}
+
+	public function invoices()
+	{
+		return $this->getApi('InvoiceService');
+	}
+
+	public function orders()
+	{
+		return $this->getApi('OrderService');
+	}
+
+	public function products()
+	{
+		return $this->getApi('ProductService');
+	}
+
+	public function search()
+	{
+		return $this->getApi('SearchService');
+	}
+
+	public function shipping()
+	{
+		return $this->getApi('ShippingService');
+	}
+
+	public function webForms()
+	{
+		return $this->getApi('WebFormService');
 	}
 
 	public function getApi($class)
