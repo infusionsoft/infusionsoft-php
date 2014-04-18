@@ -8,10 +8,10 @@ class OrderService extends AbstractApi {
 	 * @param integer $contactId
 	 * @param integer $creditCardId
 	 * @param integer $payPlanId
-	 * @param List $productIds
-	 * @param List $subscriptionPlanIds
+	 * @param array $productIds
+	 * @param array $subscriptionPlanIds
 	 * @param boolean $processSpecials
-	 * @param List $promoCodes
+	 * @param array $promoCodes
 	 * @param integer $leadAffiliateId
 	 * @param integer $affiliateId
 	 * @return {{return}}

@@ -7,7 +7,7 @@ class InvoiceService extends AbstractApi {
 	/**
 	 * @param integer $contactId
 	 * @param string $description
-	 * @param datetime $orderDate
+	 * @param string $orderDate
 	 * @param integer $leadAffiliateId
 	 * @param integer $saleAffiliateId
 	 * @return {{return}}
@@ -21,7 +21,7 @@ class InvoiceService extends AbstractApi {
 	 * @param integer $invoiceId
 	 * @param integer $productId
 	 * @param integer $type
-	 * @param double $price
+	 * @param float $price
 	 * @param integer $quantity
 	 * @param string $description
 	 * @param string $notes
@@ -68,7 +68,7 @@ class InvoiceService extends AbstractApi {
 	 * @param boolean $allowDuplicate
 	 * @param integer $cProgramId
 	 * @param integer $qty
-	 * @param double $price
+	 * @param float $price
 	 * @param boolean $taxable
 	 * @param integer $merchabtAccountId
 	 * @param integer $creditCardId
@@ -84,7 +84,7 @@ class InvoiceService extends AbstractApi {
 	/**
 	 * @param integer $recurringOrderId
 	 * @param integer $affiliateId
-	 * @param double $amount
+	 * @param float $amount
 	 * @param integer $payoutType
 	 * @param string $description
 	 * @return {{return}}
@@ -105,7 +105,7 @@ class InvoiceService extends AbstractApi {
 
 	/**
 	 * @param integer $invoiceId
-	 * @param double $amt
+	 * @param float $amt
 	 * @param string $paymentDate
 	 * @param string $paymentType
 	 * @param string $paymentDescription
@@ -124,7 +124,7 @@ class InvoiceService extends AbstractApi {
 	 * @param integer $merchantAccountId
 	 * @param integer $daysBetweenRetry
 	 * @param integer $maxRetry
-	 * @param double $initialPmtAmt
+	 * @param float $initialPmtAmt
 	 * @param string $initialPmtDate
 	 * @param string $plantStartDate
 	 * @param integer $numPmts
@@ -137,13 +137,12 @@ class InvoiceService extends AbstractApi {
 	}
 
 	/**
-	 * @param string $apikey
 	 * @param integer $invoiceId
 	 * @return {{return}}
 	 */
-	public function calculateAmountOwed($apikey, $invoiceId)
+	public function calculateAmountOwed($invoiceId)
 	{
-		return $this->client->request($this->method(), $apikey, $invoiceId);
+		return $this->client->request($this->method(), $invoiceId);
 	}
 
 	/**
@@ -219,7 +218,7 @@ class InvoiceService extends AbstractApi {
 	 * @param integer $affiliateId
 	 * @param integer $productId
 	 * @param integer $percentage
-	 * @param double $amount
+	 * @param float $amount
 	 * @param integer $payoutType
 	 * @param string $description
 	 * @param string $date

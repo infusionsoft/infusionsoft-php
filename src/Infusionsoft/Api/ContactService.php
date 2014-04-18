@@ -5,7 +5,7 @@ namespace Infusionsoft\Api;
 class ContactService extends AbstractApi {
 
 	/**
-	 * @param struct $data
+	 * @param array $data
 	 * @return {{return}}
 	 */
 	public function add($data)
@@ -134,7 +134,7 @@ class ContactService extends AbstractApi {
 	}
 
 	/**
-	 * @param struct $data
+	 * @param array $data
 	 * @param string $dupCheckType
 	 * @return {{return}}
 	 */
@@ -145,7 +145,7 @@ class ContactService extends AbstractApi {
 
 	/**
 	 * @param integer $contactId
-	 * @param struct $data
+	 * @param array $data
 	 * @return {{return}}
 	 */
 	public function update($contactId, $data)

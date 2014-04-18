@@ -89,7 +89,7 @@ class EmailService extends AbstractApi {
 	 * @param string $toAddress
 	 * @param string $ccAddress
 	 * @param string $bccAddress
-	 * @param  $contentType
+	 * @param string $contentType
 	 * @param string $subject
 	 * @param string $htmlBody
 	 * @param string $textBody

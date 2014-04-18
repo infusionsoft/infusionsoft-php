@@ -9,7 +9,7 @@ class SearchService extends AbstractApi {
 	 * @param integer $userId
 	 * @return {{return}}
 	 */
-	public function getAllReport Columns($savedSearchId, $userId)
+	public function getAllReportColumns($savedSearchId, $userId)
 	{
 		return $this->client->request($this->method(), $savedSearchId, $userId);
 	}

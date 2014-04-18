@@ -6,7 +6,7 @@ class DataService extends AbstractApi {
 
 	/**
 	 * @param string $table
-	 * @param struct $values
+	 * @param array $values
 	 * @return {{return}}
 	 */
 	public function add($table, $values)
@@ -28,7 +28,7 @@ class DataService extends AbstractApi {
 	/**
 	 * @param string $table
 	 * @param integer $Id
-	 * @param struct $values
+	 * @param array $values
 	 * @return {{return}}
 	 */
 	public function update($table, $Id, $values)
@@ -52,7 +52,7 @@ class DataService extends AbstractApi {
 	 * @param integer $page
 	 * @param string $fieldName
 	 * @param string $fieldValue
-	 * @param array (of strings) $returnFields
+	 * @param array $returnFields
 	 * @return {{return}}
 	 */
 	public function findByField($table, $limt, $page, $fieldName, $fieldValue, $returnFields)
@@ -64,7 +64,7 @@ class DataService extends AbstractApi {
 	 * @param string $table
 	 * @param integer $limit
 	 * @param integer $page
-	 * @param struct $queryData
+	 * @param array $queryData
 	 * @param array $selectedFields
 	 * @param string $orderBy
 	 * @param boolean $ascending
@@ -128,7 +128,7 @@ class DataService extends AbstractApi {
 
 	/**
 	 * @param integer $customFieldId
-	 * @param struct $values
+	 * @param array $values
 	 * @return {{return}}
 	 */
 	public function updateCustomField($customFieldId, $values)
