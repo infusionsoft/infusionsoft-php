@@ -156,12 +156,10 @@ class Infusionsoft {
 	}
 
 	/**
-	 * @param string $methodName
-	 * @param array $params
 	 * @throws InfusionsoftException
 	 * @return mixed
 	 */
-	public function request($methodName, array $params = array())
+	public function request()
 	{
 		$httpClient = new \Guzzle\Http\Client();
 
@@ -171,16 +169,11 @@ class Infusionsoft {
 		// can still use Guzzle as our HTTP client which is much more robust.
 		$client = new \fXmlRpc\Client($url, new \fXmlRpc\Transport\GuzzleBridge($httpClient));
 
-		try
-		{
-			$response = $client->call($methodName, array('key' => '', $params));
+		$args = func_get_args();
 
-			return $response;
-		}
-		catch (\fXmlRpc\Exception\HttpException $e)
-		{
-			throw new InfusionsoftException($e);
-		}
+		$response = $client->call(array_shift($args), array_merge(array('key' => ''), $args));
+
+		return $response;
 	}
 
 	/**
