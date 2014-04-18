@@ -18,7 +18,8 @@
         "lstrojny/fxmlrpc": "0.9.*"
     },
     "require-dev": {
-        "phpunit/phpunit": "~4"
+        "phpunit/phpunit": "~4",
+        "squizlabs/php_codesniffer": "1.*"
     },
     "autoload": {
         "psr-0": {
