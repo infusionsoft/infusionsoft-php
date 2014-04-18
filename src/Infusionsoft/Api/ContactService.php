@@ -5,8 +5,8 @@ namespace Infusionsoft\Api;
 class ContactService extends AbstractApi {
 
 	/**
-	 * @param array $data
-	 * @return int
+	 * @param struct $data
+	 * @return {{return}}
 	 */
 	public function add($data)
 	{
@@ -14,9 +14,9 @@ class ContactService extends AbstractApi {
 	}
 
 	/**
-	 * @param int $contactId
-	 * @param int $duplicateContactId
-	 * @return boolean
+	 * @param integer $contactId
+	 * @param integer $duplicateContactId
+	 * @return {{return}}
 	 */
 	public function merge($contactId, $duplicateContactId)
 	{
@@ -24,19 +24,19 @@ class ContactService extends AbstractApi {
 	}
 
 	/**
-	 * @param int $contactId
-	 * @param int $campaignId
-	 * @return boolean
+	 * @param integer $contactId
+	 * @param integer $campaingId
+	 * @return {{return}}
 	 */
-	public function addToCampaign($contactId, $campaignId)
+	public function addToCampaign($contactId, $campaingId)
 	{
-		return $this->client->request($this->method(), $contactId, $campaignId);
+		return $this->client->request($this->method(), $contactId, $campaingId);
 	}
 
 	/**
-	 * @param int $contactId
-	 * @param int $groupId
-	 * @return boolean
+	 * @param integer $contactId
+	 * @param integer $groupId
+	 * @return {{return}}
 	 */
 	public function addToGroup($contactId, $groupId)
 	{
@@ -44,9 +44,9 @@ class ContactService extends AbstractApi {
 	}
 
 	/**
-	 * @param int $contactId
-	 * @param int $followUpSequenceId
-	 * @return int
+	 * @param integer $contactId
+	 * @param integer $followUpSequenceId
+	 * @return {{return}}
 	 */
 	public function getNextCampaignStep($contactId, $followUpSequenceId)
 	{
@@ -56,7 +56,7 @@ class ContactService extends AbstractApi {
 	/**
 	 * @param string $email
 	 * @param array $selectedFields
-	 * @return array
+	 * @return {{return}}
 	 */
 	public function findByEmail($email, $selectedFields)
 	{
@@ -64,9 +64,9 @@ class ContactService extends AbstractApi {
 	}
 
 	/**
-	 * @param int $contactId
+	 * @param integer $contactId
 	 * @param array $selectedFields
-	 * @return array
+	 * @return {{return}}
 	 */
 	public function load($contactId, $selectedFields)
 	{
@@ -74,9 +74,9 @@ class ContactService extends AbstractApi {
 	}
 
 	/**
-	 * @param int $contactId
-	 * @param int $sequenceId
-	 * @return boolean
+	 * @param integer $contactId
+	 * @param integer $sequenceId
+	 * @return {{return}}
 	 */
 	public function pauseCampaign($contactId, $sequenceId)
 	{
@@ -84,9 +84,9 @@ class ContactService extends AbstractApi {
 	}
 
 	/**
-	 * @param int $contactId
-	 * @param int $followUpSequenceId
-	 * @return boolean
+	 * @param integer $contactId
+	 * @param integer $followUpSequenceId
+	 * @return {{return}}
 	 */
 	public function removeFromCampaign($contactId, $followUpSequenceId)
 	{
@@ -94,29 +94,29 @@ class ContactService extends AbstractApi {
 	}
 
 	/**
-	 * @param int $contactId
-	 * @param int $groupId
-	 * @return boolean
+	 * @param integer $contactId
+	 * @param integer $tagId
+	 * @return {{return}}
 	 */
-	public function removeFromGroup($contactId, $groupId)
+	public function removeFromGroup($contactId, $tagId)
 	{
-		return $this->client->request($this->method(), $contactId, $groupId);
+		return $this->client->request($this->method(), $contactId, $tagId);
 	}
 
 	/**
-	 * @param int $contactId
-	 * @param int $sequenceId
-	 * @return boolean
+	 * @param integer $contactId
+	 * @param integer $seqId
+	 * @return {{return}}
 	 */
-	public function resumeCampaignForContact($contactId, $sequenceId)
+	public function resumeCampaignForContact($contactId, $seqId)
 	{
-		return $this->client->request($this->method(), $contactId, $sequenceId);
+		return $this->client->request($this->method(), $contactId, $seqId);
 	}
 
 	/**
 	 * @param array $contactIds
-	 * @param int $sequenceStepId
-	 * @return int
+	 * @param integer $sequenceStepId
+	 * @return {{return}}
 	 */
 	public function rescheduleCampaignStep($contactIds, $sequenceStepId)
 	{
@@ -124,9 +124,9 @@ class ContactService extends AbstractApi {
 	}
 
 	/**
-	 * @param int $contactId
-	 * @param int $actionSetId
-	 * @return array
+	 * @param integer $contactId
+	 * @param integer $actionSetId
+	 * @return {{return}}
 	 */
 	public function runActionSequence($contactId, $actionSetId)
 	{
@@ -134,19 +134,19 @@ class ContactService extends AbstractApi {
 	}
 
 	/**
-	 * @param array $data
-	 * @param string $checkType
-	 * @return int
+	 * @param struct $data
+	 * @param string $dupCheckType
+	 * @return {{return}}
 	 */
-	public function addWithDupCheck($data, $checkType)
+	public function addWithDupCheck($data, $dupCheckType)
 	{
-		return $this->client->request($this->method(), $data, $checkType);
+		return $this->client->request($this->method(), $data, $dupCheckType);
 	}
 
 	/**
-	 * @param int $contactId
-	 * @param array $data
-	 * @return int
+	 * @param integer $contactId
+	 * @param struct $data
+	 * @return {{return}}
 	 */
 	public function update($contactId, $data)
 	{
