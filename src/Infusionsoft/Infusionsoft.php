@@ -2,6 +2,8 @@
 
 namespace Infusionsoft;
 
+use fXmlRpc\Exception\ResponseException;
+
 class Infusionsoft {
 
 	/**
@@ -28,6 +30,8 @@ class Infusionsoft {
 	protected $accessToken;
 
 	protected $apis = array();
+
+	protected $debug = false;
 
 	public function __construct($config = array())
 	{
@@ -237,9 +241,27 @@ class Infusionsoft {
 
 		$args = func_get_args();
 
-		$response = $client->call(array_shift($args), array_merge(array('key' => ''), $args));
+		try
+		{
+			$response = $client->call(array_shift($args), array_merge(array('key' => ''), $args));
 
-		return $response;
+			return $response;
+		}
+		catch (ResponseException $e)
+		{
+			throw new InfusionsoftException($e->getFaultString(), $e->getFaultCode());
+		}
+	}
+
+	/**
+	 * @param boolean $debug
+	 * @return Infusionsoft\Infusionsoft
+	 */
+	public function setDebug($debug)
+	{
+		$this->debug = (bool) $debug;
+
+		return $this;
 	}
 
 	/**
