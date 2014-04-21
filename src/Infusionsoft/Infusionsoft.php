@@ -33,6 +33,8 @@ class Infusionsoft {
 
 	protected $debug = false;
 
+	protected $httpLogAdapter;
+
 	public function __construct($config = array())
 	{
 		if (isset($config['clientId'])) $this->clientId = $config['clientId'];
@@ -41,7 +43,7 @@ class Infusionsoft {
 
 		if (isset($config['redirectUri'])) $this->redirectUri = $config['redirectUri'];
 
-		$this->httpClient = $this->getHttpClient();
+		$this->httpLogAdapter = new \Guzzle\Log\ArrayLogAdapter;
 	}
 
 	/**
@@ -236,8 +238,6 @@ class Infusionsoft {
 
 		if ($this->debug)
 		{
-			$this->httpLogAdapter = new \Guzzle\Log\ArrayLogAdapter;
-
 			$logPlugin = new \Guzzle\Plugin\Log\LogPlugin(
 				$this->httpLogAdapter,
 				\Guzzle\Log\MessageFormatter::DEBUG_FORMAT
@@ -269,7 +269,7 @@ class Infusionsoft {
 
 		// Although we are using fXmlRpc to handle the XML-RPC formatting, we
 		// can still use Guzzle as our HTTP client which is much more robust.
-		$client = new \fXmlRpc\Client($url, new \fXmlRpc\Transport\GuzzleBridge($this->httpClient));
+		$client = new \fXmlRpc\Client($url, new \fXmlRpc\Transport\GuzzleBridge($this->getHttpClient()));
 
 		$args = func_get_args();
 
