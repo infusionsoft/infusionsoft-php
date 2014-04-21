@@ -342,12 +342,12 @@ class Infusionsoft {
 
 	public function affiliatePrograms()
 	{
-		return $this->getApi('AffiliateProgram');
+		return $this->getApi('AffiliateProgramService');
 	}
 
 	public function affiliates()
 	{
-		return $this->getApi('Affiliate');
+		return $this->getApi('AffiliateService');
 	}
 
 	public function contacts()
