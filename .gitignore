@@ -1,2 +1,6 @@
 .DS_Store
 /vendor
+
+/stubs
+endpoints.json
+generate.php
