@@ -18,6 +18,7 @@
         "lstrojny/fxmlrpc": "0.9.*"
     },
     "require-dev": {
+        "mockery/mockery": "dev-master",
         "phpunit/phpunit": "~4",
         "squizlabs/php_codesniffer": "1.*"
     },
