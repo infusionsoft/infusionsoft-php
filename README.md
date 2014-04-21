@@ -21,6 +21,8 @@ Via Composer
 ## Usage
 
 ```php
+require_once 'vendor/autoload.php';
+
 $infusionsoft = new \Infusionsoft\Infusionsoft([
 	'clientId'     => 'XXXXXXXXXXXXXXXXXXXXXXXX',
 	'clientSecret' => 'XXXXXXXXXX',
