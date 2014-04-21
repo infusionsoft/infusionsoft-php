@@ -4,10 +4,19 @@ namespace Infusionsoft;
 
 class Infusionsoft {
 
+	/**
+	 * @var string URL all XML-RPC requests are sent to
+	 */
 	protected $url = 'https://api.infusionsoft.com/crm/xmlrpc/v1';
 
+	/**
+	 * @var string URL a user visits to authorize an access token
+	 */
 	protected $auth = 'https://signin.infusionsoft.com/app/oauth/authorize';
 
+	/**
+	 * @var string URL used to request an access token
+	 */
 	protected $token = 'https://api.infusionsoft.com/token';
 
 	protected $clientId;
@@ -27,6 +36,63 @@ class Infusionsoft {
 		if (isset($config['clientSecret'])) $this->clientSecret = $config['clientSecret'];
 
 		if (isset($config['redirectUri'])) $this->redirectUri = $config['redirectUri'];
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getUrl()
+	{
+		return $this->url;
+	}
+
+	/**
+	 * @param string $url
+	 * @return string
+	 */
+	public function setUrl($url)
+	{
+		$this->url = $url;
+
+		return $this;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getAuth()
+	{
+		return $this->auth;
+	}
+
+	/**
+	 * @param string $auth
+	 * @return string
+	 */
+	public function setAuth($auth)
+	{
+		$this->auth = $auth;
+
+		return $this;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getToken()
+	{
+		return $this->token;
+	}
+
+	/**
+	 * @param string $token
+	 * @return string
+	 */
+	public function setToken($token)
+	{
+		$this->token = $token;
+
+		return $this;
 	}
 
 	/**
