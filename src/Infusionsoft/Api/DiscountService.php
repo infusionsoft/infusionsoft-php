@@ -10,7 +10,7 @@ class DiscountService extends AbstractApi {
 	 * @param integer $freeTrialDays
 	 * @param integer $hidePrice
 	 * @param integer $subscriptionPlanId
-	 * @return {{return}}
+	 * @return integer
 	 */
 	public function addFreeTrial($name, $description, $freeTrialDays, $hidePrice, $subscriptionPlanId)
 	{
@@ -19,7 +19,7 @@ class DiscountService extends AbstractApi {
 
 	/**
 	 * @param integer $trialId
-	 * @return {{return}}
+	 * @return array
 	 */
 	public function getFreeTrial($trialId)
 	{
@@ -33,7 +33,7 @@ class DiscountService extends AbstractApi {
 	 * @param integer $perentOrAmt
 	 * @param integer $amt
 	 * @param string $payType
-	 * @return {{return}}
+	 * @return integer
 	 */
 	public function addOrderTotalDiscount($name, $description, $applyDiscountToCommission, $perentOrAmt, $amt, $payType)
 	{
@@ -42,7 +42,7 @@ class DiscountService extends AbstractApi {
 
 	/**
 	 * @param integer $id
-	 * @return {{return}}
+	 * @return array
 	 */
 	public function getOrderTotalDiscount($id)
 	{
@@ -54,7 +54,7 @@ class DiscountService extends AbstractApi {
 	 * @param string $description
 	 * @param integer $applyDiscountToCommission
 	 * @param integer $amt
-	 * @return {{return}}
+	 * @return integer
 	 */
 	public function addCategoryDiscount($name, $description, $applyDiscountToCommission, $amt)
 	{
@@ -63,7 +63,7 @@ class DiscountService extends AbstractApi {
 
 	/**
 	 * @param integer $id
-	 * @return {{return}}
+	 * @return array
 	 */
 	public function getCategoryDiscount($id)
 	{
@@ -73,7 +73,7 @@ class DiscountService extends AbstractApi {
 	/**
 	 * @param integer $id
 	 * @param integer $productId
-	 * @return {{return}}
+	 * @return integer
 	 */
 	public function addCategoryAssignmentToCategoryDiscount($id, $productId)
 	{
@@ -82,7 +82,7 @@ class DiscountService extends AbstractApi {
 
 	/**
 	 * @param integer $id
-	 * @return {{return}}
+	 * @return array
 	 */
 	public function getCategoryAssignmentsForCategoryDiscount($id)
 	{
@@ -96,7 +96,7 @@ class DiscountService extends AbstractApi {
 	 * @param integer $productId
 	 * @param integer $percentOrAmt
 	 * @param integer $amt
-	 * @return {{return}}
+	 * @return integer
 	 */
 	public function addProductTotalDiscount($name, $description, $applyDiscountToCommission, $productId, $percentOrAmt, $amt)
 	{
@@ -105,7 +105,7 @@ class DiscountService extends AbstractApi {
 
 	/**
 	 * @param string $id
-	 * @return {{return}}
+	 * @return array
 	 */
 	public function getProductTotalDiscount($id)
 	{
@@ -118,7 +118,7 @@ class DiscountService extends AbstractApi {
 	 * @param integer $applyDiscountToCommission
 	 * @param integer $percentOrAmt
 	 * @param integer $amt
-	 * @return {{return}}
+	 * @return integer
 	 */
 	public function addShippingTotalDiscount($name, $description, $applyDiscountToCommission, $percentOrAmt, $amt)
 	{
@@ -127,7 +127,7 @@ class DiscountService extends AbstractApi {
 
 	/**
 	 * @param integer $id
-	 * @return {{return}}
+	 * @return array
 	 */
 	public function getShippingTotalDiscount($id)
 	{

@@ -7,7 +7,7 @@ class DataService extends AbstractApi {
 	/**
 	 * @param string $table
 	 * @param array $values
-	 * @return {{return}}
+	 * @return integer
 	 */
 	public function add($table, $values)
 	{
@@ -18,7 +18,7 @@ class DataService extends AbstractApi {
 	 * @param string $table
 	 * @param integer $recordId
 	 * @param array $wantedFields
-	 * @return {{return}}
+	 * @return array
 	 */
 	public function load($table, $recordId, $wantedFields)
 	{
@@ -29,7 +29,7 @@ class DataService extends AbstractApi {
 	 * @param string $table
 	 * @param integer $Id
 	 * @param array $values
-	 * @return {{return}}
+	 * @return array
 	 */
 	public function update($table, $Id, $values)
 	{
@@ -39,7 +39,7 @@ class DataService extends AbstractApi {
 	/**
 	 * @param string $table
 	 * @param integer $Id
-	 * @return {{return}}
+	 * @return bool
 	 */
 	public function delete($table, $Id)
 	{
@@ -53,7 +53,7 @@ class DataService extends AbstractApi {
 	 * @param string $fieldName
 	 * @param string $fieldValue
 	 * @param array $returnFields
-	 * @return {{return}}
+	 * @return array
 	 */
 	public function findByField($table, $limt, $page, $fieldName, $fieldValue, $returnFields)
 	{
@@ -68,7 +68,7 @@ class DataService extends AbstractApi {
 	 * @param array $selectedFields
 	 * @param string $orderBy
 	 * @param boolean $ascending
-	 * @return {{return}}
+	 * @return array
 	 */
 	public function query($table, $limit, $page, $queryData, $selectedFields, $orderBy, $ascending)
 	{
@@ -80,7 +80,7 @@ class DataService extends AbstractApi {
 	 * @param string $displayName
 	 * @param string $dataType
 	 * @param integer $headerId
-	 * @return {{return}}
+	 * @return integer
 	 */
 	public function addCustomField($customFieldType, $displayName, $dataType, $headerId)
 	{
@@ -90,7 +90,7 @@ class DataService extends AbstractApi {
 	/**
 	 * @param string $username
 	 * @param string $passwordHash
-	 * @return {{return}}
+	 * @return integer
 	 */
 	public function authenticateUser($username, $passwordHash)
 	{
@@ -100,7 +100,7 @@ class DataService extends AbstractApi {
 	/**
 	 * @param string $module
 	 * @param string $setting
-	 * @return {{return}}
+	 * @return string
 	 */
 	public function getAppSetting($module, $setting)
 	{
@@ -109,7 +109,7 @@ class DataService extends AbstractApi {
 
 	/**
 	 * @param integer $appointmentId
-	 * @return {{return}}
+	 * @return string
 	 */
 	public function getAppointmentCal($appointmentId)
 	{
@@ -119,7 +119,7 @@ class DataService extends AbstractApi {
 	/**
 	 * @param string $username
 	 * @param string $passwordHash
-	 * @return {{return}}
+	 * @return string
 	 */
 	public function getTemporaryKey($username, $passwordHash)
 	{
@@ -129,7 +129,7 @@ class DataService extends AbstractApi {
 	/**
 	 * @param integer $customFieldId
 	 * @param array $values
-	 * @return {{return}}
+	 * @return bool
 	 */
 	public function updateCustomField($customFieldId, $values)
 	{

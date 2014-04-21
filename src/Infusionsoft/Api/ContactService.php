@@ -6,7 +6,7 @@ class ContactService extends AbstractApi {
 
 	/**
 	 * @param array $data
-	 * @return {{return}}
+	 * @return integer
 	 */
 	public function add($data)
 	{
@@ -16,7 +16,7 @@ class ContactService extends AbstractApi {
 	/**
 	 * @param integer $contactId
 	 * @param integer $duplicateContactId
-	 * @return {{return}}
+	 * @return bool
 	 */
 	public function merge($contactId, $duplicateContactId)
 	{
@@ -26,7 +26,7 @@ class ContactService extends AbstractApi {
 	/**
 	 * @param integer $contactId
 	 * @param integer $campaingId
-	 * @return {{return}}
+	 * @return bool
 	 */
 	public function addToCampaign($contactId, $campaingId)
 	{
@@ -36,7 +36,7 @@ class ContactService extends AbstractApi {
 	/**
 	 * @param integer $contactId
 	 * @param integer $groupId
-	 * @return {{return}}
+	 * @return bool
 	 */
 	public function addToGroup($contactId, $groupId)
 	{
@@ -46,7 +46,7 @@ class ContactService extends AbstractApi {
 	/**
 	 * @param integer $contactId
 	 * @param integer $followUpSequenceId
-	 * @return {{return}}
+	 * @return integer
 	 */
 	public function getNextCampaignStep($contactId, $followUpSequenceId)
 	{
@@ -56,7 +56,7 @@ class ContactService extends AbstractApi {
 	/**
 	 * @param string $email
 	 * @param array $selectedFields
-	 * @return {{return}}
+	 * @return array
 	 */
 	public function findByEmail($email, $selectedFields)
 	{
@@ -66,7 +66,7 @@ class ContactService extends AbstractApi {
 	/**
 	 * @param integer $contactId
 	 * @param array $selectedFields
-	 * @return {{return}}
+	 * @return array
 	 */
 	public function load($contactId, $selectedFields)
 	{
@@ -76,7 +76,7 @@ class ContactService extends AbstractApi {
 	/**
 	 * @param integer $contactId
 	 * @param integer $sequenceId
-	 * @return {{return}}
+	 * @return bool
 	 */
 	public function pauseCampaign($contactId, $sequenceId)
 	{
@@ -86,7 +86,7 @@ class ContactService extends AbstractApi {
 	/**
 	 * @param integer $contactId
 	 * @param integer $followUpSequenceId
-	 * @return {{return}}
+	 * @return bool
 	 */
 	public function removeFromCampaign($contactId, $followUpSequenceId)
 	{
@@ -96,7 +96,7 @@ class ContactService extends AbstractApi {
 	/**
 	 * @param integer $contactId
 	 * @param integer $tagId
-	 * @return {{return}}
+	 * @return bool
 	 */
 	public function removeFromGroup($contactId, $tagId)
 	{
@@ -106,7 +106,7 @@ class ContactService extends AbstractApi {
 	/**
 	 * @param integer $contactId
 	 * @param integer $seqId
-	 * @return {{return}}
+	 * @return integer
 	 */
 	public function resumeCampaignForContact($contactId, $seqId)
 	{
@@ -116,7 +116,7 @@ class ContactService extends AbstractApi {
 	/**
 	 * @param array $contactIds
 	 * @param integer $sequenceStepId
-	 * @return {{return}}
+	 * @return integer
 	 */
 	public function rescheduleCampaignStep($contactIds, $sequenceStepId)
 	{
@@ -126,7 +126,7 @@ class ContactService extends AbstractApi {
 	/**
 	 * @param integer $contactId
 	 * @param integer $actionSetId
-	 * @return {{return}}
+	 * @return array
 	 */
 	public function runActionSequence($contactId, $actionSetId)
 	{
@@ -136,7 +136,7 @@ class ContactService extends AbstractApi {
 	/**
 	 * @param array $data
 	 * @param string $dupCheckType
-	 * @return {{return}}
+	 * @return integer
 	 */
 	public function addWithDupCheck($data, $dupCheckType)
 	{
@@ -146,7 +146,7 @@ class ContactService extends AbstractApi {
 	/**
 	 * @param integer $contactId
 	 * @param array $data
-	 * @return {{return}}
+	 * @return integer
 	 */
 	public function update($contactId, $data)
 	{

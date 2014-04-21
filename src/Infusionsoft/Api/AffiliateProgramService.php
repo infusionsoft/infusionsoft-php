@@ -6,7 +6,7 @@ class AffiliateProgramService extends AbstractApi {
 
 	/**
 	 * @param integer $programId
-	 * @return {{return}}
+	 * @return array
 	 */
 	public function getAffiliatesByProgram($programId)
 	{
@@ -15,7 +15,7 @@ class AffiliateProgramService extends AbstractApi {
 
 	/**
 	 * @param integer $affiliateId
-	 * @return {{return}}
+	 * @return array
 	 */
 	public function getProgramsForAffiliate($affiliateId)
 	{
@@ -23,7 +23,7 @@ class AffiliateProgramService extends AbstractApi {
 	}
 
 	/**
-	 * @return {{return}}
+	 * @return array
 	 */
 	public function getAffiliatePrograms()
 	{
@@ -32,7 +32,7 @@ class AffiliateProgramService extends AbstractApi {
 
 	/**
 	 * @param integer $programId
-	 * @return {{return}}
+	 * @return array
 	 */
 	public function getResourcesForAffiliateProgram($programId)
 	{

@@ -8,7 +8,7 @@ class AffiliateService extends AbstractApi {
 	 * @param integer $affiliateId
 	 * @param string $filterStartDate
 	 * @param string $filterEndDate
-	 * @return {{return}}
+	 * @return array
 	 */
 	public function affClawbacks($affiliateId, $filterStartDate, $filterEndDate)
 	{
@@ -19,7 +19,7 @@ class AffiliateService extends AbstractApi {
 	 * @param integer $affiliateId
 	 * @param string $filterStartDate
 	 * @param string $filterEndDate
-	 * @return {{return}}
+	 * @return array
 	 */
 	public function affCommissions($affiliateId, $filterStartDate, $filterEndDate)
 	{
@@ -28,7 +28,7 @@ class AffiliateService extends AbstractApi {
 
 	/**
 	 * @param integer $affiliateId
-	 * @return {{return}}
+	 * @return array
 	 */
 	public function getRedirectLinksForAffiliate($affiliateId)
 	{
@@ -39,7 +39,7 @@ class AffiliateService extends AbstractApi {
 	 * @param integer $affiliateId
 	 * @param string $filterStartDate
 	 * @param string $filterEndDate
-	 * @return {{return}}
+	 * @return array
 	 */
 	public function affPayouts($affiliateId, $filterStartDate, $filterEndDate)
 	{
@@ -48,7 +48,7 @@ class AffiliateService extends AbstractApi {
 
 	/**
 	 * @param array $affiliateIds
-	 * @return {{return}}
+	 * @return array
 	 */
 	public function affRunningTotals($affiliateIds)
 	{
@@ -59,7 +59,7 @@ class AffiliateService extends AbstractApi {
 	 * @param array $affiliateId
 	 * @param string $filterStartDate
 	 * @param string $filterEndDate
-	 * @return {{return}}
+	 * @return array
 	 */
 	public function affSummary($affiliateId, $filterStartDate, $filterEndDate)
 	{

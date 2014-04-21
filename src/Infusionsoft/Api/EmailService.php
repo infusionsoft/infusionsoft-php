@@ -16,7 +16,7 @@ class EmailService extends AbstractApi {
 	 * @param string $htmlBody
 	 * @param string $contentType
 	 * @param string $mergeContext
-	 * @return {{return}}
+	 * @return integer
 	 */
 	public function addEmailTemplate($placeTitle, $categories, $fromAddress, $toAddress, $ccAddress, $bccAddress, $subject, $textBody, $htmlBody, $contentType, $mergeContext)
 	{
@@ -38,7 +38,7 @@ class EmailService extends AbstractApi {
 	 * @param string $receivedDate
 	 * @param string $sentDate
 	 * @param integer $emailSentType
-	 * @return {{return}}
+	 * @return bool
 	 */
 	public function attachEmail($contactId, $fromName, $fromAddress, $toAddress, $ccAddress, $bccAddress, $contentType, $subject, $htmlBody, $textBody, $header, $receivedDate, $sentDate, $emailSentType)
 	{
@@ -47,7 +47,7 @@ class EmailService extends AbstractApi {
 
 	/**
 	 * @param integer $templateId
-	 * @return {{return}}
+	 * @return array
 	 */
 	public function getEmailTemplate($templateId)
 	{
@@ -56,7 +56,7 @@ class EmailService extends AbstractApi {
 
 	/**
 	 * @param string $email
-	 * @return {{return}}
+	 * @return integer
 	 */
 	public function getOptStatus($email)
 	{
@@ -66,7 +66,7 @@ class EmailService extends AbstractApi {
 	/**
 	 * @param string $email
 	 * @param string $optInReason
-	 * @return {{return}}
+	 * @return bool
 	 */
 	public function optIn($email, $optInReason)
 	{
@@ -76,7 +76,7 @@ class EmailService extends AbstractApi {
 	/**
 	 * @param string $email
 	 * @param string $optOutReason
-	 * @return {{return}}
+	 * @return bool
 	 */
 	public function optOut($email, $optOutReason)
 	{
@@ -94,7 +94,7 @@ class EmailService extends AbstractApi {
 	 * @param string $htmlBody
 	 * @param string $textBody
 	 * @param string $templateId
-	 * @return {{return}}
+	 * @return bool
 	 */
 	public function sendEmail($contactList, $fromAddress, $toAddress, $ccAddress, $bccAddress, $contentType, $subject, $htmlBody, $textBody, $templateId)
 	{
@@ -104,7 +104,7 @@ class EmailService extends AbstractApi {
 	/**
 	 * @param string $contactList
 	 * @param string $templateId
-	 * @return {{return}}
+	 * @return bool
 	 */
 	public function sendTemplate($contactList, $templateId)
 	{
@@ -124,7 +124,7 @@ class EmailService extends AbstractApi {
 	 * @param string $htmlBody
 	 * @param string $contentType
 	 * @param string $mergeContext
-	 * @return {{return}}
+	 * @return bool
 	 */
 	public function updateEmailTemplate($templateId, $pieceTitle, $category, $fromAddress, $toAddress, $ccAddress, $bccAddress, $subject, $textBody, $htmlBody, $contentType, $mergeContext)
 	{
