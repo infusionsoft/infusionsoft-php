@@ -20,7 +20,7 @@ Via Composer
 
 ## Usage
 
-```
+```php
 $infusionsoft = new \Infusionsoft\Infusionsoft([
 	'clientId'     => 'XXXXXXXXXXXXXXXXXXXXXXXX',
 	'clientSecret' => 'XXXXXXXXXX',
@@ -58,19 +58,19 @@ else
 
 To enable debugging of requests and responses, you need to set the debug flag to try by using:
 
-```
+```php
 $infusionsoft->setDebug(true);
 ```
 
 Once enabled, logs will by default be written to an array that can be accessed by:
 
-```
+```php
 $infusionsoft->getLogs();
 ```
 
 You can utilize the powerful logging plugin built into Guzzle by using one of the available adapters. For example, to use the Monolog writer to write to a file:
 
-```
+```php
 use Guzzle\Log\MonologLogAdapter;
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
