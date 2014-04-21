@@ -22,6 +22,32 @@ Via Composer
 
 TODO
 
+### Debugging
+
+To enable debugging of requests and responses, you need to set the debug flag to try by using:
+
+```
+$infusionsoft->setDebug(true);
+```
+
+Once enabled, logs will by default be written to an array that can be accessed by:
+
+```
+$infusionsoft->getLogs();
+```
+
+You can utilize the powerful logging plugin built into Guzzle by using one of the available adapters. For example, to use the Monolog writer to write to a file:
+
+```
+use Guzzle\Log\MonologLogAdapter;
+use Monolog\Handler\StreamHandler;
+use Monolog\Logger;
+
+$logger = new Logger('client');
+$logger->pushHandler(new StreamHandler('infusionsoft.log'));
+
+$infusionsoft->setHttpLogAdapater(new MonologLogAdapter($logger));
+```
 
 ## Testing
 

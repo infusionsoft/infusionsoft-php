@@ -42,8 +42,6 @@ class Infusionsoft {
 		if (isset($config['clientSecret'])) $this->clientSecret = $config['clientSecret'];
 
 		if (isset($config['redirectUri'])) $this->redirectUri = $config['redirectUri'];
-
-		$this->httpLogAdapter = new \Guzzle\Log\ArrayLogAdapter;
 	}
 
 	/**
@@ -239,7 +237,7 @@ class Infusionsoft {
 		if ($this->debug)
 		{
 			$logPlugin = new \Guzzle\Plugin\Log\LogPlugin(
-				$this->httpLogAdapter,
+				$this->getHttpLogAdapter(),
 				\Guzzle\Log\MessageFormatter::DEBUG_FORMAT
 			);
 
@@ -250,13 +248,38 @@ class Infusionsoft {
 	}
 
 	/**
+	 * return \Guzzle\Log\LogAdapterInterface
+	 */
+	public function getHttpLogAdapter()
+	{
+		// If a log adapter hasn't been set, we default to the array adapter
+		if ( ! $this->httpLogAdapter)
+		{
+			$this->httpLogAdapter = new \Guzzle\Log\ArrayLogAdapter;
+		}
+
+		return $this->httpLogAdapter;
+	}
+
+	/**
+	 * @param \Guzzle\Log\LogAdapterInterface $httpLogAdapter
+	 * @return \Infusionsoft\Infusionsoft
+	 */
+	public function setHttpLogAdapter(\Guzzle\Log\LogAdapterInterface $httpLogAdapter)
+	{
+		$this->httpLogAdapter = $httpLogAdapter;
+
+		return $this;
+	}
+
+	/**
 	 * @return array
 	 */
 	public function getLogs()
 	{
 		if ( ! $this->debug) return array();
 
-		return $this->httpLogAdapter->getLogs();
+		return $this->getHttpLogAdapter()->getLogs();
 	}
 
 	/**
