@@ -40,6 +40,8 @@ class Infusionsoft {
 		if (isset($config['clientSecret'])) $this->clientSecret = $config['clientSecret'];
 
 		if (isset($config['redirectUri'])) $this->redirectUri = $config['redirectUri'];
+
+		$this->httpClient = $this->getHttpClient();
 	}
 
 	/**
@@ -226,18 +228,48 @@ class Infusionsoft {
 	}
 
 	/**
+	 * @return \Guzzle\Http\Client
+	 */
+	public function getHttpClient()
+	{
+		$httpClient = new \Guzzle\Http\Client();
+
+		if ($this->debug)
+		{
+			$this->httpLogAdapter = new \Guzzle\Log\ArrayLogAdapter;
+
+			$logPlugin = new \Guzzle\Plugin\Log\LogPlugin(
+				$this->httpLogAdapter,
+				\Guzzle\Log\MessageFormatter::DEBUG_FORMAT
+			);
+
+			$httpClient->addSubscriber($logPlugin);
+		}
+
+		return $httpClient;
+	}
+
+	/**
+	 * @return array
+	 */
+	public function getLogs()
+	{
+		if ( ! $this->debug) return array();
+
+		return $this->httpLogAdapter->getLogs();
+	}
+
+	/**
 	 * @throws InfusionsoftException
 	 * @return mixed
 	 */
 	public function request()
 	{
-		$httpClient = new \Guzzle\Http\Client();
-
 		$url = $this->url . '?' . http_build_query(array('access_token' => $this->accessToken));
 
 		// Although we are using fXmlRpc to handle the XML-RPC formatting, we
 		// can still use Guzzle as our HTTP client which is much more robust.
-		$client = new \fXmlRpc\Client($url, new \fXmlRpc\Transport\GuzzleBridge($httpClient));
+		$client = new \fXmlRpc\Client($url, new \fXmlRpc\Transport\GuzzleBridge($this->httpClient));
 
 		$args = func_get_args();
 
