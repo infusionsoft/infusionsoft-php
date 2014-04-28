@@ -42,6 +42,8 @@ class Infusionsoft {
 		if (isset($config['clientSecret'])) $this->clientSecret = $config['clientSecret'];
 
 		if (isset($config['redirectUri'])) $this->redirectUri = $config['redirectUri'];
+
+		if (isset($config['debug'])) $this->debug = $config['debug'];
 	}
 
 	/**
