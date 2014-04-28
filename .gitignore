@@ -1,7 +1,3 @@
 .DS_Store
 /report
 /vendor
-
-/stubs
-endpoints.json
-generate.php
