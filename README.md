@@ -1,9 +1,10 @@
-# Infusionsoft PHP SDK
+# Infusionsoft PHP SDK (beta)
 
 [![Build Status](https://travis-ci.org/infusionsoft/php-sdk.png?branch=master)](https://travis-ci.org/infusionsoft/php-sdk)
 [![Total Downloads](https://poser.pugx.org/infusionsoft/php-sdk/downloads.png)](https://packagist.org/packages/infusionsoft/php-sdk)
 [![Latest Stable Version](https://poser.pugx.org/infusionsoft/php-sdk/v/stable.png)](https://packagist.org/packages/infusionsoft/php-sdk)
 
+This package is currently in beta for testing.
 
 ## Install
 
