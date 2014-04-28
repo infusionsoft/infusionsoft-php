@@ -21,20 +21,44 @@ class Infusionsoft {
 	 */
 	protected $token = 'https://api.infusionsoft.com/token';
 
+	/**
+	 * @var string
+	 */
 	protected $clientId;
 
+	/**
+	 * @var string
+	 */
 	protected $clientSecret;
 
+	/**
+	 * @var string
+	 */
 	protected $redirectUri;
 
+	/**
+	 * @var string
+	 */
 	protected $accessToken;
 
+	/**
+	 * @var array Cache for services so they aren't created multiple times
+	 */
 	protected $apis = array();
 
+	/**
+	 * @var boolean Determines if API calls should be logged
+	 */
 	protected $debug = false;
 
+	/**
+	 * @var \Guzzle\Log\LogAdapterInterface
+	 */
 	protected $httpLogAdapter;
 
+	/**
+	 * @param array $config
+	 */
 	public function __construct($config = array())
 	{
 		if (isset($config['clientId'])) $this->clientId = $config['clientId'];
@@ -250,7 +274,7 @@ class Infusionsoft {
 	}
 
 	/**
-	 * return \Guzzle\Log\LogAdapterInterface
+	 * @return \Guzzle\Log\LogAdapterInterface
 	 */
 	public function getHttpLogAdapter()
 	{
@@ -342,76 +366,125 @@ class Infusionsoft {
 		throw new \UnexpectedValueException(sprintf('Invalid property: %s', $name));
 	}
 
+	/**
+	 * @return \Infusionsoft\Api\AffiliateProgramService
+	 */
 	public function affiliatePrograms()
 	{
 		return $this->getApi('AffiliateProgramService');
 	}
 
+	/**
+	 * @return \Infusionsoft\Api\AffiliateService
+	 */
 	public function affiliates()
 	{
 		return $this->getApi('AffiliateService');
 	}
 
+	/**
+	 * @return \Infusionsoft\Api\ContactService
+	 */
 	public function contacts()
 	{
 		return $this->getApi('ContactService');
 	}
 
+	/**
+	 * @return \Infusionsoft\Api\DataService
+	 */
 	public function data()
 	{
 		return $this->getApi('DataService');
 	}
 
+	/**
+	 * @return \Infusionsoft\Api\DiscountService
+	 */
 	public function discounts()
 	{
 		return $this->getApi('DiscountService');
 	}
 
+	/**
+	 * @return \Infusionsoft\Api\EmailService
+	 */
 	public function emails()
 	{
 		return $this->getApi('EmailService');
 	}
 
+	/**
+	 * @return \Infusionsoft\Api\FileService
+	 */
 	public function files()
 	{
 		return $this->getApi('FileService');
 	}
 
+	/**
+	 * @return \Infusionsoft\Api\FunnelService
+	 */
 	public function funnels()
 	{
 		return $this->getApi('FunnelService');
 	}
 
+	/**
+	 * @return \Infusionsoft\Api\InvoiceService
+	 */
 	public function invoices()
 	{
 		return $this->getApi('InvoiceService');
 	}
 
+	/**
+	 * @return \Infusionsoft\Api\OrderService
+	 */
 	public function orders()
 	{
 		return $this->getApi('OrderService');
 	}
 
+	/**
+	 * @return \Infusionsoft\Api\ProductService
+	 */
 	public function products()
 	{
 		return $this->getApi('ProductService');
 	}
 
+	/**
+	 * @return \Infusionsoft\Api\SearchService
+	 */
 	public function search()
 	{
 		return $this->getApi('SearchService');
 	}
 
+	/**
+	 * @return \Infusionsoft\Api\ShippingService
+	 */
 	public function shipping()
 	{
 		return $this->getApi('ShippingService');
 	}
 
+	/**
+	 * @return \Infusionsoft\Api\WebFormService
+	 */
 	public function webForms()
 	{
 		return $this->getApi('WebFormService');
 	}
 
+	/**
+	 * Returns the requested class name, optionally using a cached array so no
+	 * object is instantiated more than once during a request.
+	 *
+	 * @param string $class
+	 * @return mixed
+	 */
 	public function getApi($class)
 	{
 		$class = '\Infusionsoft\Api\\' . $class;
