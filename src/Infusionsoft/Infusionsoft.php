@@ -2,7 +2,7 @@
 
 namespace Infusionsoft;
 
-use fXmlRpc\Exception\ResponseException;
+use fXmlRpc\Exception\ExceptionInterface as fXmlRpcException;
 
 class Infusionsoft {
 
@@ -328,7 +328,7 @@ class Infusionsoft {
 
 			return $response;
 		}
-		catch (ResponseException $e)
+		catch (fXmlRpcException $e)
 		{
 			throw new InfusionsoftException($e->getFaultString(), $e->getFaultCode());
 		}
