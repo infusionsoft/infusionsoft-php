@@ -24,11 +24,11 @@ Via Composer
 ```php
 require_once 'vendor/autoload.php';
 
-$infusionsoft = new \Infusionsoft\Infusionsoft([
+$infusionsoft = new \Infusionsoft\Infusionsoft(array(
 	'clientId'     => 'XXXXXXXXXXXXXXXXXXXXXXXX',
 	'clientSecret' => 'XXXXXXXXXX',
 	'redirectUri'  => 'http://example.com/',
-]);
+));
 
 // If the access token is available in the session storage, we tell the SDK to
 // use that token for subsequent requests.
