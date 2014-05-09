@@ -1,6 +1,6 @@
 {
     "name": "infusionsoft/php-sdk",
-    "description": "PHP SDK for the Infusionsoft",
+    "description": "Beta PHP SDK for the Infusionsoft",
     "keywords": [
         "infusionsoft",
         "sdk"
