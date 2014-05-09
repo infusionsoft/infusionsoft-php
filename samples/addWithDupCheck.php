@@ -2,11 +2,11 @@
 
 require_once '../vendor/autoload.php';
 
-$infusionsoft = new \Infusionsoft\Infusionsoft([
+$infusionsoft = new \Infusionsoft\Infusionsoft(array(
     'clientId' => 'CLIENTID',
     'clientSecret' => 'CLIENTSECRET',
     'redirectUri' => 'SECUREREDIRECTURI',
-]);
+));
 
 // If the access token is available in the session storage, we tell the SDK to
 // use that token for subsequent requests.
