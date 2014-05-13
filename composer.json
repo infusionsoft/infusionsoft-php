@@ -15,7 +15,7 @@
     ],
     "require": {
         "guzzle/guzzle": "3.8.*",
-        "lstrojny/fxmlrpc": "0.9.*"
+        "lstrojny/fxmlrpc": "0.8.*"
     },
     "require-dev": {
         "mockery/mockery": "dev-master",
