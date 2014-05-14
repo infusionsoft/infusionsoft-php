@@ -330,7 +330,7 @@ class Infusionsoft {
 		}
 		catch (fXmlRpcException $e)
 		{
-			throw new InfusionsoftException($e->getFaultString(), $e->getFaultCode());
+			throw new InfusionsoftException($e->getMessage(), $e->getCode());
 		}
 	}
 
