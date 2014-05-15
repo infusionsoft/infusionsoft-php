@@ -18,6 +18,7 @@ Via Composer
 }
 ```
 
+This package is compatible with PHP 5.3.3 and higher. It uses Guzzle 3.8.* as the default HTTP client which requires 5.3.3 or higher. In order to use cURL you must have the PHP cURL extension enabled.
 
 ## Usage
 

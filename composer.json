@@ -14,7 +14,8 @@
         }
     ],
     "require": {
-        "php": ">=5.3.0",
+        "php": ">=5.3.3",
+        "ext-curl": "*",
         "guzzle/guzzle": "3.8.*",
         "lstrojny/fxmlrpc": "0.8.*"
     },
