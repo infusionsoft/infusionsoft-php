@@ -82,7 +82,7 @@ use Monolog\Logger;
 $logger = new Logger('client');
 $logger->pushHandler(new StreamHandler('infusionsoft.log'));
 
-$infusionsoft->setHttpLogAdapater(new MonologLogAdapter($logger));
+$infusionsoft->setHttpLogAdapter(new MonologLogAdapter($logger));
 ```
 
 ## Testing
