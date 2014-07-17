@@ -338,6 +338,9 @@ class Infusionsoft {
 				$args = array_merge(array('key' => ''), $args);
 			}
 
+			// Reset the empty key flag back to the default for the next request
+			$this->needsEmptyKey = true;
+
 			$response = $client->call($method, $args);
 
 			return $response;
