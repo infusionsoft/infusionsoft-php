@@ -57,6 +57,11 @@ class Infusionsoft {
 	protected $httpLogAdapter;
 
 	/**
+	 * @var boolean
+	 */
+	public $needsEmptyKey = true;
+
+	/**
 	 * @param array $config
 	 */
 	public function __construct($config = array())
@@ -321,10 +326,19 @@ class Infusionsoft {
 		$client = new \fXmlRpc\Client($url, new \fXmlRpc\Transport\GuzzleBridge($this->getHttpClient()));
 
 		$args = func_get_args();
+		$method = array_shift($args);
 
 		try
 		{
-			$response = $client->call(array_shift($args), array_merge(array('key' => ''), $args));
+			// Some older methods in the API require a key parameter to be sent
+			// even if OAuth is being used. This flag can be made false as it
+			// will break some newer endpoints.
+			if ($this->needsEmptyKey)
+			{
+				$args = array_merge(array('key' => ''), $args);
+			}
+
+			$response = $client->call($method, $args);
 
 			return $response;
 		}

@@ -1,5 +1,7 @@
 <?php
 
+session_start();
+
 require_once '../vendor/autoload.php';
 
 $infusionsoft = new \Infusionsoft\Infusionsoft(array(
@@ -18,7 +20,6 @@ if (isset($_SESSION['access_token'])) {
 // access token.
 if (isset($_GET['code']) and !$infusionsoft->getAccessToken()) {
     $infusionsoft->requestAccessToken($_GET['code']);
-
 }
 
 if ($infusionsoft->getAccessToken()) {

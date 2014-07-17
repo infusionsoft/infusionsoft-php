@@ -136,4 +136,14 @@ class DataService extends AbstractApi {
 		return $this->client->request($this->method(), $customFieldId, $values);
 	}
 
+	/**
+	 * @return array
+	 */
+	public function getUserInfo()
+	{
+		$this->client->needsEmptyKey = false;
+
+		return $this->client->request($this->method());
+	}
+
 }
