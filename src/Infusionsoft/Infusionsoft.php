@@ -428,7 +428,7 @@ class Infusionsoft {
 	 */
 	public function emails()
 	{
-		return $this->getApi('EmailService');
+		return $this->getApi('APIEmailService');
 	}
 
 	/**

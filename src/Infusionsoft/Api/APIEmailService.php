@@ -2,7 +2,7 @@
 
 namespace Infusionsoft\Api;
 
-class EmailService extends AbstractApi {
+class APIEmailService extends AbstractApi {
 
 	/**
 	 * @param string $placeTitle

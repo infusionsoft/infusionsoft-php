@@ -5,9 +5,9 @@ session_start();
 require_once '../vendor/autoload.php';
 
 $infusionsoft = new \Infusionsoft\Infusionsoft(array(
-    'clientId' => 'CLIENTID',
-    'clientSecret' => 'CLIENTSECRET',
-    'redirectUri' => 'SECUREREDIRECTURI',
+    'clientId' => 'CLIENT_ID',
+    'clientSecret' => 'CLIENT_SECRET',
+    'redirectUri' => 'REDIRECT_URL',
 ));
 
 // If the access token is available in the session storage, we tell the SDK to
