@@ -353,7 +353,7 @@ class Infusionsoft {
 
 	/**
 	 * @param boolean $debug
-	 * @return Infusionsoft\Infusionsoft
+	 * @return \Infusionsoft\Infusionsoft
 	 */
 	public function setDebug($debug)
 	{
@@ -424,7 +424,7 @@ class Infusionsoft {
 	}
 
 	/**
-	 * @return \Infusionsoft\Api\EmailService
+	 * @return \Infusionsoft\Api\APIEmailService
 	 */
 	public function emails()
 	{
