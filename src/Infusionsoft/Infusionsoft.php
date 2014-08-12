@@ -2,8 +2,6 @@
 
 namespace Infusionsoft;
 
-use fXmlRpc\Exception\ExceptionInterface as fXmlRpcException;
-
 class Infusionsoft {
 
 	/**
@@ -52,9 +50,19 @@ class Infusionsoft {
 	protected $debug = false;
 
 	/**
+	 * @var Http\ClientInterface
+	 */
+	protected $httpClient;
+
+	/**
 	 * @var \Guzzle\Log\LogAdapterInterface
 	 */
 	protected $httpLogAdapter;
+
+	/**
+	 * @var Http\SerializerInterface
+	 */
+	protected $serializer;
 
 	/**
 	 * @var boolean
@@ -225,7 +233,8 @@ class Infusionsoft {
 
 	/**
 	 * @param string $code
-	 * @return array
+	 * @return string
+	 * @throws InfusionsoftException
 	 */
 	public function requestAccessToken($code)
 	{
@@ -237,45 +246,58 @@ class Infusionsoft {
 			'redirect_uri'  => $this->redirectUri,
 		);
 
-		try
+		$client = $this->getHttpClient();
+
+		$tokenInfo = $client->request($this->token, $params, array(), 'POST');
+
+		if ($tokenInfo['mapi'] !== $this->clientId)
 		{
-			$guzzle = new \Guzzle\Http\Client();
-
-			$response = $guzzle->post($this->token, array(), $params)->send();
-
-			$tokenInfo = $response->json();
-
-			if ($tokenInfo['mapi'] !== $this->clientId)
-			{
-				throw new InfusionsoftException('Invalid map.');
-			}
-
-			return $this->setAccessToken($tokenInfo['access_token']);
+			throw new InfusionsoftException('Invalid map.');
 		}
-		catch (\Guzzle\Http\Exception\ClientErrorResponseException $e)
-		{
-			throw new InfusionsoftException('There was a problem while requesting the access token.');
-		}
+
+		return $this->setAccessToken($tokenInfo['access_token']);
 	}
 
 	/**
-	 * @return \Guzzle\Http\Client
+	 * @return Http\ClientInterface
 	 */
 	public function getHttpClient()
 	{
-		$httpClient = new \Guzzle\Http\Client();
-
-		if ($this->debug)
+		if (!$this->httpClient)
 		{
-			$logPlugin = new \Guzzle\Plugin\Log\LogPlugin(
-				$this->getHttpLogAdapter(),
-				\Guzzle\Log\MessageFormatter::DEBUG_FORMAT
-			);
-
-			$httpClient->addSubscriber($logPlugin);
+			return new Http\GuzzleClient();
 		}
 
-		return $httpClient;
+		return $this->httpClient;
+	}
+
+	/**
+	 * @param Http\ClientInterface $client
+	 */
+	public function setHttpClient(Http\ClientInterface $client)
+	{
+		$this->httpClient = $client;
+	}
+
+	/**
+	 * @return Http\SerializerInterface
+	 */
+	public function getSerializer()
+	{
+		if (!$this->serializer)
+		{
+			return new Http\InfusionsoftSerializer();
+		}
+
+		return $this->serializer;
+	}
+
+	/**
+	 * @param Http\SerializerInterface $serializer
+	 */
+	public function setSerializer(Http\SerializerInterface $serializer)
+	{
+		$this->serializer = $serializer;
 	}
 
 	/**
@@ -321,34 +343,24 @@ class Infusionsoft {
 	{
 		$url = $this->url . '?' . http_build_query(array('access_token' => $this->accessToken));
 
-		// Although we are using fXmlRpc to handle the XML-RPC formatting, we
-		// can still use Guzzle as our HTTP client which is much more robust.
-		$client = new \fXmlRpc\Client($url, new \fXmlRpc\Transport\GuzzleBridge($this->getHttpClient()));
+		$params = func_get_args();
+		$method = array_shift($params);
 
-		$args = func_get_args();
-		$method = array_shift($args);
-
-		try
+		// Some older methods in the API require a key parameter to be sent
+		// even if OAuth is being used. This flag can be made false as it
+		// will break some newer endpoints.
+		if ($this->needsEmptyKey)
 		{
-			// Some older methods in the API require a key parameter to be sent
-			// even if OAuth is being used. This flag can be made false as it
-			// will break some newer endpoints.
-			if ($this->needsEmptyKey)
-			{
-				$args = array_merge(array('key' => ''), $args);
-			}
-
-			// Reset the empty key flag back to the default for the next request
-			$this->needsEmptyKey = true;
-
-			$response = $client->call($method, $args);
-
-			return $response;
+			$params = array_merge(array('key' => ''), $params);
 		}
-		catch (fXmlRpcException $e)
-		{
-			throw new InfusionsoftException($e->getMessage(), $e->getCode());
-		}
+
+		// Reset the empty key flag back to the default for the next request
+		$this->needsEmptyKey = true;
+
+		$client = $this->getSerializer();
+		$response = $client->request($url, $method, $params, $this->getHttpClient());
+
+		return $response;
 	}
 
 	/**
