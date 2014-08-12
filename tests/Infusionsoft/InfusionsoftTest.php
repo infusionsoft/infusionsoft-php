@@ -2,10 +2,17 @@
 
 namespace Infusionsoft;
 
+use Infusionsoft\Http\CurlClient;
 use Mockery as m;
 
 class InfusionsoftTest extends \PHPUnit_Framework_TestCase
 {
+
+	/**
+	 * @var Infusionsoft
+	 */
+	protected $ifs;
+
 	public function setUp()
 	{
 		$this->ifs = new Infusionsoft(array(
@@ -84,4 +91,16 @@ class InfusionsoftTest extends \PHPUnit_Framework_TestCase
 		$this->ifs->setHttpLogAdapter(m::mock('Guzzle\Log\LogAdapterInterface'));
 		$this->assertInstanceOf('Guzzle\Log\LogAdapterInterface', $this->ifs->getHttpLogAdapter());
 	}
+
+	public function testDefaultHttpClientShouldBeGuzzle()
+	{
+		$this->assertInstanceOf('Infusionsoft\Http\GuzzleClient', $this->ifs->getHttpClient());
+	}
+
+	public function testSettingHttpClientToCurl()
+	{
+		$this->ifs->setHttpClient(new CurlClient());
+		$this->assertInstanceOf('Infusionsoft\Http\CurlClient', $this->ifs->getHttpClient());
+	}
+
 }
