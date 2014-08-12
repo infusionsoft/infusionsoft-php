@@ -7,7 +7,7 @@ use fXmlRpc\Transport\CurlTransport;
 class CurlClient implements ClientInterface {
 
 	/**
-	 * @return GuzzleBridge
+	 * @return CurlTransport
 	 */
 	public function getXmlRpcTransport()
 	{
