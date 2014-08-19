@@ -15,14 +15,14 @@ class SearchService extends AbstractApi {
 	}
 
 	/**
-	 * @param integer $sacedSearchId
+	 * @param integer $savedSearchId
 	 * @param integer $userId
 	 * @param integer $pageNumber
 	 * @return mixed
 	 */
-	public function getSavedSearchResultsAllFields($sacedSearchId, $userId, $pageNumber)
+	public function getSavedSearchResultsAllFields($savedSearchId, $userId, $pageNumber)
 	{
-		return $this->client->request($this->method(), $sacedSearchId, $userId, $pageNumber);
+		return $this->client->request($this->method(), $savedSearchId, $userId, $pageNumber);
 	}
 
 	/**

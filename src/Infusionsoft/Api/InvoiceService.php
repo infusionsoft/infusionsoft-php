@@ -70,15 +70,15 @@ class InvoiceService extends AbstractApi {
 	 * @param integer $qty
 	 * @param float $price
 	 * @param boolean $taxable
-	 * @param integer $merchabtAccountId
+	 * @param integer $merchantAccountId
 	 * @param integer $creditCardId
 	 * @param integer $affiliated
 	 * @param integer $daysTillCharge
 	 * @return mixed
 	 */
-	public function addRecurringOrder($contactId, $allowDuplicate, $cProgramId, $qty, $price, $taxable, $merchabtAccountId, $creditCardId, $affiliated, $daysTillCharge)
+	public function addRecurringOrder($contactId, $allowDuplicate, $cProgramId, $qty, $price, $taxable, $merchantAccountId, $creditCardId, $affiliated, $daysTillCharge)
 	{
-		return $this->client->request($this->method(), $contactId, $allowDuplicate, $cProgramId, $qty, $price, $taxable, $merchabtAccountId, $creditCardId, $affiliated, $daysTillCharge);
+		return $this->client->request($this->method(), $contactId, $allowDuplicate, $cProgramId, $qty, $price, $taxable, $merchantAccountId, $creditCardId, $affiliated, $daysTillCharge);
 	}
 
 	/**
@@ -127,13 +127,13 @@ class InvoiceService extends AbstractApi {
 	 * @param float $initialPmtAmt
 	 * @param string $initialPmtDate
 	 * @param string $plantStartDate
-	 * @param integer $numPmts
-	 * @param integer $daysBetweenPmts
+	 * @param integer $numPayments
+	 * @param integer $daysBetweenPayments
 	 * @return mixed
 	 */
-	public function addPaymentPlan($invoiceId, $autoCharge, $creditCardId, $merchantAccountId, $daysBetweenRetry, $maxRetry, $initialPmtAmt, $initialPmtDate, $plantStartDate, $numPmts, $daysBetweenPmts)
+	public function addPaymentPlan($invoiceId, $autoCharge, $creditCardId, $merchantAccountId, $daysBetweenRetry, $maxRetry, $initialPmtAmt, $initialPmtDate, $plantStartDate, $numPayments, $daysBetweenPayments)
 	{
-		return $this->client->request($this->method(), $invoiceId, $autoCharge, $creditCardId, $merchantAccountId, $daysBetweenRetry, $maxRetry, $initialPmtAmt, $initialPmtDate, $plantStartDate, $numPmts, $daysBetweenPmts);
+		return $this->client->request($this->method(), $invoiceId, $autoCharge, $creditCardId, $merchantAccountId, $daysBetweenRetry, $maxRetry, $initialPmtAmt, $initialPmtDate, $plantStartDate, $numPayments, $daysBetweenPayments);
 	}
 
 	/**
