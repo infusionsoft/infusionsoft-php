@@ -182,17 +182,26 @@ class InvoiceService extends AbstractApi {
 	}
 
 	/**
-	 * @param string $CardType
+	 * @param string $cardType
 	 * @param integer $contactId
-	 * @param string $CardNumber
-	 * @param string $ExpirationMonth
-	 * @param string $ExpirationYear
-	 * @param string $CVV2
-	 * @return {{return}}
+	 * @param string $cardNumber
+	 * @param string $expirationMonth
+	 * @param string $expirationYear
+	 * @param string $cvv2
+	 * @return array
 	 */
-	public function validateCreditCard($CardType, $contactId, $CardNumber, $ExpirationMonth, $ExpirationYear, $CVV2)
+	public function validateCreditCard($cardType, $contactId, $cardNumber, $expirationMonth, $expirationYear, $cvv2)
 	{
-		return $this->client->request($this->method(), $CardType, $contactId, $CardNumber, $ExpirationMonth, $ExpirationYear, $CVV2);
+		$data = array(
+			'CardType' => $cardType,
+			'ContactId' => $contactId,
+			'CardNumber' => $cardNumber,
+			'ExpirationMonth' => $expirationMonth,
+			'ExpirationYear' => $expirationYear,
+			'CVV2' => $cvv2
+		);
+
+		return $this->client->request($this->method(), $data);
 	}
 
 	/**
