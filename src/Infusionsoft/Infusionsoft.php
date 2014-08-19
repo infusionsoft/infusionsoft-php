@@ -42,6 +42,11 @@ class Infusionsoft {
 	protected $accessToken;
 
 	/**
+	 * @var string
+	 */
+	protected $refreshToken;
+
+	/**
 	 * @var array Cache for services so they aren't created multiple times
 	 */
 	protected $apis = array();
@@ -211,6 +216,25 @@ class Infusionsoft {
 	/**
 	 * @return string
 	 */
+	public function getRefreshToken()
+	{
+		return $this->refreshToken;
+	}
+
+	/**
+	 * @param string $refreshToken
+	 * @return string
+	 */
+	public function setRefreshToken($refreshToken)
+	{
+		$this->refreshToken = $refreshToken;
+
+		return $this;
+	}
+
+	/**
+	 * @return string
+	 */
 	public function getAuthorizationUrl()
 	{
 		$params = array(
@@ -256,6 +280,40 @@ class Infusionsoft {
 		catch (\Guzzle\Http\Exception\ClientErrorResponseException $e)
 		{
 			throw new InfusionsoftException('There was a problem while requesting the access token.');
+		}
+	}
+
+	/**
+	 * @return array
+	 * @throws InfusionsoftException
+	 */
+	public function refreshAccessToken()
+	{
+		$params = array(
+			'client_id'     => $this->clientId,
+			'client_secret' => $this->clientSecret,
+			'grant_type'    => 'refresh_token',
+			'refresh_token' => $this->getRefreshToken(),
+		);
+
+		try
+		{
+			$guzzle = new \Guzzle\Http\Client();
+
+			$response = $guzzle->post($this->token, array(), $params)->send();
+
+			$tokenInfo = $response->json();
+
+			if ($tokenInfo['mapi'] !== $this->clientId)
+			{
+				throw new InfusionsoftException('Invalid map.');
+			}
+
+			return $this->setAccessToken($tokenInfo['access_token']);
+		}
+		catch (\Guzzle\Http\Exception\ClientErrorResponseException $e)
+		{
+			throw new InfusionsoftException('There was a problem while requesting the refresh token.');
 		}
 	}
 
