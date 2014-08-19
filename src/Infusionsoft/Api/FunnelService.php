@@ -9,7 +9,7 @@ class FunnelService extends AbstractApi {
 	 * @param string $integration
 	 * @param string $callName
 	 * @param integer $contactId
-	 * @return {{return}}
+	 * @return mixed
 	 */
 	public function achieveGoal($key, $integration, $callName, $contactId)
 	{

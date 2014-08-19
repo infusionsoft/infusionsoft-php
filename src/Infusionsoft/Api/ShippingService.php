@@ -5,7 +5,7 @@ namespace Infusionsoft\Api;
 class ShippingService extends AbstractApi {
 
 	/**
-	 * @return {{return}}
+	 * @return mixed
 	 */
 	public function getAllShippingOptions()
 	{
@@ -14,7 +14,7 @@ class ShippingService extends AbstractApi {
 
 	/**
 	 * @param integer $optionId
-	 * @return {{return}}
+	 * @return mixed
 	 */
 	public function getFlatRateShippingOption($optionId)
 	{
@@ -23,7 +23,7 @@ class ShippingService extends AbstractApi {
 
 	/**
 	 * @param integer $optionId
-	 * @return {{return}}
+	 * @return mixed
 	 */
 	public function getOrderTotalShippingOption($optionId)
 	{
@@ -32,7 +32,7 @@ class ShippingService extends AbstractApi {
 
 	/**
 	 * @param integer $optionId
-	 * @return {{return}}
+	 * @return mixed
 	 */
 	public function getOrderTotalShippingRanges($optionId)
 	{
@@ -41,7 +41,7 @@ class ShippingService extends AbstractApi {
 
 	/**
 	 * @param integer $optionId
-	 * @return {{return}}
+	 * @return mixed
 	 */
 	public function getProductBasedShippingOption($optionId)
 	{
@@ -50,7 +50,7 @@ class ShippingService extends AbstractApi {
 
 	/**
 	 * @param integer $optionId
-	 * @return {{return}}
+	 * @return mixed
 	 */
 	public function getOrderQuantityShippingOption($optionId)
 	{
@@ -59,7 +59,7 @@ class ShippingService extends AbstractApi {
 
 	/**
 	 * @param integer $optionId
-	 * @return {{return}}
+	 * @return mixed
 	 */
 	public function getWeightBasedShippingOption($optionId)
 	{
@@ -68,7 +68,7 @@ class ShippingService extends AbstractApi {
 
 	/**
 	 * @param integer $optionId
-	 * @return {{return}}
+	 * @return mixed
 	 */
 	public function getUpsShippingOption($optionId)
 	{

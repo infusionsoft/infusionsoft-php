@@ -10,7 +10,7 @@ class InvoiceService extends AbstractApi {
 	 * @param string $orderDate
 	 * @param integer $leadAffiliateId
 	 * @param integer $saleAffiliateId
-	 * @return {{return}}
+	 * @return mixed
 	 */
 	public function createBlankOrder($contactId, $description, $orderDate, $leadAffiliateId, $saleAffiliateId)
 	{
@@ -25,7 +25,7 @@ class InvoiceService extends AbstractApi {
 	 * @param integer $quantity
 	 * @param string $description
 	 * @param string $notes
-	 * @return {{return}}
+	 * @return mixed
 	 */
 	public function addOrderItem($invoiceId, $productId, $type, $price, $quantity, $description, $notes)
 	{
@@ -38,7 +38,7 @@ class InvoiceService extends AbstractApi {
 	 * @param integer $creditCardId
 	 * @param integer $merchantAccountId
 	 * @param boolean $bypassCommissions
-	 * @return {{return}}
+	 * @return mixed
 	 */
 	public function chargeInvoice($invoiceId, $notes, $creditCardId, $merchantAccountId, $bypassCommissions)
 	{
@@ -47,7 +47,7 @@ class InvoiceService extends AbstractApi {
 
 	/**
 	 * @param integer $recurringOrderId
-	 * @return {{return}}
+	 * @return mixed
 	 */
 	public function deleteSubscription($recurringOrderId)
 	{
@@ -56,7 +56,7 @@ class InvoiceService extends AbstractApi {
 
 	/**
 	 * @param integer $invoiceId
-	 * @return {{return}}
+	 * @return mixed
 	 */
 	public function deleteInvoice($invoiceId)
 	{
@@ -74,7 +74,7 @@ class InvoiceService extends AbstractApi {
 	 * @param integer $creditCardId
 	 * @param integer $affiliated
 	 * @param integer $daysTillCharge
-	 * @return {{return}}
+	 * @return mixed
 	 */
 	public function addRecurringOrder($contactId, $allowDuplicate, $cProgramId, $qty, $price, $taxable, $merchabtAccountId, $creditCardId, $affiliated, $daysTillCharge)
 	{
@@ -87,7 +87,7 @@ class InvoiceService extends AbstractApi {
 	 * @param float $amount
 	 * @param integer $payoutType
 	 * @param string $description
-	 * @return {{return}}
+	 * @return mixed
 	 */
 	public function addRecurringCommissionOverride($recurringOrderId, $affiliateId, $amount, $payoutType, $description)
 	{
@@ -96,7 +96,7 @@ class InvoiceService extends AbstractApi {
 
 	/**
 	 * @param integer $recurringOrderId
-	 * @return {{return}}
+	 * @return mixed
 	 */
 	public function createInvoiceForRecurring($recurringOrderId)
 	{
@@ -110,7 +110,7 @@ class InvoiceService extends AbstractApi {
 	 * @param string $paymentType
 	 * @param string $paymentDescription
 	 * @param boolean $bypassCommissions
-	 * @return {{return}}
+	 * @return mixed
 	 */
 	public function addManualPayment($invoiceId, $amt, $paymentDate, $paymentType, $paymentDescription, $bypassCommissions)
 	{
@@ -129,7 +129,7 @@ class InvoiceService extends AbstractApi {
 	 * @param string $plantStartDate
 	 * @param integer $numPmts
 	 * @param integer $daysBetweenPmts
-	 * @return {{return}}
+	 * @return mixed
 	 */
 	public function addPaymentPlan($invoiceId, $autoCharge, $creditCardId, $merchantAccountId, $daysBetweenRetry, $maxRetry, $initialPmtAmt, $initialPmtDate, $plantStartDate, $numPmts, $daysBetweenPmts)
 	{
@@ -138,7 +138,7 @@ class InvoiceService extends AbstractApi {
 
 	/**
 	 * @param integer $invoiceId
-	 * @return {{return}}
+	 * @return mixed
 	 */
 	public function calculateAmountOwed($invoiceId)
 	{
@@ -146,7 +146,7 @@ class InvoiceService extends AbstractApi {
 	}
 
 	/**
-	 * @return {{return}}
+	 * @return mixed
 	 */
 	public function getAllPaymentOptions()
 	{
@@ -155,7 +155,7 @@ class InvoiceService extends AbstractApi {
 
 	/**
 	 * @param integer $invoiceId
-	 * @return {{return}}
+	 * @return mixed
 	 */
 	public function getPayments($invoiceId)
 	{
@@ -165,7 +165,7 @@ class InvoiceService extends AbstractApi {
 	/**
 	 * @param integer $contactId
 	 * @param string $last4
-	 * @return {{return}}
+	 * @return mixed
 	 */
 	public function locateExistingCard($contactId, $last4)
 	{
@@ -174,7 +174,7 @@ class InvoiceService extends AbstractApi {
 
 	/**
 	 * @param integer $invoiceId
-	 * @return {{return}}
+	 * @return mixed
 	 */
 	public function recalculateTax($invoiceId)
 	{
@@ -205,7 +205,7 @@ class InvoiceService extends AbstractApi {
 	}
 
 	/**
-	 * @return {{return}}
+	 * @return mixed
 	 */
 	public function getAllShippingOptions()
 	{
@@ -215,7 +215,7 @@ class InvoiceService extends AbstractApi {
 	/**
 	 * @param integer $recurringOrderId
 	 * @param string $nextBillDate
-	 * @return {{return}}
+	 * @return mixed
 	 */
 	public function updateJobRecurringNextBillDate($recurringOrderId, $nextBillDate)
 	{
@@ -231,7 +231,7 @@ class InvoiceService extends AbstractApi {
 	 * @param integer $payoutType
 	 * @param string $description
 	 * @param string $date
-	 * @return {{return}}
+	 * @return mixed
 	 */
 	public function addOrderCommissionOverride($invoiceId, $affiliateId, $productId, $percentage, $amount, $payoutType, $description, $date)
 	{
