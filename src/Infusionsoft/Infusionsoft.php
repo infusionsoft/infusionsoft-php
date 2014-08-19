@@ -226,6 +226,7 @@ class Infusionsoft {
 	/**
 	 * @param string $code
 	 * @return array
+	 * @throws InfusionsoftException
 	 */
 	public function requestAccessToken($code)
 	{
