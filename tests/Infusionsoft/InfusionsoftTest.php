@@ -6,6 +6,12 @@ use Mockery as m;
 
 class InfusionsoftTest extends \PHPUnit_Framework_TestCase
 {
+
+	/**
+	 * @var Infusionsoft
+	 */
+	protected $ifs;
+
 	public function setUp()
 	{
 		$this->ifs = new Infusionsoft(array(
