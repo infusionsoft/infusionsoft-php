@@ -45,7 +45,10 @@ class ServiceTest extends \PHPUnit_Framework_TestCase
             $expectedXml  = $fixtureOrXml;
         }
 
-        $this->transport->verifyInvoked('send', [$this->endpoint, $expectedXml]);
+        $this->transport->verifyInvoked('send');
+        $args = $this->transport->getCallsForMethod('send');
+
+        $this->assertEquals($args[0][1], $expectedXml);
     }
 
     public function minifyFixture($content)
