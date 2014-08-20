@@ -275,6 +275,8 @@ class Infusionsoft {
 				throw new InfusionsoftException('Invalid map.');
 			}
 
+			$this->setRefreshToken($tokenInfo['refresh_token']);
+
 			return $this->setAccessToken($tokenInfo['access_token']);
 		}
 		catch (\Guzzle\Http\Exception\ClientErrorResponseException $e)
