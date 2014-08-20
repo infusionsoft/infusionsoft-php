@@ -1,10 +1,6 @@
 <?php
 namespace Infusionsoft\Api;
 
-use Infusionsoft\Infusionsoft;
-use AspectMock\Test as test;
-use Mockery as m;
-
 class InvoiceServiceTest extends \ServiceTest
 {
 
