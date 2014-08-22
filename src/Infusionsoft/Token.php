@@ -15,7 +15,7 @@ class Token {
 	protected $refreshToken;
 
 	/**
-	 * @var string
+	 * @var int
 	 */
 	protected $endOfLife;
 
@@ -70,7 +70,7 @@ class Token {
 	}
 
 	/**
-	 * @return string
+	 * @return int
 	 */
 	public function getEndOfLife()
 	{
@@ -78,7 +78,7 @@ class Token {
 	}
 
 	/**
-	 * @param string $endOfLife
+	 * @param int $endOfLife
 	 */
 	public function setEndOfLife($endOfLife)
 	{

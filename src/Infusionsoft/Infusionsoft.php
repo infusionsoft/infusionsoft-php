@@ -246,7 +246,7 @@ class Infusionsoft {
 	public function refreshAccessToken()
 	{
 		$headers = array(
-			'Authorization' => 'Basic ' . base64_encode($this->clientId . $this->clientSecret),
+			'Authorization' => 'Basic ' . base64_encode($this->clientId . ':' . $this->clientSecret),
 		);
 
 		$params = array(
@@ -354,7 +354,15 @@ class Infusionsoft {
 	 */
 	public function request()
 	{
-		$url = $this->url . '?' . http_build_query(array('access_token' => $this->getToken()->getAccessToken()));
+		// Before making the request, we can make sure that the token is still
+		// valid by doing a check on the end of life.
+		$token = $this->getToken();
+		if ($token->getEndOfLife() < time())
+		{
+			throw new TokenExpiredException;
+		}
+
+		$url = $this->url . '?' . http_build_query(array('access_token' => $token->getAccessToken()));
 
 		// Although we are using fXmlRpc to handle the XML-RPC formatting, we
 		// can still use Guzzle as our HTTP client which is much more robust.
