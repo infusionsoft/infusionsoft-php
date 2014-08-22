@@ -22,16 +22,32 @@ if (isset($_GET['code']) and !$infusionsoft->getToken()) {
     $infusionsoft->requestAccessToken($_GET['code']);
 }
 
-if ($infusionsoft->getToken()) {
-    // Save the access token to the session so we don't keep exchanging the code
-    $_SESSION['token'] = serialize($infusionsoft->getToken());
+function addWithDupCheck($infusionsoft) {
+    $contact = array('FirstName' => 'John', 'LastName' => 'Doe', 'Email' => 'johndoe@mailinator.com');
 
-    $cid = $infusionsoft->contacts->addWithDupCheck(array('FirstName' => 'John', 'LastName' => 'Doe', 'Email' => 'johndoe@mailinator.com'), 'Email');
+    return $infusionsoft->contacts->addWithDupCheck($contact, 'Email');
+}
+
+if ($infusionsoft->getToken()) {
+    try
+    {
+        $cid = addWithDupCheck($infusionsoft);
+    }
+    catch (\Infusionsoft\TokenExpiredException $e)
+    {
+        // If the request fails due to an expired access token, we can refresh
+        // the token and then do the request again.
+        $infusionsoft->refreshAccessToken();
+
+        $cid = addWithDupCheck($infusionsoft);
+    }
 
     $contact = $infusionsoft->contacts->load($cid, array('Id', 'FirstName', 'LastName', 'Email'));
 
     var_dump($contact);
 
+    // Save the access token to the session so we don't keep exchanging the code
+    $_SESSION['token'] = serialize($infusionsoft->getToken());
 } else {
     echo '<a href="' . $infusionsoft->getAuthorizationUrl() . '">Click here to authorize</a>';
 }
