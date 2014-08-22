@@ -19,7 +19,7 @@ class Infusionsoft {
 	/**
 	 * @var string URL used to request an access token
 	 */
-	protected $token = 'https://api.infusionsoft.com/token';
+	protected $tokenUri = 'https://api.infusionsoft.com/token';
 
 	/**
 	 * @var string
@@ -35,16 +35,6 @@ class Infusionsoft {
 	 * @var string
 	 */
 	protected $redirectUri;
-
-	/**
-	 * @var string
-	 */
-	protected $accessToken;
-
-	/**
-	 * @var string
-	 */
-	protected $refreshToken;
 
 	/**
 	 * @var array Cache for services so they aren't created multiple times
@@ -65,6 +55,11 @@ class Infusionsoft {
 	 * @var boolean
 	 */
 	public $needsEmptyKey = true;
+
+	/**
+	 * @var Token
+	 */
+	protected $token;
 
 	/**
 	 * @param array $config
@@ -121,20 +116,17 @@ class Infusionsoft {
 	/**
 	 * @return string
 	 */
-	public function getToken()
+	public function getTokenUri()
 	{
-		return $this->token;
+		return $this->tokenUri;
 	}
 
 	/**
-	 * @param string $token
-	 * @return string
+	 * @param string $tokenUri
 	 */
-	public function setToken($token)
+	public function setTokenUri($tokenUri)
 	{
-		$this->token = $token;
-
-		return $this;
+		$this->tokenUri = $tokenUri;
 	}
 
 	/**
@@ -197,44 +189,6 @@ class Infusionsoft {
 	/**
 	 * @return string
 	 */
-	public function getAccessToken()
-	{
-		return $this->accessToken;
-	}
-
-	/**
-	 * @param string $accessToken
-	 * @return string
-	 */
-	public function setAccessToken($accessToken)
-	{
-		$this->accessToken = $accessToken;
-
-		return $this;
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getRefreshToken()
-	{
-		return $this->refreshToken;
-	}
-
-	/**
-	 * @param string $refreshToken
-	 * @return string
-	 */
-	public function setRefreshToken($refreshToken)
-	{
-		$this->refreshToken = $refreshToken;
-
-		return $this;
-	}
-
-	/**
-	 * @return string
-	 */
 	public function getAuthorizationUrl()
 	{
 		$params = array(
@@ -266,7 +220,7 @@ class Infusionsoft {
 		{
 			$guzzle = new \Guzzle\Http\Client();
 
-			$response = $guzzle->post($this->token, array(), $params)->send();
+			$response = $guzzle->post($this->tokenUri, array(), $params)->send();
 
 			$tokenInfo = $response->json();
 
@@ -275,9 +229,9 @@ class Infusionsoft {
 				throw new InfusionsoftException('Invalid map.');
 			}
 
-			$this->setRefreshToken($tokenInfo['refresh_token']);
+			$this->setToken(new Token($tokenInfo));
 
-			return $this->setAccessToken($tokenInfo['access_token']);
+			return $this->getToken();
 		}
 		catch (\Guzzle\Http\Exception\ClientErrorResponseException $e)
 		{
@@ -291,18 +245,20 @@ class Infusionsoft {
 	 */
 	public function refreshAccessToken()
 	{
+		$headers = array(
+			'Authorization' => 'Basic ' . base64_encode($this->clientId . $this->clientSecret),
+		);
+
 		$params = array(
-			'client_id'     => $this->clientId,
-			'client_secret' => $this->clientSecret,
 			'grant_type'    => 'refresh_token',
-			'refresh_token' => $this->getRefreshToken(),
+			'refresh_token' => $this->getToken()->getRefreshToken(),
 		);
 
 		try
 		{
 			$guzzle = new \Guzzle\Http\Client();
 
-			$response = $guzzle->post($this->token, array(), $params)->send();
+			$response = $guzzle->post($this->tokenUri, $headers, $params)->send();
 
 			$tokenInfo = $response->json();
 
@@ -311,12 +267,30 @@ class Infusionsoft {
 				throw new InfusionsoftException('Invalid map.');
 			}
 
-			return $this->setAccessToken($tokenInfo['access_token']);
+			$this->setToken(new Token($tokenInfo));
+
+			return $this->getToken();
 		}
 		catch (\Guzzle\Http\Exception\ClientErrorResponseException $e)
 		{
 			throw new InfusionsoftException('There was a problem while requesting the refresh token.');
 		}
+	}
+
+	/**
+	 * @return Token
+	 */
+	public function getToken()
+	{
+		return $this->token;
+	}
+
+	/**
+	 * @param Token $token
+	 */
+	public function setToken($token)
+	{
+		$this->token = $token;
 	}
 
 	/**
@@ -380,7 +354,7 @@ class Infusionsoft {
 	 */
 	public function request()
 	{
-		$url = $this->url . '?' . http_build_query(array('access_token' => $this->accessToken));
+		$url = $this->url . '?' . http_build_query(array('access_token' => $this->getToken()->getAccessToken()));
 
 		// Although we are using fXmlRpc to handle the XML-RPC formatting, we
 		// can still use Guzzle as our HTTP client which is much more robust.

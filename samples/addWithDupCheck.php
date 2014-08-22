@@ -12,19 +12,19 @@ $infusionsoft = new \Infusionsoft\Infusionsoft(array(
 
 // If the access token is available in the session storage, we tell the SDK to
 // use that token for subsequent requests.
-if (isset($_SESSION['access_token'])) {
-    $infusionsoft->setAccessToken($_SESSION['access_token']);
+if (isset($_SESSION['token'])) {
+    $infusionsoft->setToken(unserialize($_SESSION['token']));
 }
 
 // If we are returning from Infusionsoft we need to exchange the code for an
 // access token.
-if (isset($_GET['code']) and !$infusionsoft->getAccessToken()) {
+if (isset($_GET['code']) and !$infusionsoft->getToken()) {
     $infusionsoft->requestAccessToken($_GET['code']);
 }
 
-if ($infusionsoft->getAccessToken()) {
+if ($infusionsoft->getToken()) {
     // Save the access token to the session so we don't keep exchanging the code
-    $_SESSION['access_token'] = $infusionsoft->getAccessToken();
+    $_SESSION['token'] = serialize($infusionsoft->getToken());
 
     $cid = $infusionsoft->contacts->addWithDupCheck(array('FirstName' => 'John', 'LastName' => 'Doe', 'Email' => 'johndoe@mailinator.com'), 'Email');
 
