@@ -11,9 +11,9 @@ class FunnelService extends AbstractApi {
 	 * @param integer $contactId
 	 * @return mixed
 	 */
-	public function achieveGoal($key, $integration, $callName, $contactId)
+	public function achieveGoal($integration, $callName, $contactId)
 	{
-		return $this->client->request($this->method(), $key, $integration, $callName, $contactId);
+		return $this->client->request($this->method(), $integration, $callName, $contactId);
 	}
 
 }
