@@ -50,6 +50,12 @@ class InfusionsoftTest extends \PHPUnit_Framework_TestCase
 		$this->assertEquals('http://example.com/', $this->ifs->getAuth());
 	}
 
+	public function testSettingTokenUri()
+	{
+		$this->ifs->setTokenUri('http://example.com/');
+		$this->assertEquals('http://example.com/', $this->ifs->getTokenUri());
+	}
+
 	public function testSettingToken()
 	{
 		$this->ifs->setToken('http://example.com/');
