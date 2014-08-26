@@ -87,7 +87,7 @@ class InfusionsoftTest extends \PHPUnit_Framework_TestCase
 
 	public function testSettingTokenAndGettingProperties()
 	{
-		$this->ifs->setToken(new Token(['access_token' => 'foo', 'refresh_token' => 'bar', 'expires_in' => 1, 'key' => 'value']));
+		$this->ifs->setToken(new Token(array('access_token' => 'foo', 'refresh_token' => 'bar', 'expires_in' => 1, 'key' => 'value')));
 		$this->assertEquals('foo', $this->ifs->getToken()->getAccessToken());
 		$this->assertEquals('bar', $this->ifs->getToken()->getRefreshToken());
 		$this->assertEquals(time() + 1, $this->ifs->getToken()->getEndOfLife());
