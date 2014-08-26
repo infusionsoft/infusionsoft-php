@@ -5,7 +5,6 @@ namespace Infusionsoft\Api;
 class FunnelService extends AbstractApi {
 
 	/**
-	 * @param string $key
 	 * @param string $integration
 	 * @param string $callName
 	 * @param integer $contactId
