@@ -91,7 +91,8 @@ class InfusionsoftTest extends \PHPUnit_Framework_TestCase
 		$this->assertEquals('foo', $this->ifs->getToken()->getAccessToken());
 		$this->assertEquals('bar', $this->ifs->getToken()->getRefreshToken());
 		$this->assertEquals(time() + 1, $this->ifs->getToken()->getEndOfLife());
-		$this->assertEquals('value', $this->ifs->getToken()->getExtraInfo()['key']);
+		$extra = $this->ifs->getToken()->getExtraInfo();
+		$this->assertEquals('value', $extra['key']);
 	}
 
 	public function testSettingHttpLogAdapter()
