@@ -1,6 +1,6 @@
 # Infusionsoft PHP SDK (beta)
 
-[![Build Status](https://travis-ci.org/infusionsoft/infusionsoft-php.png?branch=master)](https://travis-ci.org/infusionsoft/php-sdk)
+[![Build Status](https://travis-ci.org/infusionsoft/infusionsoft-php.png?branch=master)](https://travis-ci.org/infusionsoft/infusionsoft-php)
 [![Total Downloads](https://poser.pugx.org/infusionsoft/php-sdk/downloads.png)](https://packagist.org/packages/infusionsoft/php-sdk)
 [![Latest Stable Version](https://poser.pugx.org/infusionsoft/php-sdk/v/stable.png)](https://packagist.org/packages/infusionsoft/php-sdk)
 
@@ -33,29 +33,24 @@ $infusionsoft = new \Infusionsoft\Infusionsoft(array(
 	'redirectUri'  => 'http://example.com/',
 ));
 
-// If the access token is available in the session storage, we tell the SDK to
-// use that token for subsequent requests.
-if (isset($_SESSION['access_token']))
-{
-	$infusionsoft->setAccessToken($_SESSION['access_token']);
+// If the serialized token is available in the session storage, we tell the SDK
+// to use that token for subsequent requests.
+if (isset($_SESSION['token'])) {
+	$infusionsoft->setToken(unserialize($_SESSION['token']));
 }
 
 // If we are returning from Infusionsoft we need to exchange the code for an
 // access token.
-if (isset($_GET['code']) and ! $infusionsoft->getAccessToken())
-{
+if (isset($_GET['code']) and !$infusionsoft->getToken()) {
 	$infusionsoft->requestAccessToken($_GET['code']);
 }
 
-if ($infusionsoft->getAccessToken())
-{
-	// Save the access token to the session so we don't keep exchanging the code
-	$_SESSION['access_token'] = $infusionsoft->getAccessToken();
+if ($infusionsoft->getToken()) {
+	// Save the serialized token to the current session for subsequent requests
+	$_SESSION['token'] = serialize($infusionsoft->getToken());
 
 	$infusionsoft->contacts->add(array('FirstName' => 'John', 'LastName' => 'Doe'));
-}
-else
-{
+} else {
 	echo '<a href="' . $infusionsoft->getAuthorizationUrl() . '">Click here to authorize</a>';
 }
 ```

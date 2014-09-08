@@ -6,7 +6,7 @@ class ProductService extends AbstractApi {
 
 	/**
 	 * @param integer $productId
-	 * @return {{return}}
+	 * @return mixed
 	 */
 	public function getInventory($productId)
 	{
@@ -15,7 +15,7 @@ class ProductService extends AbstractApi {
 
 	/**
 	 * @param integer $productId
-	 * @return {{return}}
+	 * @return mixed
 	 */
 	public function incrementInventory($productId)
 	{
@@ -24,7 +24,7 @@ class ProductService extends AbstractApi {
 
 	/**
 	 * @param integer $productId
-	 * @return {{return}}
+	 * @return mixed
 	 */
 	public function decrementInventory($productId)
 	{
@@ -34,7 +34,7 @@ class ProductService extends AbstractApi {
 	/**
 	 * @param integer $productId
 	 * @param integer $quantity
-	 * @return {{return}}
+	 * @return mixed
 	 */
 	public function increaseInventory($productId, $quantity)
 	{
@@ -44,7 +44,7 @@ class ProductService extends AbstractApi {
 	/**
 	 * @param integer $productId
 	 * @param integer $quantity
-	 * @return {{return}}
+	 * @return mixed
 	 */
 	public function decreaseInventory($productId, $quantity)
 	{
@@ -53,7 +53,7 @@ class ProductService extends AbstractApi {
 
 	/**
 	 * @param integer $creditCardId
-	 * @return {{return}}
+	 * @return mixed
 	 */
 	public function deactivateCreditCard($creditCardId)
 	{

@@ -51,6 +51,12 @@ class InfusionsoftTest extends \PHPUnit_Framework_TestCase
 		$this->assertEquals('http://example.com/', $this->ifs->getAuth());
 	}
 
+	public function testSettingTokenUri()
+	{
+		$this->ifs->setTokenUri('http://example.com/');
+		$this->assertEquals('http://example.com/', $this->ifs->getTokenUri());
+	}
+
 	public function testSettingToken()
 	{
 		$this->ifs->setToken('http://example.com/');
@@ -80,10 +86,14 @@ class InfusionsoftTest extends \PHPUnit_Framework_TestCase
 		$this->assertEquals('http://example.com/', $this->ifs->getRedirectUri());
 	}
 
-	public function testSettingAccessToken()
+	public function testSettingTokenAndGettingProperties()
 	{
-		$this->ifs->setAccessToken('baz');
-		$this->assertEquals('baz', $this->ifs->getAccessToken());
+		$this->ifs->setToken(new Token(array('access_token' => 'foo', 'refresh_token' => 'bar', 'expires_in' => 1, 'key' => 'value')));
+		$this->assertEquals('foo', $this->ifs->getToken()->getAccessToken());
+		$this->assertEquals('bar', $this->ifs->getToken()->getRefreshToken());
+		$this->assertEquals(time() + 1, $this->ifs->getToken()->getEndOfLife());
+		$extra = $this->ifs->getToken()->getExtraInfo();
+		$this->assertEquals('value', $extra['key']);
 	}
 
 	public function testSettingHttpLogAdapter()

@@ -30,14 +30,14 @@ class DiscountService extends AbstractApi {
 	 * @param string $name
 	 * @param string $description
 	 * @param integer $applyDiscountToCommission
-	 * @param integer $perentOrAmt
+	 * @param integer $percentOrAmt
 	 * @param integer $amt
 	 * @param string $payType
 	 * @return integer
 	 */
-	public function addOrderTotalDiscount($name, $description, $applyDiscountToCommission, $perentOrAmt, $amt, $payType)
+	public function addOrderTotalDiscount($name, $description, $applyDiscountToCommission, $percentOrAmt, $amt, $payType)
 	{
-		return $this->client->request($this->method(), $name, $description, $applyDiscountToCommission, $perentOrAmt, $amt, $payType);
+		return $this->client->request($this->method(), $name, $description, $applyDiscountToCommission, $percentOrAmt, $amt, $payType);
 	}
 
 	/**

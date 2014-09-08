@@ -5,7 +5,7 @@ namespace Infusionsoft\Api;
 class WebFormService extends AbstractApi {
 
 	/**
-	 * @return {{return}}
+	 * @return mixed
 	 */
 	public function getMap()
 	{
@@ -14,7 +14,7 @@ class WebFormService extends AbstractApi {
 
 	/**
 	 * @param integer $webFormId
-	 * @return {{return}}
+	 * @return mixed
 	 */
 	public function getHTML($webFormId)
 	{

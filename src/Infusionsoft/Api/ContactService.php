@@ -25,12 +25,12 @@ class ContactService extends AbstractApi {
 
 	/**
 	 * @param integer $contactId
-	 * @param integer $campaingId
+	 * @param integer $campaignId
 	 * @return bool
 	 */
-	public function addToCampaign($contactId, $campaingId)
+	public function addToCampaign($contactId, $campaignId)
 	{
-		return $this->client->request($this->method(), $contactId, $campaingId);
+		return $this->client->request($this->method(), $contactId, $campaignId);
 	}
 
 	/**

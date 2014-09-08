@@ -17,7 +17,7 @@ class Infusionsoft {
 	/**
 	 * @var string URL used to request an access token
 	 */
-	protected $token = 'https://api.infusionsoft.com/token';
+	protected $tokenUri = 'https://api.infusionsoft.com/token';
 
 	/**
 	 * @var string
@@ -33,11 +33,6 @@ class Infusionsoft {
 	 * @var string
 	 */
 	protected $redirectUri;
-
-	/**
-	 * @var string
-	 */
-	protected $accessToken;
 
 	/**
 	 * @var array Cache for services so they aren't created multiple times
@@ -68,6 +63,11 @@ class Infusionsoft {
 	 * @var boolean
 	 */
 	public $needsEmptyKey = true;
+
+	/**
+	 * @var Token
+	 */
+	protected $token;
 
 	/**
 	 * @param array $config
@@ -124,20 +124,17 @@ class Infusionsoft {
 	/**
 	 * @return string
 	 */
-	public function getToken()
+	public function getTokenUri()
 	{
-		return $this->token;
+		return $this->tokenUri;
 	}
 
 	/**
-	 * @param string $token
-	 * @return string
+	 * @param string $tokenUri
 	 */
-	public function setToken($token)
+	public function setTokenUri($tokenUri)
 	{
-		$this->token = $token;
-
-		return $this;
+		$this->tokenUri = $tokenUri;
 	}
 
 	/**
@@ -200,25 +197,6 @@ class Infusionsoft {
 	/**
 	 * @return string
 	 */
-	public function getAccessToken()
-	{
-		return $this->accessToken;
-	}
-
-	/**
-	 * @param string $accessToken
-	 * @return string
-	 */
-	public function setAccessToken($accessToken)
-	{
-		$this->accessToken = $accessToken;
-
-		return $this;
-	}
-
-	/**
-	 * @return string
-	 */
 	public function getAuthorizationUrl()
 	{
 		$params = array(
@@ -233,7 +211,7 @@ class Infusionsoft {
 
 	/**
 	 * @param string $code
-	 * @return string
+	 * @return array
 	 * @throws InfusionsoftException
 	 */
 	public function requestAccessToken($code)
@@ -248,14 +226,11 @@ class Infusionsoft {
 
 		$client = $this->getHttpClient();
 
-		$tokenInfo = $client->request($this->token, $params, array(), 'POST');
+		$tokenInfo = $client->request($this->tokenUri, $params, array(), 'POST');
 
-		if ($tokenInfo['mapi'] !== $this->clientId)
-		{
-			throw new InfusionsoftException('Invalid map.');
-		}
+		$this->setToken(new Token($tokenInfo));
 
-		return $this->setAccessToken($tokenInfo['access_token']);
+		return $this->getToken();
 	}
 
 	/**
@@ -269,6 +244,46 @@ class Infusionsoft {
 		}
 
 		return $this->httpClient;
+	}
+
+	/**
+	 * @return array
+	 * @throws InfusionsoftException
+	 */
+	public function refreshAccessToken()
+	{
+		$headers = array(
+			'Authorization' => 'Basic ' . base64_encode($this->clientId . ':' . $this->clientSecret),
+		);
+
+		$params = array(
+			'grant_type'    => 'refresh_token',
+			'refresh_token' => $this->getToken()->getRefreshToken(),
+		);
+
+		$client = $this->getHttpClient();
+
+		$tokenInfo = $client->request($this->tokenUri, $params, $headers, 'POST');
+
+		$this->setToken(new Token($tokenInfo));
+
+		return $this->getToken();
+	}
+
+	/**
+	 * @return Token
+	 */
+	public function getToken()
+	{
+		return $this->token;
+	}
+
+	/**
+	 * @param Token $token
+	 */
+	public function setToken($token)
+	{
+		$this->token = $token;
 	}
 
 	/**
@@ -341,7 +356,15 @@ class Infusionsoft {
 	 */
 	public function request()
 	{
-		$url = $this->url . '?' . http_build_query(array('access_token' => $this->accessToken));
+		// Before making the request, we can make sure that the token is still
+		// valid by doing a check on the end of life.
+		$token = $this->getToken();
+		if ($token->getEndOfLife() < time())
+		{
+			throw new TokenExpiredException;
+		}
+
+		$url = $this->url . '?' . http_build_query(array('access_token' => $token->getAccessToken()));
 
 		$params = func_get_args();
 		$method = array_shift($params);

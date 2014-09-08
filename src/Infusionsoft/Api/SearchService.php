@@ -7,7 +7,7 @@ class SearchService extends AbstractApi {
 	/**
 	 * @param integer $savedSearchId
 	 * @param integer $userId
-	 * @return {{return}}
+	 * @return mixed
 	 */
 	public function getAllReportColumns($savedSearchId, $userId)
 	{
@@ -15,14 +15,14 @@ class SearchService extends AbstractApi {
 	}
 
 	/**
-	 * @param integer $sacedSearchId
+	 * @param integer $savedSearchId
 	 * @param integer $userId
 	 * @param integer $pageNumber
-	 * @return {{return}}
+	 * @return mixed
 	 */
-	public function getSavedSearchResultsAllFields($sacedSearchId, $userId, $pageNumber)
+	public function getSavedSearchResultsAllFields($savedSearchId, $userId, $pageNumber)
 	{
-		return $this->client->request($this->method(), $sacedSearchId, $userId, $pageNumber);
+		return $this->client->request($this->method(), $savedSearchId, $userId, $pageNumber);
 	}
 
 	/**
@@ -30,7 +30,7 @@ class SearchService extends AbstractApi {
 	 * @param integer $userId
 	 * @param integer $pageNumber
 	 * @param array $returnFields
-	 * @return {{return}}
+	 * @return mixed
 	 */
 	public function getSavedSearchResults($savedSearchId, $userId, $pageNumber, $returnFields)
 	{
@@ -39,7 +39,7 @@ class SearchService extends AbstractApi {
 
 	/**
 	 * @param integer $userId
-	 * @return {{return}}
+	 * @return mixed
 	 */
 	public function getAvailableQuickSearches($userId)
 	{
@@ -52,7 +52,7 @@ class SearchService extends AbstractApi {
 	 * @param integer $searchData
 	 * @param integer $page
 	 * @param integer $returnLimit
-	 * @return {{return}}
+	 * @return mixed
 	 */
 	public function quickSearch($quickSearchType, $userId, $searchData, $page, $returnLimit)
 	{
@@ -61,7 +61,7 @@ class SearchService extends AbstractApi {
 
 	/**
 	 * @param integer $userId
-	 * @return {{return}}
+	 * @return mixed
 	 */
 	public function getDefaultQuickSearch($userId)
 	{

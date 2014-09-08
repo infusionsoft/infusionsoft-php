@@ -48,16 +48,16 @@ class DataService extends AbstractApi {
 
 	/**
 	 * @param string $table
-	 * @param integer $limt
+	 * @param integer $limit
 	 * @param integer $page
 	 * @param string $fieldName
 	 * @param string $fieldValue
 	 * @param array $returnFields
 	 * @return array
 	 */
-	public function findByField($table, $limt, $page, $fieldName, $fieldValue, $returnFields)
+	public function findByField($table, $limit, $page, $fieldName, $fieldValue, $returnFields)
 	{
-		return $this->client->request($this->method(), $table, $limt, $page, $fieldName, $fieldValue, $returnFields);
+		return $this->client->request($this->method(), $table, $limit, $page, $fieldName, $fieldValue, $returnFields);
 	}
 
 	/**
