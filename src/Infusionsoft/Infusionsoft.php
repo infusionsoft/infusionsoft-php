@@ -224,11 +224,6 @@ class Infusionsoft {
 
 			$tokenInfo = $response->json();
 
-			if ($tokenInfo['mapi'] !== $this->clientId)
-			{
-				throw new InfusionsoftException('Invalid map.');
-			}
-
 			$this->setToken(new Token($tokenInfo));
 
 			return $this->getToken();
@@ -261,11 +256,6 @@ class Infusionsoft {
 			$response = $guzzle->post($this->tokenUri, $headers, $params)->send();
 
 			$tokenInfo = $response->json();
-
-			if ($tokenInfo['mapi'] !== $this->clientId)
-			{
-				throw new InfusionsoftException('Invalid map.');
-			}
 
 			$this->setToken(new Token($tokenInfo));
 
