@@ -113,35 +113,19 @@ class InfusionsoftTest extends \PHPUnit_Framework_TestCase
 		$this->assertInstanceOf('Infusionsoft\Http\CurlClient', $this->ifs->getHttpClient());
 	}
 
-	public function testRequestingAccessTokenSetsAccessTokenWithValidMapi()
+	public function testRequestingAccessTokenSetsAccessToken()
 	{
 		$client = m::mock('Infusionsoft\Http\ClientInterface');
 		$client->shouldReceive('request')->once()
 			->with('https://api.infusionsoft.com/token', array('client_id' => 'foo', 'client_secret' => 'bar', 'code' => 'code', 'grant_type' => 'authorization_code', 'redirect_uri' => 'baz'), array(), 'POST')
-			->andReturn(['mapi' => 'foo', 'access_token' => 'access_token']);
+			->andReturn(array('access_token' => 'access_token'));
 
 		$this->ifs->setClientId('foo');
 		$this->ifs->setClientSecret('bar');
 		$this->ifs->setRedirectUri('baz');
 		$this->ifs->setHttpClient($client);
 		$this->ifs->requestAccessToken('code');
-		$this->assertEquals('access_token', $this->ifs->getAccessToken());
-	}
-
-	public function testRequestingAccessTokenSetsAccessTokenWithInvalidMapi()
-	{
-		$client = m::mock('Infusionsoft\Http\ClientInterface');
-		$client->shouldReceive('request')->once()
-			->with('https://api.infusionsoft.com/token', array('client_id' => 'foo', 'client_secret' => 'bar', 'code' => 'code', 'grant_type' => 'authorization_code', 'redirect_uri' => 'baz'), array(), 'POST')
-			->andReturn(['mapi' => 'invalidmapi', 'access_token' => 'access_token']);
-
-		$this->setExpectedException('Infusionsoft\Http\HttpException');
-		$this->setExpectedException('Infusionsoft\InfusionsoftException');
-		$this->ifs->setClientId('foo');
-		$this->ifs->setClientSecret('bar');
-		$this->ifs->setRedirectUri('baz');
-		$this->ifs->setHttpClient($client);
-		$this->ifs->requestAccessToken('code');
+		$this->assertEquals('access_token', $this->ifs->getToken()->getAccessToken());
 	}
 
 }
