@@ -374,7 +374,7 @@ class Infusionsoft {
 		// will break some newer endpoints.
 		if ($this->needsEmptyKey)
 		{
-			$params = array_merge(array('key' => ''), $params);
+			$params = array_merge(array('key' => $token->getAccessToken()), $params);
 		}
 
 		// Reset the empty key flag back to the default for the next request
