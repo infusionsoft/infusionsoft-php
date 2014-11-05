@@ -10,7 +10,7 @@ class ProductService extends AbstractApi {
 	 */
 	public function getInventory($productId)
 	{
-		return $this->client->request($this->method(), $productId);
+		return $this->client->request('ProductService.getInventory', $productId);
 	}
 
 	/**
@@ -19,7 +19,7 @@ class ProductService extends AbstractApi {
 	 */
 	public function incrementInventory($productId)
 	{
-		return $this->client->request($this->method(), $productId);
+		return $this->client->request('ProductService.incrementInventory', $productId);
 	}
 
 	/**
@@ -28,7 +28,7 @@ class ProductService extends AbstractApi {
 	 */
 	public function decrementInventory($productId)
 	{
-		return $this->client->request($this->method(), $productId);
+		return $this->client->request('ProductService.decrementInventory', $productId);
 	}
 
 	/**
@@ -38,7 +38,7 @@ class ProductService extends AbstractApi {
 	 */
 	public function increaseInventory($productId, $quantity)
 	{
-		return $this->client->request($this->method(), $productId, $quantity);
+		return $this->client->request('ProductService.increaseInventory', $productId, $quantity);
 	}
 
 	/**
@@ -48,7 +48,7 @@ class ProductService extends AbstractApi {
 	 */
 	public function decreaseInventory($productId, $quantity)
 	{
-		return $this->client->request($this->method(), $productId, $quantity);
+		return $this->client->request('ProductService.decreaseInventory', $productId, $quantity);
 	}
 
 	/**
@@ -57,7 +57,7 @@ class ProductService extends AbstractApi {
 	 */
 	public function deactivateCreditCard($creditCardId)
 	{
-		return $this->client->request($this->method(), $creditCardId);
+		return $this->client->request('ProductService.deactivateCreditCard', $creditCardId);
 	}
 
 }

@@ -9,7 +9,7 @@ class ShippingService extends AbstractApi {
 	 */
 	public function getAllShippingOptions()
 	{
-		return $this->client->request($this->method());
+		return $this->client->request('ShippingService.getAllShippingOptions');
 	}
 
 	/**
@@ -18,7 +18,7 @@ class ShippingService extends AbstractApi {
 	 */
 	public function getFlatRateShippingOption($optionId)
 	{
-		return $this->client->request($this->method(), $optionId);
+		return $this->client->request('ShippingService.getFlatRateShippingOption', $optionId);
 	}
 
 	/**
@@ -27,7 +27,7 @@ class ShippingService extends AbstractApi {
 	 */
 	public function getOrderTotalShippingOption($optionId)
 	{
-		return $this->client->request($this->method(), $optionId);
+		return $this->client->request('ShippingService.getOrderTotalShippingOption', $optionId);
 	}
 
 	/**
@@ -36,7 +36,7 @@ class ShippingService extends AbstractApi {
 	 */
 	public function getOrderTotalShippingRanges($optionId)
 	{
-		return $this->client->request($this->method(), $optionId);
+		return $this->client->request('ShippingService.getOrderTotalShippingRanges', $optionId);
 	}
 
 	/**
@@ -45,7 +45,7 @@ class ShippingService extends AbstractApi {
 	 */
 	public function getProductBasedShippingOption($optionId)
 	{
-		return $this->client->request($this->method(), $optionId);
+		return $this->client->request('ShippingService.getProductBasedShippingOption', $optionId);
 	}
 
 	/**
@@ -54,7 +54,7 @@ class ShippingService extends AbstractApi {
 	 */
 	public function getOrderQuantityShippingOption($optionId)
 	{
-		return $this->client->request($this->method(), $optionId);
+		return $this->client->request('ShippingService.getOrderQuantityShippingOption', $optionId);
 	}
 
 	/**
@@ -63,7 +63,7 @@ class ShippingService extends AbstractApi {
 	 */
 	public function getWeightBasedShippingOption($optionId)
 	{
-		return $this->client->request($this->method(), $optionId);
+		return $this->client->request('ShippingService.getWeightBasedShippingOption', $optionId);
 	}
 
 	/**
@@ -72,7 +72,7 @@ class ShippingService extends AbstractApi {
 	 */
 	public function getUpsShippingOption($optionId)
 	{
-		return $this->client->request($this->method(), $optionId);
+		return $this->client->request('ShippingService.getUpsShippingOption', $optionId);
 	}
 
 }

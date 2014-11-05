@@ -10,7 +10,7 @@ class ContactService extends AbstractApi {
 	 */
 	public function add($data)
 	{
-		return $this->client->request($this->method(), $data);
+		return $this->client->request('ContactService.add', $data);
 	}
 
 	/**
@@ -20,7 +20,7 @@ class ContactService extends AbstractApi {
 	 */
 	public function merge($contactId, $duplicateContactId)
 	{
-		return $this->client->request($this->method(), $contactId, $duplicateContactId);
+		return $this->client->request('ContactService.merge', $contactId, $duplicateContactId);
 	}
 
 	/**
@@ -30,7 +30,7 @@ class ContactService extends AbstractApi {
 	 */
 	public function addToCampaign($contactId, $campaignId)
 	{
-		return $this->client->request($this->method(), $contactId, $campaignId);
+		return $this->client->request('ContactService.addToCampaign', $contactId, $campaignId);
 	}
 
 	/**
@@ -40,7 +40,7 @@ class ContactService extends AbstractApi {
 	 */
 	public function addToGroup($contactId, $groupId)
 	{
-		return $this->client->request($this->method(), $contactId, $groupId);
+		return $this->client->request('ContactService.addToGroup', $contactId, $groupId);
 	}
 
 	/**
@@ -50,7 +50,7 @@ class ContactService extends AbstractApi {
 	 */
 	public function getNextCampaignStep($contactId, $followUpSequenceId)
 	{
-		return $this->client->request($this->method(), $contactId, $followUpSequenceId);
+		return $this->client->request('ContactService.getNextCampaignStep', $contactId, $followUpSequenceId);
 	}
 
 	/**
@@ -60,7 +60,7 @@ class ContactService extends AbstractApi {
 	 */
 	public function findByEmail($email, $selectedFields)
 	{
-		return $this->client->request($this->method(), $email, $selectedFields);
+		return $this->client->request('ContactService.findByEmail', $email, $selectedFields);
 	}
 
 	/**
@@ -70,7 +70,7 @@ class ContactService extends AbstractApi {
 	 */
 	public function load($contactId, $selectedFields)
 	{
-		return $this->client->request($this->method(), $contactId, $selectedFields);
+		return $this->client->request('ContactService.load', $contactId, $selectedFields);
 	}
 
 	/**
@@ -80,7 +80,7 @@ class ContactService extends AbstractApi {
 	 */
 	public function pauseCampaign($contactId, $sequenceId)
 	{
-		return $this->client->request($this->method(), $contactId, $sequenceId);
+		return $this->client->request('ContactService.pauseCampaign', $contactId, $sequenceId);
 	}
 
 	/**
@@ -90,7 +90,7 @@ class ContactService extends AbstractApi {
 	 */
 	public function removeFromCampaign($contactId, $followUpSequenceId)
 	{
-		return $this->client->request($this->method(), $contactId, $followUpSequenceId);
+		return $this->client->request('ContactService.removeFromCampaign', $contactId, $followUpSequenceId);
 	}
 
 	/**
@@ -100,7 +100,7 @@ class ContactService extends AbstractApi {
 	 */
 	public function removeFromGroup($contactId, $tagId)
 	{
-		return $this->client->request($this->method(), $contactId, $tagId);
+		return $this->client->request('ContactService.removeFromGroup', $contactId, $tagId);
 	}
 
 	/**
@@ -110,7 +110,7 @@ class ContactService extends AbstractApi {
 	 */
 	public function resumeCampaignForContact($contactId, $seqId)
 	{
-		return $this->client->request($this->method(), $contactId, $seqId);
+		return $this->client->request('ContactService.resumeCampaignForContact', $contactId, $seqId);
 	}
 
 	/**
@@ -120,7 +120,7 @@ class ContactService extends AbstractApi {
 	 */
 	public function rescheduleCampaignStep($contactIds, $sequenceStepId)
 	{
-		return $this->client->request($this->method(), $contactIds, $sequenceStepId);
+		return $this->client->request('ContactService.rescheduleCampaignStep', $contactIds, $sequenceStepId);
 	}
 
 	/**
@@ -130,7 +130,7 @@ class ContactService extends AbstractApi {
 	 */
 	public function runActionSequence($contactId, $actionSetId)
 	{
-		return $this->client->request($this->method(), $contactId, $actionSetId);
+		return $this->client->request('ContactService.runActionSequence', $contactId, $actionSetId);
 	}
 
 	/**
@@ -140,7 +140,7 @@ class ContactService extends AbstractApi {
 	 */
 	public function addWithDupCheck($data, $dupCheckType)
 	{
-		return $this->client->request($this->method(), $data, $dupCheckType);
+		return $this->client->request('ContactService.addWithDupCheck', $data, $dupCheckType);
 	}
 
 	/**
@@ -150,7 +150,7 @@ class ContactService extends AbstractApi {
 	 */
 	public function update($contactId, $data)
 	{
-		return $this->client->request($this->method(), $contactId, $data);
+		return $this->client->request('ContactService.update', $contactId, $data);
 	}
 
 }

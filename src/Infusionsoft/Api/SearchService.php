@@ -11,7 +11,7 @@ class SearchService extends AbstractApi {
 	 */
 	public function getAllReportColumns($savedSearchId, $userId)
 	{
-		return $this->client->request($this->method(), $savedSearchId, $userId);
+		return $this->client->request('SearchService.getAllReportColumns', $savedSearchId, $userId);
 	}
 
 	/**
@@ -22,7 +22,7 @@ class SearchService extends AbstractApi {
 	 */
 	public function getSavedSearchResultsAllFields($savedSearchId, $userId, $pageNumber)
 	{
-		return $this->client->request($this->method(), $savedSearchId, $userId, $pageNumber);
+		return $this->client->request('SearchService.getSavedSearchResultsAllFields', $savedSearchId, $userId, $pageNumber);
 	}
 
 	/**
@@ -34,7 +34,7 @@ class SearchService extends AbstractApi {
 	 */
 	public function getSavedSearchResults($savedSearchId, $userId, $pageNumber, $returnFields)
 	{
-		return $this->client->request($this->method(), $savedSearchId, $userId, $pageNumber, $returnFields);
+		return $this->client->request('SearchService.getSavedSearchResults', $savedSearchId, $userId, $pageNumber, $returnFields);
 	}
 
 	/**
@@ -43,7 +43,7 @@ class SearchService extends AbstractApi {
 	 */
 	public function getAvailableQuickSearches($userId)
 	{
-		return $this->client->request($this->method(), $userId);
+		return $this->client->request('SearchService.getAvailableQuickSearches', $userId);
 	}
 
 	/**
@@ -56,7 +56,7 @@ class SearchService extends AbstractApi {
 	 */
 	public function quickSearch($quickSearchType, $userId, $searchData, $page, $returnLimit)
 	{
-		return $this->client->request($this->method(), $quickSearchType, $userId, $searchData, $page, $returnLimit);
+		return $this->client->request('SearchService.quickSearch', $quickSearchType, $userId, $searchData, $page, $returnLimit);
 	}
 
 	/**
@@ -65,7 +65,7 @@ class SearchService extends AbstractApi {
 	 */
 	public function getDefaultQuickSearch($userId)
 	{
-		return $this->client->request($this->method(), $userId);
+		return $this->client->request('SearchService.getDefaultQuickSearch', $userId);
 	}
 
 }

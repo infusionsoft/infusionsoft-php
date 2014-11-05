@@ -20,7 +20,7 @@ class APIEmailService extends AbstractApi {
 	 */
 	public function addEmailTemplate($placeTitle, $categories, $fromAddress, $toAddress, $ccAddress, $bccAddress, $subject, $textBody, $htmlBody, $contentType, $mergeContext)
 	{
-		return $this->client->request($this->method(), $placeTitle, $categories, $fromAddress, $toAddress, $ccAddress, $bccAddress, $subject, $textBody, $htmlBody, $contentType, $mergeContext);
+		return $this->client->request('APIEmailService.addEmailTemplate', $placeTitle, $categories, $fromAddress, $toAddress, $ccAddress, $bccAddress, $subject, $textBody, $htmlBody, $contentType, $mergeContext);
 	}
 
 	/**
@@ -42,7 +42,7 @@ class APIEmailService extends AbstractApi {
 	 */
 	public function attachEmail($contactId, $fromName, $fromAddress, $toAddress, $ccAddress, $bccAddress, $contentType, $subject, $htmlBody, $textBody, $header, $receivedDate, $sentDate, $emailSentType)
 	{
-		return $this->client->request($this->method(), $contactId, $fromName, $fromAddress, $toAddress, $ccAddress, $bccAddress, $contentType, $subject, $htmlBody, $textBody, $header, $receivedDate, $sentDate, $emailSentType);
+		return $this->client->request('APIEmailService.attachEmail', $contactId, $fromName, $fromAddress, $toAddress, $ccAddress, $bccAddress, $contentType, $subject, $htmlBody, $textBody, $header, $receivedDate, $sentDate, $emailSentType);
 	}
 
 	/**
@@ -51,7 +51,7 @@ class APIEmailService extends AbstractApi {
 	 */
 	public function getEmailTemplate($templateId)
 	{
-		return $this->client->request($this->method(), $templateId);
+		return $this->client->request('APIEmailService.getEmailTemplate', $templateId);
 	}
 
 	/**
@@ -60,7 +60,7 @@ class APIEmailService extends AbstractApi {
 	 */
 	public function getOptStatus($email)
 	{
-		return $this->client->request($this->method(), $email);
+		return $this->client->request('APIEmailService.getOptStatus', $email);
 	}
 
 	/**
@@ -70,7 +70,7 @@ class APIEmailService extends AbstractApi {
 	 */
 	public function optIn($email, $optInReason)
 	{
-		return $this->client->request($this->method(), $email, $optInReason);
+		return $this->client->request('APIEmailService.optIn', $email, $optInReason);
 	}
 
 	/**
@@ -80,7 +80,7 @@ class APIEmailService extends AbstractApi {
 	 */
 	public function optOut($email, $optOutReason)
 	{
-		return $this->client->request($this->method(), $email, $optOutReason);
+		return $this->client->request('APIEmailService.optOut', $email, $optOutReason);
 	}
 
 	/**
@@ -98,7 +98,7 @@ class APIEmailService extends AbstractApi {
 	 */
 	public function sendEmail($contactList, $fromAddress, $toAddress, $ccAddress, $bccAddress, $contentType, $subject, $htmlBody, $textBody, $templateId)
 	{
-		return $this->client->request($this->method(), $contactList, $fromAddress, $toAddress, $ccAddress, $bccAddress, $contentType, $subject, $htmlBody, $textBody, $templateId);
+		return $this->client->request('APIEmailService.sendEmail', $contactList, $fromAddress, $toAddress, $ccAddress, $bccAddress, $contentType, $subject, $htmlBody, $textBody, $templateId);
 	}
 
 	/**
@@ -108,7 +108,7 @@ class APIEmailService extends AbstractApi {
 	 */
 	public function sendTemplate($contactList, $templateId)
 	{
-		return $this->client->request($this->method(), $contactList, $templateId);
+		return $this->client->request('APIEmailService.sendTemplate', $contactList, $templateId);
 	}
 
 	/**
@@ -128,7 +128,7 @@ class APIEmailService extends AbstractApi {
 	 */
 	public function updateEmailTemplate($templateId, $pieceTitle, $category, $fromAddress, $toAddress, $ccAddress, $bccAddress, $subject, $textBody, $htmlBody, $contentType, $mergeContext)
 	{
-		return $this->client->request($this->method(), $templateId, $pieceTitle, $category, $fromAddress, $toAddress, $ccAddress, $bccAddress, $subject, $textBody, $htmlBody, $contentType, $mergeContext);
+		return $this->client->request('APIEmailService.updateEmailTemplate', $templateId, $pieceTitle, $category, $fromAddress, $toAddress, $ccAddress, $bccAddress, $subject, $textBody, $htmlBody, $contentType, $mergeContext);
 	}
 
 }

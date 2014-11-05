@@ -10,7 +10,7 @@ class FileService extends AbstractApi {
 	 */
 	public function getFile($fileId)
 	{
-		return $this->client->request($this->method(), $fileId);
+		return $this->client->request('FileService.getFile', $fileId);
 	}
 
 	/**
@@ -19,7 +19,7 @@ class FileService extends AbstractApi {
 	 */
 	public function getDownloadUrl($fileId)
 	{
-		return $this->client->request($this->method(), $fileId);
+		return $this->client->request('FileService.getDownloadUrl', $fileId);
 	}
 
 	/**
@@ -30,7 +30,7 @@ class FileService extends AbstractApi {
 	 */
 	public function uploadFile($fileName, $base64EncodedData, $contactId)
 	{
-		return $this->client->request($this->method(), $fileName, $base64EncodedData, $contactId);
+		return $this->client->request('FileService.uploadFile', $fileName, $base64EncodedData, $contactId);
 	}
 
 	/**
@@ -40,7 +40,7 @@ class FileService extends AbstractApi {
 	 */
 	public function replaceFile($fileId, $base64EncodedData)
 	{
-		return $this->client->request($this->method(), $fileId, $base64EncodedData);
+		return $this->client->request('FileService.replaceFile', $fileId, $base64EncodedData);
 	}
 
 	/**
@@ -50,7 +50,7 @@ class FileService extends AbstractApi {
 	 */
 	public function renameFile($fileId, $fileName)
 	{
-		return $this->client->request($this->method(), $fileId, $fileName);
+		return $this->client->request('FileService.renameFile', $fileId, $fileName);
 	}
 
 }

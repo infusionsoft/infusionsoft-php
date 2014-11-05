@@ -11,7 +11,7 @@ class DataService extends AbstractApi {
 	 */
 	public function add($table, $values)
 	{
-		return $this->client->request($this->method(), $table, $values);
+		return $this->client->request('DataService.add', $table, $values);
 	}
 
 	/**
@@ -22,7 +22,7 @@ class DataService extends AbstractApi {
 	 */
 	public function load($table, $recordId, $wantedFields)
 	{
-		return $this->client->request($this->method(), $table, $recordId, $wantedFields);
+		return $this->client->request('DataService.load', $table, $recordId, $wantedFields);
 	}
 
 	/**
@@ -33,7 +33,7 @@ class DataService extends AbstractApi {
 	 */
 	public function update($table, $Id, $values)
 	{
-		return $this->client->request($this->method(), $table, $Id, $values);
+		return $this->client->request('DataService.update', $table, $Id, $values);
 	}
 
 	/**
@@ -43,7 +43,7 @@ class DataService extends AbstractApi {
 	 */
 	public function delete($table, $Id)
 	{
-		return $this->client->request($this->method(), $table, $Id);
+		return $this->client->request('DataService.delete', $table, $Id);
 	}
 
 	/**
@@ -57,7 +57,7 @@ class DataService extends AbstractApi {
 	 */
 	public function findByField($table, $limit, $page, $fieldName, $fieldValue, $returnFields)
 	{
-		return $this->client->request($this->method(), $table, $limit, $page, $fieldName, $fieldValue, $returnFields);
+		return $this->client->request('DataService.findByField', $table, $limit, $page, $fieldName, $fieldValue, $returnFields);
 	}
 
 	/**
@@ -72,7 +72,7 @@ class DataService extends AbstractApi {
 	 */
 	public function query($table, $limit, $page, $queryData, $selectedFields, $orderBy, $ascending)
 	{
-		return $this->client->request($this->method(), $table, $limit, $page, $queryData, $selectedFields, $orderBy, $ascending);
+		return $this->client->request('DataService.query', $table, $limit, $page, $queryData, $selectedFields, $orderBy, $ascending);
 	}
 
 	/**
@@ -84,7 +84,7 @@ class DataService extends AbstractApi {
 	 */
 	public function addCustomField($customFieldType, $displayName, $dataType, $headerId)
 	{
-		return $this->client->request($this->method(), $customFieldType, $displayName, $dataType, $headerId);
+		return $this->client->request('DataService.addCustomField', $customFieldType, $displayName, $dataType, $headerId);
 	}
 
 	/**
@@ -94,7 +94,7 @@ class DataService extends AbstractApi {
 	 */
 	public function authenticateUser($username, $passwordHash)
 	{
-		return $this->client->request($this->method(), $username, $passwordHash);
+		return $this->client->request('DataService.authenticateUser', $username, $passwordHash);
 	}
 
 	/**
@@ -104,7 +104,7 @@ class DataService extends AbstractApi {
 	 */
 	public function getAppSetting($module, $setting)
 	{
-		return $this->client->request($this->method(), $module, $setting);
+		return $this->client->request('DataService.getAppSetting', $module, $setting);
 	}
 
 	/**
@@ -113,7 +113,7 @@ class DataService extends AbstractApi {
 	 */
 	public function getAppointmentCal($appointmentId)
 	{
-		return $this->client->request($this->method(), $appointmentId);
+		return $this->client->request('DataService.getAppointmentCal', $appointmentId);
 	}
 
 	/**
@@ -123,7 +123,7 @@ class DataService extends AbstractApi {
 	 */
 	public function getTemporaryKey($username, $passwordHash)
 	{
-		return $this->client->request($this->method(), $username, $passwordHash);
+		return $this->client->request('DataService.getTemporaryKey', $username, $passwordHash);
 	}
 
 	/**
@@ -133,7 +133,7 @@ class DataService extends AbstractApi {
 	 */
 	public function updateCustomField($customFieldId, $values)
 	{
-		return $this->client->request($this->method(), $customFieldId, $values);
+		return $this->client->request('DataService.updateCustomField', $customFieldId, $values);
 	}
 
 	/**
@@ -143,7 +143,7 @@ class DataService extends AbstractApi {
 	{
 		$this->client->needsEmptyKey = false;
 
-		return $this->client->request($this->method());
+		return $this->client->request('DataService.getUserInfo');
 	}
 
 }

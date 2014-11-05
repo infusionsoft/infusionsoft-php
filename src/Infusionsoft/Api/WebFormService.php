@@ -9,7 +9,7 @@ class WebFormService extends AbstractApi {
 	 */
 	public function getMap()
 	{
-		return $this->client->request($this->method());
+		return $this->client->request('WebFormService.getMap');
 	}
 
 	/**
@@ -18,7 +18,7 @@ class WebFormService extends AbstractApi {
 	 */
 	public function getHTML($webFormId)
 	{
-		return $this->client->request($this->method(), $webFormId);
+		return $this->client->request('WebFormService.getHTML', $webFormId);
 	}
 
 }

@@ -14,7 +14,7 @@ class DiscountService extends AbstractApi {
 	 */
 	public function addFreeTrial($name, $description, $freeTrialDays, $hidePrice, $subscriptionPlanId)
 	{
-		return $this->client->request($this->method(), $name, $description, $freeTrialDays, $hidePrice, $subscriptionPlanId);
+		return $this->client->request('DiscountService.addFreeTrial', $name, $description, $freeTrialDays, $hidePrice, $subscriptionPlanId);
 	}
 
 	/**
@@ -23,7 +23,7 @@ class DiscountService extends AbstractApi {
 	 */
 	public function getFreeTrial($trialId)
 	{
-		return $this->client->request($this->method(), $trialId);
+		return $this->client->request('DiscountService.getFreeTrial', $trialId);
 	}
 
 	/**
@@ -37,7 +37,7 @@ class DiscountService extends AbstractApi {
 	 */
 	public function addOrderTotalDiscount($name, $description, $applyDiscountToCommission, $percentOrAmt, $amt, $payType)
 	{
-		return $this->client->request($this->method(), $name, $description, $applyDiscountToCommission, $percentOrAmt, $amt, $payType);
+		return $this->client->request('DiscountService.addOrderTotalDiscount', $name, $description, $applyDiscountToCommission, $percentOrAmt, $amt, $payType);
 	}
 
 	/**
@@ -46,7 +46,7 @@ class DiscountService extends AbstractApi {
 	 */
 	public function getOrderTotalDiscount($id)
 	{
-		return $this->client->request($this->method(), $id);
+		return $this->client->request('DiscountService.getOrderTotalDiscount', $id);
 	}
 
 	/**
@@ -58,7 +58,7 @@ class DiscountService extends AbstractApi {
 	 */
 	public function addCategoryDiscount($name, $description, $applyDiscountToCommission, $amt)
 	{
-		return $this->client->request($this->method(), $name, $description, $applyDiscountToCommission, $amt);
+		return $this->client->request('DiscountService.addCategoryDiscount', $name, $description, $applyDiscountToCommission, $amt);
 	}
 
 	/**
@@ -67,7 +67,7 @@ class DiscountService extends AbstractApi {
 	 */
 	public function getCategoryDiscount($id)
 	{
-		return $this->client->request($this->method(), $id);
+		return $this->client->request('DiscountService.getCategoryDiscount', $id);
 	}
 
 	/**
@@ -77,7 +77,7 @@ class DiscountService extends AbstractApi {
 	 */
 	public function addCategoryAssignmentToCategoryDiscount($id, $productId)
 	{
-		return $this->client->request($this->method(), $id, $productId);
+		return $this->client->request('DiscountService.addCategoryAssignmentToCategoryDiscount', $id, $productId);
 	}
 
 	/**
@@ -86,7 +86,7 @@ class DiscountService extends AbstractApi {
 	 */
 	public function getCategoryAssignmentsForCategoryDiscount($id)
 	{
-		return $this->client->request($this->method(), $id);
+		return $this->client->request('DiscountService.getCategoryAssignmentsForCategoryDiscount', $id);
 	}
 
 	/**
@@ -100,7 +100,7 @@ class DiscountService extends AbstractApi {
 	 */
 	public function addProductTotalDiscount($name, $description, $applyDiscountToCommission, $productId, $percentOrAmt, $amt)
 	{
-		return $this->client->request($this->method(), $name, $description, $applyDiscountToCommission, $productId, $percentOrAmt, $amt);
+		return $this->client->request('DiscountService.addProductTotalDiscount', $name, $description, $applyDiscountToCommission, $productId, $percentOrAmt, $amt);
 	}
 
 	/**
@@ -109,7 +109,7 @@ class DiscountService extends AbstractApi {
 	 */
 	public function getProductTotalDiscount($id)
 	{
-		return $this->client->request($this->method(), $id);
+		return $this->client->request('DiscountService.getProductTotalDiscount', $id);
 	}
 
 	/**
@@ -122,7 +122,7 @@ class DiscountService extends AbstractApi {
 	 */
 	public function addShippingTotalDiscount($name, $description, $applyDiscountToCommission, $percentOrAmt, $amt)
 	{
-		return $this->client->request($this->method(), $name, $description, $applyDiscountToCommission, $percentOrAmt, $amt);
+		return $this->client->request('DiscountService.addShippingTotalDiscount', $name, $description, $applyDiscountToCommission, $percentOrAmt, $amt);
 	}
 
 	/**
@@ -131,7 +131,7 @@ class DiscountService extends AbstractApi {
 	 */
 	public function getShippingTotalDiscount($id)
 	{
-		return $this->client->request($this->method(), $id);
+		return $this->client->request('DiscountService.getShippingTotalDiscount', $id);
 	}
 
 }

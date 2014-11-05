@@ -14,7 +14,7 @@ class InvoiceService extends AbstractApi {
 	 */
 	public function createBlankOrder($contactId, $description, $orderDate, $leadAffiliateId, $saleAffiliateId)
 	{
-		return $this->client->request($this->method(), $contactId, $description, $orderDate, $leadAffiliateId, $saleAffiliateId);
+		return $this->client->request('InvoiceService.createBlankOrder', $contactId, $description, $orderDate, $leadAffiliateId, $saleAffiliateId);
 	}
 
 	/**
@@ -29,7 +29,7 @@ class InvoiceService extends AbstractApi {
 	 */
 	public function addOrderItem($invoiceId, $productId, $type, $price, $quantity, $description, $notes)
 	{
-		return $this->client->request($this->method(), $invoiceId, $productId, $type, $price, $quantity, $description, $notes);
+		return $this->client->request('InvoiceService.addOrderItem', $invoiceId, $productId, $type, $price, $quantity, $description, $notes);
 	}
 
 	/**
@@ -42,7 +42,7 @@ class InvoiceService extends AbstractApi {
 	 */
 	public function chargeInvoice($invoiceId, $notes, $creditCardId, $merchantAccountId, $bypassCommissions)
 	{
-		return $this->client->request($this->method(), $invoiceId, $notes, $creditCardId, $merchantAccountId, $bypassCommissions);
+		return $this->client->request('InvoiceService.chargeInvoice', $invoiceId, $notes, $creditCardId, $merchantAccountId, $bypassCommissions);
 	}
 
 	/**
@@ -51,7 +51,7 @@ class InvoiceService extends AbstractApi {
 	 */
 	public function deleteSubscription($recurringOrderId)
 	{
-		return $this->client->request($this->method(), $recurringOrderId);
+		return $this->client->request('InvoiceService.deleteSubscription', $recurringOrderId);
 	}
 
 	/**
@@ -60,7 +60,7 @@ class InvoiceService extends AbstractApi {
 	 */
 	public function deleteInvoice($invoiceId)
 	{
-		return $this->client->request($this->method(), $invoiceId);
+		return $this->client->request('InvoiceService.deleteInvoice', $invoiceId);
 	}
 
 	/**
@@ -78,7 +78,7 @@ class InvoiceService extends AbstractApi {
 	 */
 	public function addRecurringOrder($contactId, $allowDuplicate, $cProgramId, $qty, $price, $taxable, $merchantAccountId, $creditCardId, $affiliated, $daysTillCharge)
 	{
-		return $this->client->request($this->method(), $contactId, $allowDuplicate, $cProgramId, $qty, $price, $taxable, $merchantAccountId, $creditCardId, $affiliated, $daysTillCharge);
+		return $this->client->request('InvoiceService.addRecurringOrder', $contactId, $allowDuplicate, $cProgramId, $qty, $price, $taxable, $merchantAccountId, $creditCardId, $affiliated, $daysTillCharge);
 	}
 
 	/**
@@ -91,7 +91,7 @@ class InvoiceService extends AbstractApi {
 	 */
 	public function addRecurringCommissionOverride($recurringOrderId, $affiliateId, $amount, $payoutType, $description)
 	{
-		return $this->client->request($this->method(), $recurringOrderId, $affiliateId, $amount, $payoutType, $description);
+		return $this->client->request('InvoiceService.addRecurringCommissionOverride', $recurringOrderId, $affiliateId, $amount, $payoutType, $description);
 	}
 
 	/**
@@ -100,7 +100,7 @@ class InvoiceService extends AbstractApi {
 	 */
 	public function createInvoiceForRecurring($recurringOrderId)
 	{
-		return $this->client->request($this->method(), $recurringOrderId);
+		return $this->client->request('InvoiceService.createInvoiceForRecurring', $recurringOrderId);
 	}
 
 	/**
@@ -114,7 +114,7 @@ class InvoiceService extends AbstractApi {
 	 */
 	public function addManualPayment($invoiceId, $amt, $paymentDate, $paymentType, $paymentDescription, $bypassCommissions)
 	{
-		return $this->client->request($this->method(), $invoiceId, $amt, $paymentDate, $paymentType, $paymentDescription, $bypassCommissions);
+		return $this->client->request('InvoiceService.addManualPayment', $invoiceId, $amt, $paymentDate, $paymentType, $paymentDescription, $bypassCommissions);
 	}
 
 	/**
@@ -133,7 +133,7 @@ class InvoiceService extends AbstractApi {
 	 */
 	public function addPaymentPlan($invoiceId, $autoCharge, $creditCardId, $merchantAccountId, $daysBetweenRetry, $maxRetry, $initialPmtAmt, $initialPmtDate, $plantStartDate, $numPayments, $daysBetweenPayments)
 	{
-		return $this->client->request($this->method(), $invoiceId, $autoCharge, $creditCardId, $merchantAccountId, $daysBetweenRetry, $maxRetry, $initialPmtAmt, $initialPmtDate, $plantStartDate, $numPayments, $daysBetweenPayments);
+		return $this->client->request('InvoiceService.addPaymentPlan', $invoiceId, $autoCharge, $creditCardId, $merchantAccountId, $daysBetweenRetry, $maxRetry, $initialPmtAmt, $initialPmtDate, $plantStartDate, $numPayments, $daysBetweenPayments);
 	}
 
 	/**
@@ -142,7 +142,7 @@ class InvoiceService extends AbstractApi {
 	 */
 	public function calculateAmountOwed($invoiceId)
 	{
-		return $this->client->request($this->method(), $invoiceId);
+		return $this->client->request('InvoiceService.calculateAmountOwed', $invoiceId);
 	}
 
 	/**
@@ -150,7 +150,7 @@ class InvoiceService extends AbstractApi {
 	 */
 	public function getAllPaymentOptions()
 	{
-		return $this->client->request($this->method());
+		return $this->client->request('InvoiceService.getAllPaymentOptions');
 	}
 
 	/**
@@ -159,7 +159,7 @@ class InvoiceService extends AbstractApi {
 	 */
 	public function getPayments($invoiceId)
 	{
-		return $this->client->request($this->method(), $invoiceId);
+		return $this->client->request('InvoiceService.getPayments', $invoiceId);
 	}
 
 	/**
@@ -169,7 +169,7 @@ class InvoiceService extends AbstractApi {
 	 */
 	public function locateExistingCard($contactId, $last4)
 	{
-		return $this->client->request($this->method(), $contactId, $last4);
+		return $this->client->request('InvoiceService.locateExistingCard', $contactId, $last4);
 	}
 
 	/**
@@ -178,7 +178,7 @@ class InvoiceService extends AbstractApi {
 	 */
 	public function recalculateTax($invoiceId)
 	{
-		return $this->client->request($this->method(), $invoiceId);
+		return $this->client->request('InvoiceService.recalculateTax', $invoiceId);
 	}
 
 	/**
@@ -201,7 +201,7 @@ class InvoiceService extends AbstractApi {
 			'CVV2' => $cvv2
 		);
 
-		return $this->client->request($this->method(), $data);
+		return $this->client->request('InvoiceService.validateCreditCard', $data);
 	}
 
 	/**
@@ -209,7 +209,7 @@ class InvoiceService extends AbstractApi {
 	 */
 	public function getAllShippingOptions()
 	{
-		return $this->client->request($this->method());
+		return $this->client->request('InvoiceService.getAllShippingOptions');
 	}
 
 	/**
@@ -219,7 +219,7 @@ class InvoiceService extends AbstractApi {
 	 */
 	public function updateJobRecurringNextBillDate($recurringOrderId, $nextBillDate)
 	{
-		return $this->client->request($this->method(), $recurringOrderId, $nextBillDate);
+		return $this->client->request('InvoiceService.updateJobRecurringNextBillDate', $recurringOrderId, $nextBillDate);
 	}
 
 	/**
@@ -235,7 +235,7 @@ class InvoiceService extends AbstractApi {
 	 */
 	public function addOrderCommissionOverride($invoiceId, $affiliateId, $productId, $percentage, $amount, $payoutType, $description, $date)
 	{
-		return $this->client->request($this->method(), $invoiceId, $affiliateId, $productId, $percentage, $amount, $payoutType, $description, $date);
+		return $this->client->request('InvoiceService.addOrderCommissionOverride', $invoiceId, $affiliateId, $productId, $percentage, $amount, $payoutType, $description, $date);
 	}
 
 }

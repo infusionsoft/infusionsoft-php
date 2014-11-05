@@ -12,7 +12,7 @@ class AffiliateService extends AbstractApi {
 	 */
 	public function affClawbacks($affiliateId, $filterStartDate, $filterEndDate)
 	{
-		return $this->client->request($this->method(), $affiliateId, $filterStartDate, $filterEndDate);
+		return $this->client->request('AffiliateService.affClawbacks', $affiliateId, $filterStartDate, $filterEndDate);
 	}
 
 	/**
@@ -23,7 +23,7 @@ class AffiliateService extends AbstractApi {
 	 */
 	public function affCommissions($affiliateId, $filterStartDate, $filterEndDate)
 	{
-		return $this->client->request($this->method(), $affiliateId, $filterStartDate, $filterEndDate);
+		return $this->client->request('AffiliateService.affCommissions', $affiliateId, $filterStartDate, $filterEndDate);
 	}
 
 	/**
@@ -32,7 +32,7 @@ class AffiliateService extends AbstractApi {
 	 */
 	public function getRedirectLinksForAffiliate($affiliateId)
 	{
-		return $this->client->request($this->method(), $affiliateId);
+		return $this->client->request('AffiliateService.getRedirectLinksForAffiliate', $affiliateId);
 	}
 
 	/**
@@ -43,7 +43,7 @@ class AffiliateService extends AbstractApi {
 	 */
 	public function affPayouts($affiliateId, $filterStartDate, $filterEndDate)
 	{
-		return $this->client->request($this->method(), $affiliateId, $filterStartDate, $filterEndDate);
+		return $this->client->request('AffiliateService.affPayouts', $affiliateId, $filterStartDate, $filterEndDate);
 	}
 
 	/**
@@ -52,7 +52,7 @@ class AffiliateService extends AbstractApi {
 	 */
 	public function affRunningTotals($affiliateIds)
 	{
-		return $this->client->request($this->method(), $affiliateIds);
+		return $this->client->request('AffiliateService.affRunningTotals', $affiliateIds);
 	}
 
 	/**
@@ -63,7 +63,7 @@ class AffiliateService extends AbstractApi {
 	 */
 	public function affSummary($affiliateId, $filterStartDate, $filterEndDate)
 	{
-		return $this->client->request($this->method(), $affiliateId, $filterStartDate, $filterEndDate);
+		return $this->client->request('AffiliateService.affSummary', $affiliateId, $filterStartDate, $filterEndDate);
 	}
 
 }

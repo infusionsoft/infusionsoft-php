@@ -18,7 +18,7 @@ class OrderService extends AbstractApi {
 	 */
 	public function placeOrder($contactId, $creditCardId, $payPlanId, $productIds, $subscriptionPlanIds, $processSpecials, $promoCodes, $leadAffiliateId, $affiliateId)
 	{
-		return $this->client->request($this->method(), $contactId, $creditCardId, $payPlanId, $productIds, $subscriptionPlanIds, $processSpecials, $promoCodes, $leadAffiliateId, $affiliateId);
+		return $this->client->request('OrderService.placeOrder', $contactId, $creditCardId, $payPlanId, $productIds, $subscriptionPlanIds, $processSpecials, $promoCodes, $leadAffiliateId, $affiliateId);
 	}
 
 }

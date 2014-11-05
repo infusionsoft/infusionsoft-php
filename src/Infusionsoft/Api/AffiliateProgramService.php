@@ -10,7 +10,7 @@ class AffiliateProgramService extends AbstractApi {
 	 */
 	public function getAffiliatesByProgram($programId)
 	{
-		return $this->client->request($this->method(), $programId);
+		return $this->client->request('AffiliateProgramService.getAffiliatesByProgram', $programId);
 	}
 
 	/**
@@ -19,7 +19,7 @@ class AffiliateProgramService extends AbstractApi {
 	 */
 	public function getProgramsForAffiliate($affiliateId)
 	{
-		return $this->client->request($this->method(), $affiliateId);
+		return $this->client->request('AffiliateProgramService.getProgramsForAffiliate', $affiliateId);
 	}
 
 	/**
@@ -27,7 +27,7 @@ class AffiliateProgramService extends AbstractApi {
 	 */
 	public function getAffiliatePrograms()
 	{
-		return $this->client->request($this->method());
+		return $this->client->request('AffiliateProgramService.getAffiliatePrograms');
 	}
 
 	/**
@@ -36,7 +36,7 @@ class AffiliateProgramService extends AbstractApi {
 	 */
 	public function getResourcesForAffiliateProgram($programId)
 	{
-		return $this->client->request($this->method(), $programId);
+		return $this->client->request('AffiliateProgramService.getResourcesForAffiliateProgram', $programId);
 	}
 
 }
