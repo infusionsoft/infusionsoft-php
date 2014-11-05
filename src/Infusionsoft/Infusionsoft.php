@@ -372,13 +372,9 @@ class Infusionsoft {
 		// Some older methods in the API require a key parameter to be sent
 		// even if OAuth is being used. This flag can be made false as it
 		// will break some newer endpoints.
-		if ($this->needsEmptyKey) {
-			// Some older methods in the API require a key parameter to be sent
-			// even if OAuth is being used. This flag can be made false as it
-			// will break some newer endpoints.
-			if ( $this->needsEmptyKey ) {
-				$args = array_merge( array( 'key' => $token->getAccessToken() ), $args );
-			}
+		if ($this->needsEmptyKey)
+		{
+			$params = array_merge(array('key' => $token->getAccessToken()), $params);
 		}
 
 		// Reset the empty key flag back to the default for the next request
