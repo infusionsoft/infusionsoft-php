@@ -28,9 +28,9 @@ class FileService extends AbstractApi {
 	 * @param integer $contactId
 	 * @return mixed
 	 */
-	public function uploadFile($fileName, $base64EncodedData, $contactId)
+	public function uploadFile($contactId, $fileName, $base64EncodedData)
 	{
-		return $this->client->request('FileService.uploadFile', $fileName, $base64EncodedData, $contactId);
+		return $this->client->request('FileService.uploadFile', $contactId, $fileName, $base64EncodedData);
 	}
 
 	/**
