@@ -1,0 +1,35 @@
+<methodCall>
+    <methodName>InvoiceService.createBlankOrder</methodName>
+    <params>
+        <param>
+            <value>
+                <string>foo</string>
+            </value>
+        </param>
+        <param>
+            <value>
+                <int>111</int>
+            </value>
+        </param>
+        <param>
+            <value>
+                <string>hello world</string>
+            </value>
+        </param>
+        <param>
+            <value>
+                <dateTime.iso8601>20140808T00:00:00</dateTime.iso8601>
+            </value>
+        </param>
+        <param>
+            <value>
+                <int>2</int>
+            </value>
+        </param>
+        <param>
+            <value>
+                <int>3</int>
+            </value>
+        </param>
+    </params>
+</methodCall>
