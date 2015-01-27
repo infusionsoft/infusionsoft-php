@@ -22,7 +22,8 @@
     "require-dev": {
         "mockery/mockery": "dev-master",
         "phpunit/phpunit": "~4",
-        "squizlabs/php_codesniffer": "1.*"
+        "squizlabs/php_codesniffer": "1.*",
+        "codeception/aspect-mock": "*"
     },
     "autoload": {
         "psr-0": {
