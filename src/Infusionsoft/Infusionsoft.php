@@ -397,6 +397,19 @@ class Infusionsoft {
 		return $this;
 	}
 
+    /**
+     * @param \DateTime|string $datetime
+     * @return string
+     */
+    public function formatDate($datetime = 'now')
+    {
+        if (!$datetime instanceof \DateTime)
+        {
+            $datetime = new \DateTime($datetime, new \DateTimeZone('America/New_York'));
+        }
+        return $datetime->format('Y-m-d\TH:i:s');
+    }
+
 	/**
 	 * @param $name
 	 * @throws \UnexpectedValueException
