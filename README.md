@@ -63,6 +63,14 @@ if ($infusionsoft->getToken()) {
 }
 ```
 
+### Dates
+
+DateTime objects are now used instead of a DateTime string where the date(time) is a parameter in the method.
+
+```php
+$datetime = new \DateTime('now',new \DateTimeZone('America/New_York'));
+```
+
 ### Debugging
 
 To enable debugging of requests and responses, you need to set the debug flag to try by using:
