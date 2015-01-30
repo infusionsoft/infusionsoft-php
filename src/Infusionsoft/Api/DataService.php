@@ -75,6 +75,16 @@ class DataService extends AbstractApi {
 		return $this->client->request('DataService.query', $table, $limit, $page, $queryData, $selectedFields, $orderBy, $ascending);
 	}
 
+    /**
+     * @param string $table
+     * @param array $queryData
+     * @return integer
+     */
+    public function count($table, $queryData)
+    {
+        return $this->client->request('DataService.count', $table, $queryData);
+    }
+
 	/**
 	 * @param string $customFieldType
 	 * @param string $displayName
