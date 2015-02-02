@@ -7,22 +7,22 @@ class Token {
 	/**
 	 * @var string
 	 */
-	protected $accessToken;
+	public $accessToken;
 
 	/**
 	 * @var string
 	 */
-	protected $refreshToken;
+	public $refreshToken;
 
 	/**
 	 * @var int
 	 */
-	protected $endOfLife;
+	public $endOfLife;
 
 	/**
 	 * @var array
 	 */
-	protected $extraInfo;
+	public $extraInfo;
 
 	/**
 	 * @param array $data
