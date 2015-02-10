@@ -107,7 +107,7 @@ class APIEmailService extends AbstractApi {
 	 */
 	public function sendTemplate($contactList, $templateId)
 	{
-		return $this->client->request('APIEmailService.sendTemplate', $contactList, $templateId);
+		return $this->client->request('APIEmailService.sendEmail', $contactList, $templateId);
 	}
 
 	/**
