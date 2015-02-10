@@ -93,12 +93,11 @@ class APIEmailService extends AbstractApi {
 	 * @param string $subject
 	 * @param string $htmlBody
 	 * @param string $textBody
-	 * @param string $templateId
 	 * @return bool
 	 */
-	public function sendEmail($contactList, $fromAddress, $toAddress, $ccAddress, $bccAddress, $contentType, $subject, $htmlBody, $textBody, $templateId)
+	public function sendEmail($contactList, $fromAddress, $toAddress, $ccAddress, $bccAddress, $contentType, $subject, $htmlBody, $textBody)
 	{
-		return $this->client->request('APIEmailService.sendEmail', $contactList, $fromAddress, $toAddress, $ccAddress, $bccAddress, $contentType, $subject, $htmlBody, $textBody, $templateId);
+		return $this->client->request('APIEmailService.sendEmail', $contactList, $fromAddress, $toAddress, $ccAddress, $bccAddress, $contentType, $subject, $htmlBody, $textBody);
 	}
 
 	/**
