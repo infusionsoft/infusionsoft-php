@@ -101,8 +101,8 @@ class APIEmailService extends AbstractApi {
 	}
 
 	/**
-	 * @param string $contactList
-	 * @param string $templateId
+	 * @param array $contactList
+	 * @param integer $templateId
 	 * @return bool
 	 */
 	public function sendTemplate($contactList, $templateId)
