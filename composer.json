@@ -1,12 +1,10 @@
 {
-    "name": "infusionsoft/php-sdk",
-    "description": "Beta PHP SDK for the Infusionsoft",
-    "keywords": [
-        "infusionsoft",
-        "sdk"
-    ],
-    "homepage": "https://developer.infusionsoft.com",
+    "name": "infusionsoft/php-isdk",
+    "description": "The Official Infusionsoft API PHP SDK",
+    "keywords": ["api", "infusionsoft", "marketing", "infusionsoft-api", "infusion", "php-infusionsoft-api"],
+    "version": "1.8.6",
     "license": "MIT",
+    "homepage": "https://developer.infusionsoft.com",
     "authors": [
         {
             "name": "Infusionsoft",
@@ -14,20 +12,10 @@
         }
     ],
     "require": {
-        "php": ">=5.3.3",
-        "ext-curl": "*",
-        "guzzle/guzzle": "3.8.*",
-        "lstrojny/fxmlrpc": "0.8.*"
-    },
-    "require-dev": {
-        "mockery/mockery": "dev-master",
-        "phpunit/phpunit": "~4",
-        "squizlabs/php_codesniffer": "1.*",
-        "codeception/aspect-mock": "~0.5"
+        "php": ">=5.2.0",
+        "ext-curl": "*"
     },
     "autoload": {
-        "psr-0": {
-            "Infusionsoft": ["src", "tests"]
-        }
+        "files": ["src/isdk.php"]
     }
 }
