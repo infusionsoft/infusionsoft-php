@@ -2,7 +2,7 @@
 
 namespace Infusionsoft\Api;
 
-class AffiliateService extends AbstractApi {
+class APIAffiliateService extends AbstractApi {
 
 	/**
 	 * @param integer $affiliateId
@@ -12,7 +12,7 @@ class AffiliateService extends AbstractApi {
 	 */
 	public function affClawbacks($affiliateId, $filterStartDate, $filterEndDate)
 	{
-		return $this->client->request('AffiliateService.affClawbacks', $affiliateId, $filterStartDate, $filterEndDate);
+		return $this->client->request('APIAPIAffiliateService.affClawbacks', $affiliateId, $filterStartDate, $filterEndDate);
 	}
 
 	/**
@@ -23,7 +23,7 @@ class AffiliateService extends AbstractApi {
 	 */
 	public function affCommissions($affiliateId, $filterStartDate, $filterEndDate)
 	{
-		return $this->client->request('AffiliateService.affCommissions', $affiliateId, $filterStartDate, $filterEndDate);
+		return $this->client->request('APIAffiliateService.affCommissions', $affiliateId, $filterStartDate, $filterEndDate);
 	}
 
 	/**
@@ -32,7 +32,7 @@ class AffiliateService extends AbstractApi {
 	 */
 	public function getRedirectLinksForAffiliate($affiliateId)
 	{
-		return $this->client->request('AffiliateService.getRedirectLinksForAffiliate', $affiliateId);
+		return $this->client->request('APIAffiliateService.getRedirectLinksForAffiliate', $affiliateId);
 	}
 
 	/**
@@ -43,7 +43,7 @@ class AffiliateService extends AbstractApi {
 	 */
 	public function affPayouts($affiliateId, $filterStartDate, $filterEndDate)
 	{
-		return $this->client->request('AffiliateService.affPayouts', $affiliateId, $filterStartDate, $filterEndDate);
+		return $this->client->request('APIAffiliateService.affPayouts', $affiliateId, $filterStartDate, $filterEndDate);
 	}
 
 	/**
@@ -52,7 +52,7 @@ class AffiliateService extends AbstractApi {
 	 */
 	public function affRunningTotals($affiliateIds)
 	{
-		return $this->client->request('AffiliateService.affRunningTotals', $affiliateIds);
+		return $this->client->request('APIAffiliateService.affRunningTotals', $affiliateIds);
 	}
 
 	/**
@@ -63,7 +63,7 @@ class AffiliateService extends AbstractApi {
 	 */
 	public function affSummary($affiliateId, $filterStartDate, $filterEndDate)
 	{
-		return $this->client->request('AffiliateService.affSummary', $affiliateId, $filterStartDate, $filterEndDate);
+		return $this->client->request('APIAffiliateService.affSummary', $affiliateId, $filterStartDate, $filterEndDate);
 	}
 
 }
