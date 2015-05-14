@@ -2,7 +2,7 @@
 
 namespace Infusionsoft\Api;
 
-class APIAffiliateService extends AbstractApi {
+class AffiliateService extends AbstractApi {
 
 	/**
 	 * @param integer $affiliateId
