@@ -2,7 +2,7 @@
 
 namespace Infusionsoft\Api;
 
-class APIAffiliateService extends AbstractApi {
+class AffiliateService extends AbstractApi {
 
 	/**
 	 * @param integer $affiliateId
@@ -12,7 +12,7 @@ class APIAffiliateService extends AbstractApi {
 	 */
 	public function affClawbacks($affiliateId, $filterStartDate, $filterEndDate)
 	{
-		return $this->client->request('APIAPIAffiliateService.affClawbacks', $affiliateId, $filterStartDate, $filterEndDate);
+		return $this->client->request('APIAffiliateService.affClawbacks', $affiliateId, $filterStartDate, $filterEndDate);
 	}
 
 	/**
