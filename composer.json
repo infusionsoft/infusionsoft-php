@@ -14,10 +14,11 @@
         }
     ],
     "require": {
-        "php": ">=5.3.3",
+        "php": ">=5.4",
         "ext-curl": "*",
         "guzzle/guzzle": "3.8.*",
-        "lstrojny/fxmlrpc": "0.8.*"
+	    "lstrojny/fxmlrpc": "0.9.5",
+	    "egeloen/http-adapter": "*"
     },
     "require-dev": {
         "mockery/mockery": "dev-master",
