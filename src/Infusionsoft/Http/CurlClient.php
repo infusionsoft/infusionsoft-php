@@ -2,16 +2,16 @@
 
 namespace Infusionsoft\Http;
 
-use fXmlRpc\Transport\CurlTransport;
+use fXmlRpc\Transport\HttpAdapterTransport;
 
-class CurlClient extends CurlTransport implements ClientInterface {
+class CurlClient implements ClientInterface {
 
 	/**
 	 * @return CurlTransport
 	 */
 	public function getXmlRpcTransport()
 	{
-		return $this;
+		return new HttpAdapterTransport( new \Ivory\HttpAdapter\CurlHttpAdapter() );
 	}
 
 	/**

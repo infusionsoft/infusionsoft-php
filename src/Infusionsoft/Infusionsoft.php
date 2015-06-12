@@ -252,18 +252,16 @@ class Infusionsoft {
      */
     public function refreshAccessToken()
     {
-        $headers = array(
-            'Authorization' => 'Basic ' . base64_encode($this->clientId . ':' . $this->clientSecret),
-        );
-
         $params = array(
             'grant_type'    => 'refresh_token',
             'refresh_token' => $this->getToken()->getRefreshToken(),
+	        'client_id'     => $this->clientId,
+	        'client_secret' => $this->clientSecret,
         );
 
         $client = $this->getHttpClient();
 
-        $tokenInfo = $client->request($this->tokenUri, $params, $headers, 'POST');
+        $tokenInfo = $client->request($this->tokenUri, $params, [], 'POST');
 
         $this->setToken(new Token($tokenInfo));
 
