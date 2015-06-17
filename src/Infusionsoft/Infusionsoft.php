@@ -252,7 +252,7 @@ class Infusionsoft {
      */
     public function refreshAccessToken()
     {
-	    $headers = array(
+		$headers = array(
 			'Authorization' => 'Basic ' . base64_encode($this->clientId . ':' . $this->clientSecret),
 		);
 
