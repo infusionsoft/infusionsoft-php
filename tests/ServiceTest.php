@@ -12,9 +12,9 @@ class ServiceTest extends \PHPUnit_Framework_TestCase {
 	protected $ifs;
 
 	/**
-	 * mocked fXmlRpc\Transport\GuzzleBridge
+	 * mocked fXmlRpc\Transport\HttpAdapterTransport
 	 *
-	 * @var fXmlRpc\Transport\GuzzleBridge
+	 * @var fXmlRpc\Transport\HttpAdapterTransport
 	 */
 	protected $transport;
 
@@ -33,7 +33,7 @@ class ServiceTest extends \PHPUnit_Framework_TestCase {
 		$this->ifs->setToken($token);
 		$this->endpoint = 'https://api.infusionsoft.com/crm/xmlrpc/v1?access_token=foo';
 
-		$this->transport = test::double('fXmlRpc\Transport\GuzzleBridge', ['send' => true]);
+		$this->transport = test::double('fXmlRpc\Transport\HttpAdapterTransport', ['send' => true]);
 	}
 
 	public function tearDown()
@@ -46,7 +46,7 @@ class ServiceTest extends \PHPUnit_Framework_TestCase {
 		if ($isFixture)
 		{
 			$fixturePath = str_replace('.', '/', $fixtureOrXml);
-			$expectedXml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
+			$expectedXml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>";
 			$expectedXml .= $this->minifyFixture(file_get_contents(__DIR__ . "/Infusionsoft/Api/fixtures/{$fixturePath}.xml"));
 		}
 		else
