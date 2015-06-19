@@ -2,7 +2,7 @@
 
 namespace Infusionsoft\Http;
 
-use fXmlRpc\Transport\HttpAdapterTransport;
+use fXmlRpc\Transport\GuzzleBridge;
 use Guzzle\Http\Client;
 use Guzzle\Http\Exception\ClientErrorResponseException;
 
@@ -13,7 +13,7 @@ class GuzzleClient implements ClientInterface {
 	 */
 	public function getXmlRpcTransport()
 	{
-		return new HttpAdapterTransport( new \Ivory\HttpAdapter\GuzzleHttpAdapter( new Client() ) );
+		return new GuzzleBridge(new Client());
 	}
 
 	/**

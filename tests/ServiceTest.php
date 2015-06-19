@@ -12,9 +12,9 @@ class ServiceTest extends \PHPUnit_Framework_TestCase {
 	protected $ifs;
 
 	/**
-	 * mocked fXmlRpc\Transport\HttpAdapterTransport
+	 * mocked fXmlRpc\Transport\GuzzleBridge
 	 *
-	 * @var fXmlRpc\Transport\HttpAdapterTransport
+	 * @var fXmlRpc\Transport\GuzzleBridge
 	 */
 	protected $transport;
 
@@ -33,7 +33,7 @@ class ServiceTest extends \PHPUnit_Framework_TestCase {
 		$this->ifs->setToken($token);
 		$this->endpoint = 'https://api.infusionsoft.com/crm/xmlrpc/v1?access_token=foo';
 
-		$this->transport = test::double('fXmlRpc\Transport\HttpAdapterTransport', ['send' => true]);
+		$this->transport = test::double('fXmlRpc\Transport\GuzzleBridge', ['send' => true]);
 	}
 
 	public function tearDown()
