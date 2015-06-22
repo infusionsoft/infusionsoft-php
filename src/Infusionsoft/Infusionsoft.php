@@ -240,7 +240,7 @@ class Infusionsoft {
     {
         if (!$this->httpClient)
         {
-            return new Http\GuzzleClient();
+            return new Http\GuzzleClient($this->debug, $this->getHttpLogAdapter());
         }
 
         return $this->httpClient;
