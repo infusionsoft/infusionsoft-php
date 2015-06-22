@@ -240,7 +240,7 @@ class Infusionsoft {
     {
         if (!$this->httpClient)
         {
-            return new Http\GuzzleClient();
+            return new Http\GuzzleClient($this->debug, $this->getHttpLogAdapter());
         }
 
         return $this->httpClient;
@@ -252,9 +252,9 @@ class Infusionsoft {
      */
     public function refreshAccessToken()
     {
-        $headers = array(
-            'Authorization' => 'Basic ' . base64_encode($this->clientId . ':' . $this->clientSecret),
-        );
+		$headers = array(
+			'Authorization' => 'Basic ' . base64_encode($this->clientId . ':' . $this->clientSecret),
+		);
 
         $params = array(
             'grant_type'    => 'refresh_token',

@@ -6,6 +6,10 @@
 
 This package is currently in beta for testing.
 
+## Version Notes
+
+This version implements a newer version of the xml-rpc handling library. As such, the minimum PHP version has been increased to >= 5.4
+
 ## Install
 
 Using the composer CLI:

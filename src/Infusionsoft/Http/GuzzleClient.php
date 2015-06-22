@@ -8,6 +8,15 @@ use Guzzle\Http\Exception\ClientErrorResponseException;
 
 class GuzzleClient implements ClientInterface {
 
+	public $debug;
+	public $httpLogAdapter;
+
+	public function __construct($debug, $httpLogAdapter)
+	{
+		$this->debug = $debug;
+		$this->httpLogAdapter = $httpLogAdapter;
+	}
+
 	/**
 	 * @return GuzzleBridge
 	 */
@@ -29,6 +38,15 @@ class GuzzleClient implements ClientInterface {
 		try
 		{
 			$client = new Client();
+
+			if ($this->debug)
+			{
+				$logPlugin = new \Guzzle\Plugin\Log\LogPlugin(
+					$this->httpLogAdapter,
+					\Guzzle\Log\MessageFormatter::DEBUG_FORMAT
+				);
+				$client->addSubscriber($logPlugin);
+			}
 
 			$request = $client->createRequest($method, $uri, $headers, $body);
 

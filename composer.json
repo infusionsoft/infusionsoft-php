@@ -14,16 +14,16 @@
         }
     ],
     "require": {
-        "php": ">=5.3.3",
+        "php": ">=5.4",
         "ext-curl": "*",
         "guzzle/guzzle": "3.8.*",
-        "lstrojny/fxmlrpc": "0.8.*"
+        "lstrojny/fxmlrpc": "0.9.6"
     },
     "require-dev": {
         "mockery/mockery": "dev-master",
         "phpunit/phpunit": "~4",
         "squizlabs/php_codesniffer": "1.*",
-        "codeception/aspect-mock": "~0.5"
+        "codeception/aspect-mock": "0.5.1"
     },
     "autoload": {
         "psr-0": {

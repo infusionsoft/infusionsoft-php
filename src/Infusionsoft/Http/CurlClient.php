@@ -4,14 +4,14 @@ namespace Infusionsoft\Http;
 
 use fXmlRpc\Transport\CurlTransport;
 
-class CurlClient extends CurlTransport implements ClientInterface {
+class CurlClient implements ClientInterface {
 
 	/**
 	 * @return CurlTransport
 	 */
 	public function getXmlRpcTransport()
 	{
-		return $this;
+		return new CurlTransport();
 	}
 
 	/**
@@ -36,12 +36,21 @@ class CurlClient extends CurlTransport implements ClientInterface {
 	 */
 	public function request($uri, $body, $headers, $method)
 	{
+		$processed_headers = array();
+		if(!empty($headers))
+		{
+			foreach($headers as $key => $value)
+			{
+				$processed_headers[] = $key . ': ' . $value;
+			}
+		}
+
 		$ch = curl_init();
 		curl_setopt($ch, CURLOPT_URL, $uri);
 		curl_setopt($ch, CURLOPT_TIMEOUT, 60);
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 		curl_setopt($ch, CURLOPT_HEADER, false);
-		curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+		curl_setopt($ch, CURLOPT_HTTPHEADER, $processed_headers);
 		curl_setopt($ch, CURLOPT_CAINFO, __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'cacert.pem');
 
 		if ($method === 'POST')

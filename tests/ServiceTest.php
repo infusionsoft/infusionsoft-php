@@ -46,7 +46,7 @@ class ServiceTest extends \PHPUnit_Framework_TestCase {
 		if ($isFixture)
 		{
 			$fixturePath = str_replace('.', '/', $fixtureOrXml);
-			$expectedXml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
+			$expectedXml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>";
 			$expectedXml .= $this->minifyFixture(file_get_contents(__DIR__ . "/Infusionsoft/Api/fixtures/{$fixturePath}.xml"));
 		}
 		else
