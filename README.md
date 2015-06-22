@@ -4,7 +4,6 @@
 [![Total Downloads](https://poser.pugx.org/infusionsoft/php-sdk/downloads.png)](https://packagist.org/packages/infusionsoft/php-sdk)
 [![Latest Stable Version](https://poser.pugx.org/infusionsoft/php-sdk/v/stable.png)](https://packagist.org/packages/infusionsoft/php-sdk)
 
-This package is currently in beta for testing.
 
 ## Version Notes
 
@@ -23,14 +22,10 @@ Or manually add it to your composer.json:
 ``` json
 {
     "require": {
-        "infusionsoft/php-sdk": "dev-master"
+        "infusionsoft/php-sdk": "1.1.*"
     }
 }
 ```
-
-(Using dev-master while in beta before we tag releases)
-
-This package is compatible with PHP 5.3.3 and higher. It uses Guzzle 3.8.* as the default HTTP client which requires 5.3.3 or higher. In order to use cURL you must have the PHP cURL extension enabled.
 
 ## Usage
 
