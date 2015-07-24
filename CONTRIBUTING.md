@@ -4,6 +4,9 @@ Contributions are **welcome** and will be fully **credited**.
 
 We accept contributions via Pull Requests on [Github](https://github.com/infusionsoft/php-sdk).
 
+## Github Issues
+
+Github Issues should be used for legitimate issues with this SDK. Problems with your Infusionsoft account, questions about policies, or any other API related questions that do not involve an error with the SDK should be directed to https://developer.infusionsoft.com/support/
 
 ## Pull Requests
 
