@@ -2,7 +2,8 @@
 
 namespace Infusionsoft\Http;
 
-use fXmlRpc\Transport\CurlTransport;
+use fXmlRpc\Transport\HttpAdapterTransport;
+use Ivory\HttpAdapter\CurlHttpAdapter;
 
 class CurlClient implements ClientInterface {
 
@@ -11,7 +12,7 @@ class CurlClient implements ClientInterface {
 	 */
 	public function getXmlRpcTransport()
 	{
-		return new CurlTransport();
+		return new HttpAdapterTransport(new CurlHttpAdapter());
 	}
 
 	/**
@@ -34,8 +35,11 @@ class CurlClient implements ClientInterface {
 	 * @return mixed
 	 * @throws HttpException
 	 */
-	public function request($uri, $body, $headers, $method)
+	public function request($method, $uri, array $options)
 	{
+        $headers = $options['headers'];
+        $body = $options['body'];
+
 		$processed_headers = array();
 		if(!empty($headers))
 		{

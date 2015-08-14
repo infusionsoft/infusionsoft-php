@@ -226,7 +226,7 @@ class Infusionsoft {
 
         $client = $this->getHttpClient();
 
-        $tokenInfo = $client->request($this->tokenUri, $params, array(), 'POST');
+        $tokenInfo = $client->request('POST', $this->tokenUri, ['body' => $params] );
 
         $this->setToken(new Token($tokenInfo));
 
@@ -240,7 +240,7 @@ class Infusionsoft {
     {
         if (!$this->httpClient)
         {
-            return new Http\GuzzleClient($this->debug, $this->getHttpLogAdapter());
+            return new Http\GuzzleHttpClient($this->debug, $this->getHttpLogAdapter());
         }
 
         return $this->httpClient;
@@ -263,7 +263,7 @@ class Infusionsoft {
 
         $client = $this->getHttpClient();
 
-        $tokenInfo = $client->request($this->tokenUri, $params, $headers, 'POST');
+        $tokenInfo = $client->request('POST', $this->tokenUri, ['body' => $params, 'headers' => $headers]);
 
         $this->setToken(new Token($tokenInfo));
 
@@ -289,7 +289,7 @@ class Infusionsoft {
     /**
      * @param Http\ClientInterface $client
      */
-    public function setHttpClient(Http\ClientInterface $client)
+    public function setHttpClient( $client)
     {
         $this->httpClient = $client;
     }
@@ -381,7 +381,7 @@ class Infusionsoft {
         $this->needsEmptyKey = true;
 
         $client = $this->getSerializer();
-        $response = $client->request($url, $method, $params, $this->getHttpClient());
+        $response = $client->request($method, $url, $params, $this->getHttpClient());
 
         return $response;
     }

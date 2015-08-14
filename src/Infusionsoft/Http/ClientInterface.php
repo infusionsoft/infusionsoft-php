@@ -12,12 +12,14 @@ interface ClientInterface {
 	/**
 	 * Sends a request to the given URI and returns the raw response.
 	 *
+	 * @param $method
 	 * @param string $uri
-	 * @param array  $params
-	 * @param array  $headers
-	 * @param string $method
+	 * @param array $options
 	 * @return mixed
+	 * @internal param array $params
+	 * @internal param array $headers
+	 * @internal param string $method
 	 */
-	public function request($uri, $params, $headers, $method);
+	public function request($method, $uri, array $options);
 
 }
