@@ -7,7 +7,7 @@
 
 ## Version Notes
 
-This version implements a newer version of the xml-rpc handling library. As such, the minimum PHP version has been increased to >= 5.4
+This version implements a newer version of the xml-rpc handling library and GuzzleHttp. As such, the minimum PHP version has been increased to >= 5.5
 
 ## Install
 
