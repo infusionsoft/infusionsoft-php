@@ -230,7 +230,7 @@ class Infusionsoft {
 
         $client = $this->getHttpClient();
 
-        $tokenInfo = $client->request('POST', $this->tokenUri, ['body' => $params] );
+        $tokenInfo = $client->request('POST', $this->tokenUri, ['body' => http_build_query($params)] );
 
         $this->setToken(new Token($tokenInfo));
 

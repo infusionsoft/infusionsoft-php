@@ -59,7 +59,7 @@ class GuzzleHttpClient extends Client implements ClientInterface
         }
 
         if(!isset($options['body'])){
-            $options['body'] = [];
+            $options['body'] = null;
         }
 
         try
