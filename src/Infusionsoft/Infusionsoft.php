@@ -2,6 +2,10 @@
 
 namespace Infusionsoft;
 
+use Infusionsoft\Http\ArrayLogger;
+use Psr\Log\LoggerInterface;
+use Psr\Log\NullLogger;
+
 class Infusionsoft {
 
     /**
@@ -50,7 +54,7 @@ class Infusionsoft {
     protected $httpClient;
 
     /**
-     * @var \Guzzle\Log\LogAdapterInterface
+     * @var \Psr\Log\LoggerInterface
      */
     protected $httpLogAdapter;
 
@@ -252,9 +256,9 @@ class Infusionsoft {
      */
     public function refreshAccessToken()
     {
-		$headers = array(
-			'Authorization' => 'Basic ' . base64_encode($this->clientId . ':' . $this->clientSecret),
-		);
+        $headers = array(
+            'Authorization' => 'Basic ' . base64_encode($this->clientId . ':' . $this->clientSecret),
+        );
 
         $params = array(
             'grant_type'    => 'refresh_token',
@@ -316,24 +320,24 @@ class Infusionsoft {
     }
 
     /**
-     * @return \Guzzle\Log\LogAdapterInterface
+     * @return LoggerInterface
      */
     public function getHttpLogAdapter()
     {
-        // If a log adapter hasn't been set, we default to the array adapter
+        // If a log adapter hasn't been set, we default to the null adapter
         if ( ! $this->httpLogAdapter)
         {
-            $this->httpLogAdapter = new \Guzzle\Log\ArrayLogAdapter;
+            $this->httpLogAdapter = new ArrayLogger();
         }
 
         return $this->httpLogAdapter;
     }
 
     /**
-     * @param \Guzzle\Log\LogAdapterInterface $httpLogAdapter
+     * @param LoggerInterface $httpLogAdapter
      * @return \Infusionsoft\Infusionsoft
      */
-    public function setHttpLogAdapter(\Guzzle\Log\LogAdapterInterface $httpLogAdapter)
+    public function setHttpLogAdapter(LoggerInterface $httpLogAdapter)
     {
         $this->httpLogAdapter = $httpLogAdapter;
 
@@ -347,7 +351,10 @@ class Infusionsoft {
     {
         if ( ! $this->debug) return array();
 
-        return $this->getHttpLogAdapter()->getLogs();
+        $logger = $this->getHttpLogAdapter();
+        if(! $logger instanceof ArrayLogger) return array();
+
+        return $logger->getLogs();
     }
 
     /**

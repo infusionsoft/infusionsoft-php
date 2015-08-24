@@ -5,8 +5,12 @@ namespace Infusionsoft\Http;
 use fXmlRpc\Transport\HttpAdapterTransport;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\BadResponseException;
+use GuzzleHttp\HandlerStack;
+use GuzzleHttp\MessageFormatter;
 use GuzzleHttp\Psr7\Request;
 use Ivory\HttpAdapter\Guzzle6HttpAdapter;
+use GuzzleHttp\Middleware;
+use Psr\Log\LoggerInterface;
 
 class GuzzleHttpClient extends Client implements ClientInterface
 {
@@ -14,12 +18,20 @@ class GuzzleHttpClient extends Client implements ClientInterface
     public $debug;
     public $httpLogAdapter;
 
-    public function __construct($debug, $httpLogAdapter, callable $requestWrapper = null)
+    public function __construct($debug, LoggerInterface $httpLogAdapter)
     {
-        parent::__construct();
         $this->debug = $debug;
         $this->httpLogAdapter = $httpLogAdapter;
-        $this->requestWrapper = $requestWrapper;
+
+        $config = [];
+        if($this->debug){
+            $config['handler'] = HandlerStack::create();
+            $config['handler']->push(
+                Middleware::log($this->httpLogAdapter, new MessageFormatter(MessageFormatter::DEBUG))
+            );
+        }
+
+        parent::__construct($config);
     }
 
     /**
@@ -33,10 +45,9 @@ class GuzzleHttpClient extends Client implements ClientInterface
     /**
      * Sends a request to the given URI and returns the raw response.
      *
-     * @param string $uri
-     * @param array $body
-     * @param array $headers
      * @param string $method
+     * @param string $uri
+     * @param array $options
      * @return mixed
      * @throws HttpException
      */
@@ -44,20 +55,10 @@ class GuzzleHttpClient extends Client implements ClientInterface
     {
         try
         {
-            if ($this->debug)
-            {
-                // TODO: add guzzle logging
-            }
-
             $request = new Request($method, $uri, $options['headers'], $options['body']);
+            $response = $this->send($request);
 
-            if ($this->requestWrapper) {
-                $response = call_user_func($this->requestWrapper, $request);
-            } else {
-                $response = $this->send($request);
-            }
-
-            return $response->getBody()->getContents();
+            return $response;
         }
         catch (BadResponseException $e)
         {

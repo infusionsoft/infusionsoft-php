@@ -27,14 +27,15 @@ class CurlClient implements ClientInterface {
 		return parent::send($uri, $payload);
 	}
 
-	/**
-	 * @param string $uri
-	 * @param array  $body
-	 * @param array  $headers
-	 * @param string $method
-	 * @return mixed
-	 * @throws HttpException
-	 */
+    /**
+     * @param string $method
+     * @param string $uri
+     * @param array $options
+     * @return mixed
+     * @throws HttpException
+     * @internal param array $body
+     * @internal param array $headers
+     */
 	public function request($method, $uri, array $options)
 	{
         $headers = $options['headers'];
