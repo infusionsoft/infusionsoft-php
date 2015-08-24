@@ -14,7 +14,7 @@ class ServiceTest extends \PHPUnit_Framework_TestCase {
 	/**
 	 * mocked fXmlRpc\Transport\GuzzleBridge
 	 *
-	 * @var fXmlRpc\Transport\GuzzleBridge
+	 * @var fXmlRpc\Transport\HttpAdapterTransporte
 	 */
 	protected $transport;
 
