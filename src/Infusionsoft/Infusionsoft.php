@@ -2,7 +2,12 @@
 
 namespace Infusionsoft;
 
-class Infusionsoft {
+use Infusionsoft\Http\ArrayLogger;
+use Psr\Log\LoggerInterface;
+use Psr\Log\NullLogger;
+
+class Infusionsoft
+{
 
     /**
      * @var string URL all XML-RPC requests are sent to
@@ -50,7 +55,7 @@ class Infusionsoft {
     protected $httpClient;
 
     /**
-     * @var \Guzzle\Log\LogAdapterInterface
+     * @var \Psr\Log\LoggerInterface
      */
     protected $httpLogAdapter;
 
@@ -200,10 +205,10 @@ class Infusionsoft {
     public function getAuthorizationUrl()
     {
         $params = array(
-            'client_id'     => $this->clientId,
-            'redirect_uri'  => $this->redirectUri,
+            'client_id' => $this->clientId,
+            'redirect_uri' => $this->redirectUri,
             'response_type' => 'code',
-            'scope'         => 'full'
+            'scope' => 'full'
         );
 
         return $this->auth . '?' . http_build_query($params);
@@ -217,18 +222,24 @@ class Infusionsoft {
     public function requestAccessToken($code)
     {
         $params = array(
-            'client_id'     => $this->clientId,
+            'client_id' => $this->clientId,
             'client_secret' => $this->clientSecret,
-            'code'          => $code,
-            'grant_type'    => 'authorization_code',
-            'redirect_uri'  => $this->redirectUri,
+            'code' => $code,
+            'grant_type' => 'authorization_code',
+            'redirect_uri' => $this->redirectUri,
         );
 
         $client = $this->getHttpClient();
 
-        $tokenInfo = $client->request($this->tokenUri, $params, array(), 'POST');
+        $tokenInfo = $client->request('POST', $this->tokenUri, ['body' => http_build_query($params), 'headers' => ['Content-Type' => 'application/x-www-form-urlencoded']]);
 
-        $this->setToken(new Token($tokenInfo));
+        if(is_string($tokenInfo)){
+            $token = $tokenInfo;
+        } else {
+            $token = $tokenInfo->getBody();
+        }
+
+        $this->setToken(new Token(json_decode($token, true)));
 
         return $this->getToken();
     }
@@ -238,9 +249,8 @@ class Infusionsoft {
      */
     public function getHttpClient()
     {
-        if (!$this->httpClient)
-        {
-            return new Http\GuzzleClient($this->debug, $this->getHttpLogAdapter());
+        if (!$this->httpClient) {
+            return new Http\GuzzleHttpClient($this->debug, $this->getHttpLogAdapter());
         }
 
         return $this->httpClient;
@@ -252,20 +262,27 @@ class Infusionsoft {
      */
     public function refreshAccessToken()
     {
-		$headers = array(
-			'Authorization' => 'Basic ' . base64_encode($this->clientId . ':' . $this->clientSecret),
-		);
+        $headers = array(
+            'Authorization' => 'Basic ' . base64_encode($this->clientId . ':' . $this->clientSecret),
+            'Content-Type' => 'application/x-www-form-urlencoded'
+        );
 
         $params = array(
-            'grant_type'    => 'refresh_token',
+            'grant_type' => 'refresh_token',
             'refresh_token' => $this->getToken()->getRefreshToken(),
         );
 
         $client = $this->getHttpClient();
 
-        $tokenInfo = $client->request($this->tokenUri, $params, $headers, 'POST');
+        $tokenInfo = $client->request('POST', $this->tokenUri, ['body' => http_build_query($params), 'headers' => $headers]);
 
-        $this->setToken(new Token($tokenInfo));
+        if(is_string($tokenInfo)){
+            $token = $tokenInfo;
+        } else {
+            $token = $tokenInfo->getBody();
+        }
+
+        $this->setToken(new Token(json_decode($token, true)));
 
         return $this->getToken();
     }
@@ -289,7 +306,7 @@ class Infusionsoft {
     /**
      * @param Http\ClientInterface $client
      */
-    public function setHttpClient(Http\ClientInterface $client)
+    public function setHttpClient($client)
     {
         $this->httpClient = $client;
     }
@@ -299,8 +316,7 @@ class Infusionsoft {
      */
     public function getSerializer()
     {
-        if (!$this->serializer)
-        {
+        if (!$this->serializer) {
             return new Http\InfusionsoftSerializer();
         }
 
@@ -316,24 +332,23 @@ class Infusionsoft {
     }
 
     /**
-     * @return \Guzzle\Log\LogAdapterInterface
+     * @return LoggerInterface
      */
     public function getHttpLogAdapter()
     {
-        // If a log adapter hasn't been set, we default to the array adapter
-        if ( ! $this->httpLogAdapter)
-        {
-            $this->httpLogAdapter = new \Guzzle\Log\ArrayLogAdapter;
+        // If a log adapter hasn't been set, we default to the null adapter
+        if (!$this->httpLogAdapter) {
+            $this->httpLogAdapter = new ArrayLogger();
         }
 
         return $this->httpLogAdapter;
     }
 
     /**
-     * @param \Guzzle\Log\LogAdapterInterface $httpLogAdapter
+     * @param LoggerInterface $httpLogAdapter
      * @return \Infusionsoft\Infusionsoft
      */
-    public function setHttpLogAdapter(\Guzzle\Log\LogAdapterInterface $httpLogAdapter)
+    public function setHttpLogAdapter(LoggerInterface $httpLogAdapter)
     {
         $this->httpLogAdapter = $httpLogAdapter;
 
@@ -345,9 +360,12 @@ class Infusionsoft {
      */
     public function getLogs()
     {
-        if ( ! $this->debug) return array();
+        if (!$this->debug) return array();
 
-        return $this->getHttpLogAdapter()->getLogs();
+        $logger = $this->getHttpLogAdapter();
+        if (!$logger instanceof ArrayLogger) return array();
+
+        return $logger->getLogs();
     }
 
     /**
@@ -359,8 +377,7 @@ class Infusionsoft {
         // Before making the request, we can make sure that the token is still
         // valid by doing a check on the end of life.
         $token = $this->getToken();
-        if ($token->getEndOfLife() < time())
-        {
+        if ($token->getEndOfLife() < time()) {
             throw new TokenExpiredException;
         }
 
@@ -372,8 +389,7 @@ class Infusionsoft {
         // Some older methods in the API require a key parameter to be sent
         // even if OAuth is being used. This flag can be made false as it
         // will break some newer endpoints.
-        if ($this->needsEmptyKey)
-        {
+        if ($this->needsEmptyKey) {
             $params = array_merge(array('key' => $token->getAccessToken()), $params);
         }
 
@@ -381,7 +397,7 @@ class Infusionsoft {
         $this->needsEmptyKey = true;
 
         $client = $this->getSerializer();
-        $response = $client->request($url, $method, $params, $this->getHttpClient());
+        $response = $client->request($method, $url, $params, $this->getHttpClient());
 
         return $response;
     }
@@ -392,7 +408,7 @@ class Infusionsoft {
      */
     public function setDebug($debug)
     {
-        $this->debug = (bool) $debug;
+        $this->debug = (bool)$debug;
 
         return $this;
     }
@@ -403,8 +419,7 @@ class Infusionsoft {
      */
     public function formatDate($datetime = 'now')
     {
-        if (!$datetime instanceof \DateTime)
-        {
+        if (!$datetime instanceof \DateTime) {
             $datetime = new \DateTime($datetime, new \DateTimeZone('America/New_York'));
         }
         return $datetime->format('Y-m-d\TH:i:s');
@@ -420,11 +435,10 @@ class Infusionsoft {
         $services = array(
             'affiliatePrograms', 'affiliates', 'contacts', 'data', 'discounts',
             'emails', 'files', 'funnels', 'invoices', 'orders', 'products',
-            'search', 'shipping', 'webForms','webTracking'
+            'search', 'shipping', 'webForms', 'webTracking'
         );
 
-        if (method_exists($this, $name) and in_array($name, $services))
-        {
+        if (method_exists($this, $name) and in_array($name, $services)) {
             return $this->{$name}();
         }
 
@@ -562,8 +576,7 @@ class Infusionsoft {
     {
         $class = '\Infusionsoft\Api\\' . $class;
 
-        if ( ! array_key_exists($class, $this->apis))
-        {
+        if (!array_key_exists($class, $this->apis)) {
             $this->apis[$class] = new $class($this);
         }
 

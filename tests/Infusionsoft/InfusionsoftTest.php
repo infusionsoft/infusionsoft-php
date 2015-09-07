@@ -4,6 +4,7 @@ namespace Infusionsoft;
 
 use Infusionsoft\Http\CurlClient;
 use Mockery as m;
+use Psr\Log\NullLogger;
 
 class InfusionsoftTest extends \PHPUnit_Framework_TestCase
 {
@@ -65,7 +66,7 @@ class InfusionsoftTest extends \PHPUnit_Framework_TestCase
 
 	public function testDefaultHttpLogAdapter()
 	{
-		$this->assertInstanceOf('Guzzle\Log\ArrayLogAdapter', $this->ifs->getHttpLogAdapter());
+		$this->assertInstanceOf('Infusionsoft\Http\ArrayLogger', $this->ifs->getHttpLogAdapter());
 	}
 
 	public function testSettingClientId()
@@ -98,13 +99,14 @@ class InfusionsoftTest extends \PHPUnit_Framework_TestCase
 
 	public function testSettingHttpLogAdapter()
 	{
-		$this->ifs->setHttpLogAdapter(m::mock('Guzzle\Log\LogAdapterInterface'));
-		$this->assertInstanceOf('Guzzle\Log\LogAdapterInterface', $this->ifs->getHttpLogAdapter());
+
+		$this->ifs->setHttpLogAdapter(new NullLogger());
+		$this->assertInstanceOf('Psr\Log\NullLogger', $this->ifs->getHttpLogAdapter());
 	}
 
 	public function testDefaultHttpClientShouldBeGuzzle()
 	{
-		$this->assertInstanceOf('Infusionsoft\Http\GuzzleClient', $this->ifs->getHttpClient());
+		$this->assertInstanceOf('Infusionsoft\Http\GuzzleHttpClient', $this->ifs->getHttpClient());
 	}
 
 	public function testSettingHttpClientToCurl()
@@ -115,10 +117,15 @@ class InfusionsoftTest extends \PHPUnit_Framework_TestCase
 
 	public function testRequestingAccessTokenSetsAccessToken()
 	{
-		$client = m::mock('Infusionsoft\Http\ClientInterface');
+		$client = m::mock('Infusionsoft\Http\GuzzleHttpClient');
 		$client->shouldReceive('request')->once()
-			->with('https://api.infusionsoft.com/token', array('client_id' => 'foo', 'client_secret' => 'bar', 'code' => 'code', 'grant_type' => 'authorization_code', 'redirect_uri' => 'baz'), array(), 'POST')
-			->andReturn(array('access_token' => 'access_token'));
+			->with('POST', 'https://api.infusionsoft.com/token', ['body' => array(
+				'client_id' => 'foo',
+				'client_secret' => 'bar',
+				'code' => 'code',
+				'grant_type' => 'authorization_code',
+				'redirect_uri' => 'baz')]
+			)->andReturn(array('access_token' => 'access_token'));
 
 		$this->ifs->setClientId('foo');
 		$this->ifs->setClientSecret('bar');

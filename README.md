@@ -7,7 +7,7 @@
 
 ## Version Notes
 
-This version implements a newer version of the xml-rpc handling library. As such, the minimum PHP version has been increased to >= 5.4
+This version implements a newer version of the xml-rpc handling library and GuzzleHttp. As such, the minimum PHP version has been increased to >= 5.5
 
 ## Install
 
@@ -87,14 +87,13 @@ $infusionsoft->getLogs();
 You can utilize the powerful logging plugin built into Guzzle by using one of the available adapters. For example, to use the Monolog writer to write to a file:
 
 ```php
-use Guzzle\Log\MonologLogAdapter;
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
 
 $logger = new Logger('client');
 $logger->pushHandler(new StreamHandler('infusionsoft.log'));
 
-$infusionsoft->setHttpLogAdapter(new MonologLogAdapter($logger));
+$infusionsoft->setHttpLogAdapter($logger);
 ```
 
 ## Testing
