@@ -93,7 +93,7 @@ class CurlClient implements ClientInterface {
 
 		curl_close($ch);
 
-		return json_decode($response, true);
+		return $response;
 	}
 
 }

@@ -233,7 +233,13 @@ class Infusionsoft
 
         $tokenInfo = $client->request('POST', $this->tokenUri, ['body' => http_build_query($params), 'headers' => ['Content-Type' => 'application/x-www-form-urlencoded']]);
 
-        $this->setToken(new Token(json_decode($tokenInfo->getBody(), true)));
+        if(is_string($tokenInfo)){
+            $token = $tokenInfo;
+        } else {
+            $token = $tokenInfo->getBody();
+        }
+
+        $this->setToken(new Token(json_decode($token, true)));
 
         return $this->getToken();
     }
@@ -270,7 +276,13 @@ class Infusionsoft
 
         $tokenInfo = $client->request('POST', $this->tokenUri, ['body' => http_build_query($params), 'headers' => $headers]);
 
-        $this->setToken(new Token(json_decode($tokenInfo->getBody(), true)));
+        if(is_string($tokenInfo)){
+            $token = $tokenInfo;
+        } else {
+            $token = $tokenInfo->getBody();
+        }
+
+        $this->setToken(new Token(json_decode($token, true)));
 
         return $this->getToken();
     }
