@@ -8,10 +8,10 @@ return array(
 	|--------------------------------------------------------------------------
 	*/
 
-	'client_id' => env('INFUSIONSOFT_CLIENT_ID'),
+	'clientId' => env('INFUSIONSOFT_CLIENT_ID'),
 
-	'client_secret' => env('INFUSIONSOFT_SECRET'),
+	'clientSecret' => env('INFUSIONSOFT_SECRET'),
 
-	'redirect_url' => env('INFUSIONSOFT_REDIRECT_URL'),
+	'redirectUri' => env('INFUSIONSOFT_REDIRECT_URL'),
 
 );
