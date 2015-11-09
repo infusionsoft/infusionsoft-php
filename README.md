@@ -102,6 +102,41 @@ $infusionsoft->setHttpLogAdapter($logger);
 $ phpunit
 ```
 
+## Laravel/Lumen Providers
+
+In config/app.php, register the service provider
+
+```
+Infusionsoft\FrameworkSupport\Laravel\InfusionsoftServiceProvider::class,
+```
+
+Register the Facade (optional)
+
+```
+'Infusionsoft'       => Infusionsoft\FrameworkSupport\Laravel\InfusionsoftFacade::class
+```
+
+Publish the config
+
+```
+php artisan vendor:publish --provider="Infusionsoft\FrameworkSupport\Laravel\InfusionsoftServiceProvider"
+```
+
+Set your env variables
+
+```
+INFUSIONSOFT_CLIENT_ID=xxxxxxxx
+INFUSIONSOFT_SECRET=xxxxxxxx
+INFUSIONSOFT_REDIRECT_URL=http://localhost/auth/callback
+```
+
+Access Infusionsoft from the Facade or Binding
+
+```
+ $data = Infusionsoft::query("Contact",1000,0,['Id' => '123'],['Id','FirstName','LastName','Email']);
+
+ $data = app('infusionsoft')->query("Contact",1000,0,['Id' => '123'],['Id','FirstName','LastName','Email']);
+```
 
 ## Contributing
 
