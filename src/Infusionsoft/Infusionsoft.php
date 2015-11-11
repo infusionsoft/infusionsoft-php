@@ -403,6 +403,45 @@ class Infusionsoft
     }
 
     /**
+     * @param string $method
+     * @param string $url
+     * @param array  $params
+     * @throws InfusionsoftException
+     * @return mixed
+     */
+    public function restfulRequest($method, $url, $params = array())
+    {
+        // Before making the request, we can make sure that the token is still
+        // valid by doing a check on the end of life.
+        $token = $this->getToken();
+        if ($token->getEndOfLife() < time())
+        {
+            throw new TokenExpiredException;
+        }
+
+        $client = $this->getHttpClient();
+        $full_params = [];
+
+        if ($method === 'GET')
+        {
+            $params = array_merge(array('access_token' => $token->getAccessToken()), $params);
+            $url = $url . '?' . http_build_query($params);
+        }
+        else
+        {
+            $url = $url . '?' . http_build_query(array('access_token' => $token->getAccessToken()));
+            $full_params['body'] = json_encode($params);
+        }
+
+        $full_params['headers'] = array(
+            'Content-Type'  => 'application/json',
+        );
+
+        $response = (string) $client->request($method, $url, $full_params);
+        return json_decode($response, true);
+    }
+
+    /**
      * @param boolean $debug
      * @return \Infusionsoft\Infusionsoft
      */
@@ -518,19 +557,31 @@ class Infusionsoft
     }
 
     /**
-     * @return \Infusionsoft\Api\OrderService
+     * @param string $api
+     * @return mixed
      */
-    public function orders()
+    public function orders($api = 'rest')
     {
-        return $this->getApi('OrderService');
+        if($api == 'xml')
+        {
+            return $this->getApi('OrderService');
+        }
+
+        return $this->getRestApi('OrderService');
     }
 
     /**
-     * @return \Infusionsoft\Api\ProductService
+     * @param string $api
+     * @return mixed
      */
-    public function products()
+    public function products($api = 'rest')
     {
-        return $this->getApi('ProductService');
+        if($api == 'xml')
+        {
+            return $this->getApi('ProductService');
+        }
+
+        return $this->getRestApi('ProductService');
     }
 
     /**
@@ -566,6 +617,22 @@ class Infusionsoft
     }
 
     /**
+     * @return \Infusionsoft\Api\Rest\TaskService
+     */
+    public function tasks()
+    {
+        return $this->getRestApi('TaskService');
+    }
+
+    /**
+     * @return \Infusionsoft\Api\Rest\TransactionService
+     */
+    public function transactions()
+    {
+        return $this->getRestApi('TransactionService');
+    }
+
+    /**
      * Returns the requested class name, optionally using a cached array so no
      * object is instantiated more than once during a request.
      *
@@ -577,6 +644,25 @@ class Infusionsoft
         $class = '\Infusionsoft\Api\\' . $class;
 
         if (!array_key_exists($class, $this->apis)) {
+            $this->apis[$class] = new $class($this);
+        }
+
+        return $this->apis[$class];
+    }
+
+    /**
+     * Returns the requested class name, optionally using a cached array so no
+     * object is instantiated more than once during a request.
+     *
+     * @param string $class
+     * @return mixed
+     */
+    public function getRestApi($class)
+    {
+        $class = '\Infusionsoft\Api\Rest\\' . $class;
+
+        if ( ! array_key_exists($class, $this->apis))
+        {
             $this->apis[$class] = new $class($this);
         }
 

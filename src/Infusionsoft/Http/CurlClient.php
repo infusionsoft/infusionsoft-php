@@ -58,7 +58,7 @@ class CurlClient implements ClientInterface {
 		curl_setopt($ch, CURLOPT_HTTPHEADER, $processed_headers);
 		curl_setopt($ch, CURLOPT_CAINFO, __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'cacert.pem');
 
-		if ($method === 'POST')
+		if (strtolower($method) === 'post')
 		{
 			curl_setopt($ch, CURLOPT_POST, true);
 
@@ -71,7 +71,8 @@ class CurlClient implements ClientInterface {
 		}
 		else
 		{
-			curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $method);
+			curl_setopt($ch, CURLOPT_CUSTOMREQUEST, strtoupper($method));
+			curl_setopt($ch, CURLOPT_POSTFIELDS, $body);
 		}
 
 		$response     = curl_exec($ch);

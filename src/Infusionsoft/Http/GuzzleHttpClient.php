@@ -53,7 +53,6 @@ class GuzzleHttpClient extends Client implements ClientInterface
      */
     public function request($method, $uri, array $options = [])
     {
-
         if(!isset($options['headers'])){
             $options['headers'] = [];
         }
@@ -67,7 +66,7 @@ class GuzzleHttpClient extends Client implements ClientInterface
             $request = new Request($method, $uri, $options['headers'], $options['body']);
             $response = $this->send($request);
 
-            return $response;
+            return $response->getBody();
         }
         catch (BadResponseException $e)
         {
