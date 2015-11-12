@@ -15,6 +15,8 @@ abstract class RestModel implements ArrayAccess, JsonSerializable {
 
 	protected $client = null;
 
+	protected $where = [];
+
 	protected $return_key = '';
 
 	/**
@@ -210,15 +212,14 @@ abstract class RestModel implements ArrayAccess, JsonSerializable {
 
 		$cursor = [];
 
-		if(isset($data['meta']['cursor']))
+		if(isset($data['sync_token']))
 		{
-			$cursor = $data['meta']['cursor'];
-			$collection = $this->collect($data, $cursor);
-
-			return $collection;
+			$cursor = $data['sync_token'];
 		}
 
-		return false;
+		$collection = $this->collect($data, $cursor);
+
+		return $collection;
 	}
 
 	public function all()

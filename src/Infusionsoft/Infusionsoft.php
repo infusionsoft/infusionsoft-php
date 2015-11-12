@@ -410,7 +410,7 @@ class Infusionsoft
         $client = $this->getHttpClient();
         $full_params = [];
 
-        if ($method === 'GET')
+        if (strtolower($method) === 'get')
         {
             $params = array_merge(array('access_token' => $token->getAccessToken()), $params);
             $url = $url . '?' . http_build_query($params);
