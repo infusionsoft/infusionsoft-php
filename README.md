@@ -111,7 +111,10 @@ The PHP SDK is setup to allow easy access to REST endpoints. In general, a singl
 
  To create a task:
  ```
- $task = $infusionsoft->tasks()->create(['title' => 'My First Task', 'description' => 'Better get it done!']);
+ $task = $infusionsoft->tasks()->create([
+    'title' => 'My First Task',
+    'description' => 'Better get it done!'
+ ]);
  ```
 
  Then update that task:
