@@ -1,4 +1,4 @@
-# Infusionsoft PHP SDK (beta)
+# Infusionsoft PHP SDK
 
 [![Build Status](https://travis-ci.org/infusionsoft/infusionsoft-php.png?branch=master)](https://travis-ci.org/infusionsoft/infusionsoft-php)
 [![Total Downloads](https://poser.pugx.org/infusionsoft/php-sdk/downloads.png)](https://packagist.org/packages/infusionsoft/php-sdk)
@@ -7,7 +7,7 @@
 
 ## Version Notes
 
-This version implements a newer version of the xml-rpc handling library and GuzzleHttp. As such, the minimum PHP version has been increased to >= 5.5
+This version implements RESTful endpoints, a new version of Guzzle, and a restructured request handler.
 
 ## Install
 
@@ -27,7 +27,7 @@ Or manually add it to your composer.json:
 }
 ```
 
-## Usage
+## Authentication
 
 The client ID and secret are the key and secret for your OAuth2 application found at the [Infusionsoft Developers](https://keys.developer.infusionsoft.com/apps/mykeys) website.
 
@@ -56,15 +56,99 @@ if ($infusionsoft->getToken()) {
 	// Save the serialized token to the current session for subsequent requests
 	$_SESSION['token'] = serialize($infusionsoft->getToken());
 
-	$infusionsoft->contacts->add(array('FirstName' => 'John', 'LastName' => 'Doe'));
+	// MAKE INFUSIONSOFT REQUEST
 } else {
 	echo '<a href="' . $infusionsoft->getAuthorizationUrl() . '">Click here to authorize</a>';
 }
 ```
 
+## Making XML-RPC Requests
+
+```php
+require_once 'vendor/autoload.php';
+
+//
+// Setup your Infusionsoft object here, then set your token either via the request or from storage
+//
+$infusionsoft->setToken($myTokenObject);
+
+$infusionsoft->contacts->add(array('FirstName' => 'John', 'LastName' => 'Doe'));
+
+```
+
+## Making REST Requests
+
+The PHP SDK is setup to allow easy access to REST endpoints. In general, a single result is returned as a Class representing
+ that object, and multiple objects are returned as an Infusionsoft Collection, which is simply a wrapper around an array
+ of results making them easier to manage.
+
+ The standard REST operations are mapped to a series of simple functions. We'll use the Tasks service for our examples,
+ but the operations below work on all documented Infusionsoft REST services.
+
+ To retrieve all tasks:
+
+ ```
+ $tasks = $infusionsoft->tasks()->all();
+ ```
+
+ To retrieve a single task:
+
+ ```
+ $task = $infusionsoft->tasks()->find($taskId);
+ ```
+
+ To query only completed tasks:
+
+ ```
+ $tasks = $infusionsoft->tasks()->where('status', 'completed')->get();
+ ```
+
+ You can chain `where()` as many times as you'd like, or you can pass an array:
+
+ ```
+ $tasks = $infusionsoft->tasks()->where(['status' => 'completed', 'user_id' => '45'])->get();
+ ```
+
+ To create a task:
+ ```
+ $task = $infusionsoft->tasks()->create(['title' => 'My First Task', 'description' => 'Better get it done!']);
+ ```
+
+ Then update that task:
+ ```
+ $task->title = 'A better task title';
+ $task->save();
+ ```
+
+ And finally, to delete the task:
+ ```
+ $task->delete();
+ ```
+
+ Several REST services have a `/sync` endpoint, which we provide a helper method for:
+ ```
+ $tasks = $infusionsoft->tasks()->sync($syncId);
+ ```
+
+ This returns a list of tasks created or updated since the sync ID was last generated.
+
+
+```php
+require_once 'vendor/autoload.php';
+
+//
+// Setup your Infusionsoft object here, then set your token either via the request or from storage
+//
+$infusionsoft->setToken($myTokenObject);
+
+$infusionsoft->tasks()->find('1');
+
+```
+
+
 ### Dates
 
-DateTime objects are now used instead of a DateTime string where the date(time) is a parameter in the method.
+DateTime objects are used instead of a DateTime string where the date(time) is a parameter in the method.
 
 ```php
 $datetime = new \DateTime('now',new \DateTimeZone('America/New_York'));
@@ -102,7 +186,7 @@ $infusionsoft->setHttpLogAdapter($logger);
 $ phpunit
 ```
 
-## Laravel/Lumen Providers
+## Laravel 5.1 Service Provider
 
 In config/app.php, register the service provider
 
@@ -135,6 +219,28 @@ Access Infusionsoft from the Facade or Binding
 ```
  $data = Infusionsoft::query("Contact",1000,0,['Id' => '123'],['Id','FirstName','LastName','Email']);
 
+ $data = app('infusionsoft')->query("Contact",1000,0,['Id' => '123'],['Id','FirstName','LastName','Email']);
+```
+
+## Lumen Service Provider
+
+In bootstrap/app.php, register the service provider
+
+```
+$app->register(Infusionsoft\FrameworkSupport\Lumen\InfusionsoftServiceProvider::class);
+```
+
+Set your env variables (make sure you're loading your env file in app.php)
+
+```
+INFUSIONSOFT_CLIENT_ID=xxxxxxxx
+INFUSIONSOFT_SECRET=xxxxxxxx
+INFUSIONSOFT_REDIRECT_URL=http://localhost/auth/callback
+```
+
+Access Infusionsoft from the Binding
+
+```
  $data = app('infusionsoft')->query("Contact",1000,0,['Id' => '123'],['Id','FirstName','LastName','Email']);
 ```
 
