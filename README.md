@@ -87,30 +87,30 @@ The PHP SDK is setup to allow easy access to REST endpoints. In general, a singl
 
  To retrieve all tasks:
 
- ```
+ ```php
  $tasks = $infusionsoft->tasks()->all();
  ```
 
  To retrieve a single task:
 
- ```
+ ```php
  $task = $infusionsoft->tasks()->find($taskId);
  ```
 
  To query only completed tasks:
 
- ```
+ ```php
  $tasks = $infusionsoft->tasks()->where('status', 'completed')->get();
  ```
 
  You can chain `where()` as many times as you'd like, or you can pass an array:
 
- ```
+ ```php
  $tasks = $infusionsoft->tasks()->where(['status' => 'completed', 'user_id' => '45'])->get();
  ```
 
  To create a task:
- ```
+ ```php
  $task = $infusionsoft->tasks()->create([
     'title' => 'My First Task',
     'description' => 'Better get it done!'
@@ -118,18 +118,18 @@ The PHP SDK is setup to allow easy access to REST endpoints. In general, a singl
  ```
 
  Then update that task:
- ```
+ ```php
  $task->title = 'A better task title';
  $task->save();
  ```
 
  And finally, to delete the task:
- ```
+ ```php
  $task->delete();
  ```
 
  Several REST services have a `/sync` endpoint, which we provide a helper method for:
- ```
+ ```php
  $tasks = $infusionsoft->tasks()->sync($syncId);
  ```
 
