@@ -175,6 +175,14 @@ abstract class RestModel implements ArrayAccess, JsonSerializable {
 		return $this;
 	}
 
+	public function sync($syncToken) {
+		$this->where['sync_token'] = $syncToken;
+		$data = $this->client->restfulRequest('get', $this->getFullUrl());
+		$this->fill($data);
+
+		return $this;
+	}
+
 	public function where($key, $value = null)
 	{
 		if(is_array($key))
