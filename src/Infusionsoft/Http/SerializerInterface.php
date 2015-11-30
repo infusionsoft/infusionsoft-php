@@ -9,12 +9,12 @@ interface SerializerInterface {
 	 * default XML-RPC serializer. Uses the same HTTP Client as the
 	 * OAuth2 calls.
 	 *
-	 * @param string          $uri
 	 * @param string          $method
+	 * @param string          $uri
 	 * @param array           $params
 	 * @param ClientInterface $client
 	 * @return mixed
 	 */
-	public function request($uri, $method, $params, ClientInterface $client);
+	public function request($method, $uri, $params, ClientInterface $client);
 
 }

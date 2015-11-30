@@ -5,9 +5,9 @@ session_start();
 require_once '../vendor/autoload.php';
 
 $infusionsoft = new \Infusionsoft\Infusionsoft(array(
-    'clientId' => 'CLIENT_ID',
-    'clientSecret' => 'CLIENT_SECRET',
-    'redirectUri' => 'REDIRECT_URL',
+    'clientId' => '',
+    'clientSecret' => '',
+    'redirectUri' => '',
 ));
 
 // By default, the SDK uses the Guzzle HTTP library for requests. To use CURL,

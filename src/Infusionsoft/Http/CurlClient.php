@@ -2,7 +2,8 @@
 
 namespace Infusionsoft\Http;
 
-use fXmlRpc\Transport\CurlTransport;
+use fXmlRpc\Transport\HttpAdapterTransport;
+use Ivory\HttpAdapter\CurlHttpAdapter;
 
 class CurlClient implements ClientInterface {
 
@@ -11,7 +12,7 @@ class CurlClient implements ClientInterface {
 	 */
 	public function getXmlRpcTransport()
 	{
-		return new CurlTransport();
+		return new HttpAdapterTransport(new CurlHttpAdapter());
 	}
 
 	/**
@@ -26,16 +27,20 @@ class CurlClient implements ClientInterface {
 		return parent::send($uri, $payload);
 	}
 
-	/**
-	 * @param string $uri
-	 * @param array  $body
-	 * @param array  $headers
-	 * @param string $method
-	 * @return mixed
-	 * @throws HttpException
-	 */
-	public function request($uri, $body, $headers, $method)
+    /**
+     * @param string $method
+     * @param string $uri
+     * @param array $options
+     * @return mixed
+     * @throws HttpException
+     * @internal param array $body
+     * @internal param array $headers
+     */
+	public function request($method, $uri, array $options)
 	{
+        $headers = $options['headers'];
+        $body = $options['body'];
+
 		$processed_headers = array();
 		if(!empty($headers))
 		{
@@ -53,7 +58,7 @@ class CurlClient implements ClientInterface {
 		curl_setopt($ch, CURLOPT_HTTPHEADER, $processed_headers);
 		curl_setopt($ch, CURLOPT_CAINFO, __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'cacert.pem');
 
-		if ($method === 'POST')
+		if (strtolower($method) === 'post')
 		{
 			curl_setopt($ch, CURLOPT_POST, true);
 
@@ -66,7 +71,8 @@ class CurlClient implements ClientInterface {
 		}
 		else
 		{
-			curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $method);
+			curl_setopt($ch, CURLOPT_CUSTOMREQUEST, strtoupper($method));
+			curl_setopt($ch, CURLOPT_POSTFIELDS, $body);
 		}
 
 		$response     = curl_exec($ch);
@@ -88,7 +94,7 @@ class CurlClient implements ClientInterface {
 
 		curl_close($ch);
 
-		return json_decode($response, true);
+		return $response;
 	}
 
 }
