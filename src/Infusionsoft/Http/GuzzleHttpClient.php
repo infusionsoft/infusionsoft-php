@@ -51,7 +51,7 @@ class GuzzleHttpClient extends Client implements ClientInterface
      * @return mixed
      * @throws HttpException
      */
-    public function request($method, $uri, array $options = [])
+    public function request($method, $uri = NULL, array $options = [])
     {
         if(!isset($options['headers'])){
             $options['headers'] = [];
