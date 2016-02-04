@@ -364,7 +364,12 @@ class Infusionsoft
     public function isTokenExpired()
     {
         $token = $this->getToken();
-        return ! (is_object($token) && $token->isExpired()); 
+
+        if ( ! is_object($token)) {
+            return true;
+        }
+
+        return $token->isExpired();
     }
 
     /**
