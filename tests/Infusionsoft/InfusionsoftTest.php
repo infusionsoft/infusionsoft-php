@@ -135,4 +135,19 @@ class InfusionsoftTest extends \PHPUnit_Framework_TestCase
 		$this->assertEquals('access_token', $this->ifs->getToken()->getAccessToken());
 	}
 
+    public function testIsTokenExpired()
+    {
+        //no token is set so it should return true
+        $this->assertTrue($this->ifs->isTokenExpired());
+
+        //token is set and still not expired
+        $token = new Token(array( 'access_token' => '', 'refresh_token' => '', 'expires_in' => 5));
+        $this->ifs->setToken($token);
+        $this->assertFalse($this->ifs->isTokenExpired());
+
+        //token is set but expired
+        $token = new Token(array( 'access_token' => '', 'refresh_token' => '', 'expires_in' => -5));
+        $this->ifs->setToken($token);
+        $this->assertTrue($this->ifs->isTokenExpired());
+    }
 }
