@@ -32,7 +32,7 @@ class AffiliateService extends AbstractApi {
 	 */
 	public function getRedirectLinksForAffiliate($affiliateId)
 	{
-		return $this->client->request('APIAffiliateService.getRedirectLinksForAffiliate', $affiliateId);
+		return $this->client->request('AffiliateService.getRedirectLinksForAffiliate', $affiliateId);
 	}
 
 	/**
