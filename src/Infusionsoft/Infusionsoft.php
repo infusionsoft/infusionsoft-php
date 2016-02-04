@@ -357,6 +357,17 @@ class Infusionsoft
     }
 
     /**
+     * Checks if the current token is null or expired
+     *
+     * @return boolean
+     */
+    public function isTokenExpired()
+    {
+        $token = $this->getToken();
+        return ! (is_object($token) && $token->isExpired()); 
+    }
+
+    /**
      * @throws InfusionsoftException
      * @return mixed
      */
@@ -365,7 +376,7 @@ class Infusionsoft
         // Before making the request, we can make sure that the token is still
         // valid by doing a check on the end of life.
         $token = $this->getToken();
-        if ($token->getEndOfLife() < time()) {
+        if ($this->isTokenExpired()) {
             throw new TokenExpiredException;
         }
 
@@ -402,7 +413,7 @@ class Infusionsoft
         // Before making the request, we can make sure that the token is still
         // valid by doing a check on the end of life.
         $token = $this->getToken();
-        if ($token->getEndOfLife() < time())
+        if ($this->isTokenExpired())
         {
             throw new TokenExpiredException;
         }
@@ -658,3 +669,4 @@ class Infusionsoft
     }
 
 }
+

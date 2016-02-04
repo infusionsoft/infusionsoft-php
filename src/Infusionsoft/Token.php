@@ -117,4 +117,13 @@ class Token {
 		$this->extraInfo = $extraInfo;
 	}
 
+    /**
+     * Checks if the token is expired
+     *
+     * @return boolean
+     */
+    public function isExpired()
+    {
+        return ($this->getEndOfLife() < time());
+    }
 }
