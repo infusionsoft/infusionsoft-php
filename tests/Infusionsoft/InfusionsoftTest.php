@@ -119,13 +119,8 @@ class InfusionsoftTest extends \PHPUnit_Framework_TestCase
 	{
 		$client = m::mock('Infusionsoft\Http\GuzzleHttpClient');
 		$client->shouldReceive('request')->once()
-			->with('POST', 'https://api.infusionsoft.com/token', ['body' => array(
-				'client_id' => 'foo',
-				'client_secret' => 'bar',
-				'code' => 'code',
-				'grant_type' => 'authorization_code',
-				'redirect_uri' => 'baz')]
-			)->andReturn(array('access_token' => 'access_token'));
+			->withAnyArgs()
+			->andReturn(json_encode(['access_token' => 'access_token']));
 
 		$this->ifs->setClientId('foo');
 		$this->ifs->setClientSecret('bar');
