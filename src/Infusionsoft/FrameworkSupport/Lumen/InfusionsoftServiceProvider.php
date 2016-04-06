@@ -33,9 +33,9 @@ class InfusionsoftServiceProvider extends ServiceProvider
 		$this->app->singleton('infusionsoft', function ($app) {
 
 			$config = [
-				'client_id' => env('INFUSIONSOFT_CLIENT_ID'),
-				'client_secret' => env('INFUSIONSOFT_SECRET'),
-				'redirect_url' => env('INFUSIONSOFT_REDIRECT_URL'),
+				'clientId' => env('INFUSIONSOFT_CLIENT_ID'),
+				'clientSecret' => env('INFUSIONSOFT_SECRET'),
+				'redirectUri' => env('INFUSIONSOFT_REDIRECT_URL'),
 			];
 
 			return new Infusionsoft($config);
