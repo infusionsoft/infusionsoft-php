@@ -226,9 +226,9 @@ INFUSIONSOFT_REDIRECT_URL=http://localhost/auth/callback
 Access Infusionsoft from the Facade or Binding
 
 ```
- $data = Infusionsoft::query("Contact",1000,0,['Id' => '123'],['Id','FirstName','LastName','Email']);
+ $data = Infusionsoft::query("Contact",1000,0,['Id' => '123'],['Id','FirstName','LastName','Email'], 'Id', false);
 
- $data = app('infusionsoft')->query("Contact",1000,0,['Id' => '123'],['Id','FirstName','LastName','Email']);
+ $data = app('infusionsoft')->query("Contact",1000,0,['Id' => '123'],['Id','FirstName','LastName','Email'], 'Id', false);
 ```
 
 ## Lumen Service Provider
@@ -250,7 +250,7 @@ INFUSIONSOFT_REDIRECT_URL=http://localhost/auth/callback
 Access Infusionsoft from the Binding
 
 ```
- $data = app('infusionsoft')->query("Contact",1000,0,['Id' => '123'],['Id','FirstName','LastName','Email']);
+ $data = app('infusionsoft')->query("Contact",1000,0,['Id' => '123'],['Id','FirstName','LastName','Email'], 'Id', false);
 ```
 
 ## Contributing
