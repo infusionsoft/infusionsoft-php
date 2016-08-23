@@ -40,7 +40,25 @@ class InfusionsoftTest extends \PHPUnit_Framework_TestCase
 		$this->assertEquals('https://signin.infusionsoft.com/app/oauth/authorize?client_id=foo&redirect_uri=http%3A%2F%2Fexample.com%2F&response_type=code&scope=full', $this->ifs->getAuthorizationUrl());
 	}
 
-	public function testSettingUrl()
+    /**
+     * @dataProvider dataStates
+     * @param $state
+     */
+    public function testGetAuthorizationUrlWithState($state)
+    {
+        $this->assertEquals('https://signin.infusionsoft.com/app/oauth/authorize?client_id=foo&redirect_uri=http%3A%2F%2Fexample.com%2F&response_type=code&scope=full&state=' . $state, $this->ifs->getAuthorizationUrl($state));
+    }
+
+    public static function dataStates()
+    {
+        return array(
+            [0],
+            ['0'],
+            ['099abcd12345abc']
+        );
+    }
+
+    public function testSettingUrl()
 	{
 		$this->ifs->setUrl('http://example.com/');
 		$this->assertEquals('http://example.com/', $this->ifs->getUrl());

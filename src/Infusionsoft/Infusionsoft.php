@@ -200,9 +200,10 @@ class Infusionsoft
     }
 
     /**
+     * @param string $state
      * @return string
      */
-    public function getAuthorizationUrl()
+    public function getAuthorizationUrl($state = null)
     {
         $params = array(
             'client_id' => $this->clientId,
@@ -210,6 +211,10 @@ class Infusionsoft
             'response_type' => 'code',
             'scope' => 'full'
         );
+
+        if($state !== null){
+            $params['state'] = (string)$state;
+        }
 
         return $this->auth . '?' . http_build_query($params);
     }
