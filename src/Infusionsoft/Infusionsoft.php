@@ -589,6 +589,14 @@ class Infusionsoft
     }
 
     /**
+     * @return \Infusionsoft\Api\Rest\ResthookService
+     */
+    public function resthooks()
+    {
+        return $this->getRestApi('ResthookService');
+    }
+
+    /**
      * @return \Infusionsoft\Api\SearchService
      */
     public function search()
