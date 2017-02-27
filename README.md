@@ -38,6 +38,9 @@ Or manually add it to your composer.json:
 The client ID and secret are the key and secret for your OAuth2 application found at the [Infusionsoft Developers](https://keys.developer.infusionsoft.com/apps/mykeys) website.
 
 ```php
+
+if(empty(session_id();)) session_start();
+
 require_once 'vendor/autoload.php';
 
 $infusionsoft = new \Infusionsoft\Infusionsoft(array(
@@ -55,7 +58,7 @@ if (isset($_SESSION['token'])) {
 // If we are returning from Infusionsoft we need to exchange the code for an
 // access token.
 if (isset($_GET['code']) and !$infusionsoft->getToken()) {
-	$infusionsoft->requestAccessToken($_GET['code']);
+	$_SESSION['token'] = serialize($infusionsoft->requestAccessToken($_GET['code']));
 }
 
 if ($infusionsoft->getToken()) {
