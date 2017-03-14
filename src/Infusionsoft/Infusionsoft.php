@@ -635,6 +635,14 @@ class Infusionsoft
     {
         return $this->getRestApi('TaskService');
     }
+    
+     /**
+     * @return \Infusionsoft\Api\Rest\AppointmentService
+     */
+    public function appointments()
+    {
+        return $this->getRestApi('AppointmentService');
+    }
 
     /**
      * @return \Infusionsoft\Api\Rest\TransactionService
