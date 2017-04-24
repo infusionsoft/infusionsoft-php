@@ -11,7 +11,7 @@ This version implements RESTful endpoints, a new version of Guzzle, and a restru
 
 ### Breaking Change
 
-If you use the `Orders` or `Products` services, there are now two different classes handling each service - one for REST, one for XML-RPC. *This version of the SDK will load the REST class by default.* If you still need the XML-RPC class, pass `'xml'` as an argument when requesting the object: `$infusionsoft->orders('xml')'`
+If you use the `Contacts`, `Orders` or `Products` services, there are now two different classes handling each service - one for REST, one for XML-RPC. *This version of the SDK will load the REST class by default.* If you still need the XML-RPC class, pass `'xml'` as an argument when requesting the object: `$infusionsoft->orders('xml')'`
 
 Kudos to [toddstoker](https://github.com/toddstoker) and [mattmerrill](https://github.com/mattmerrill) for their contributions to this release.
 

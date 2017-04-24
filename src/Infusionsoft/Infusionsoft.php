@@ -79,13 +79,21 @@ class Infusionsoft
      */
     public function __construct($config = array())
     {
-        if (isset($config['clientId'])) $this->clientId = $config['clientId'];
+        if (isset($config['clientId'])) {
+            $this->clientId = $config['clientId'];
+        }
 
-        if (isset($config['clientSecret'])) $this->clientSecret = $config['clientSecret'];
+        if (isset($config['clientSecret'])) {
+            $this->clientSecret = $config['clientSecret'];
+        }
 
-        if (isset($config['redirectUri'])) $this->redirectUri = $config['redirectUri'];
+        if (isset($config['redirectUri'])) {
+            $this->redirectUri = $config['redirectUri'];
+        }
 
-        if (isset($config['debug'])) $this->debug = $config['debug'];
+        if (isset($config['debug'])) {
+            $this->debug = $config['debug'];
+        }
     }
 
     /**
@@ -98,6 +106,7 @@ class Infusionsoft
 
     /**
      * @param string $url
+     *
      * @return string
      */
     public function setUrl($url)
@@ -117,6 +126,7 @@ class Infusionsoft
 
     /**
      * @param string $auth
+     *
      * @return string
      */
     public function setAuth($auth)
@@ -152,6 +162,7 @@ class Infusionsoft
 
     /**
      * @param string $clientId
+     *
      * @return string
      */
     public function setClientId($clientId)
@@ -171,6 +182,7 @@ class Infusionsoft
 
     /**
      * @param string $clientSecret
+     *
      * @return string
      */
     public function setClientSecret($clientSecret)
@@ -190,6 +202,7 @@ class Infusionsoft
 
     /**
      * @param string $redirectUri
+     *
      * @return string
      */
     public function setRedirectUri($redirectUri)
@@ -216,6 +229,7 @@ class Infusionsoft
 
     /**
      * @param string $code
+     *
      * @return array
      * @throws InfusionsoftException
      */
@@ -231,7 +245,10 @@ class Infusionsoft
 
         $client = $this->getHttpClient();
 
-        $tokenInfo = $client->request('POST', $this->tokenUri, ['body' => http_build_query($params), 'headers' => ['Content-Type' => 'application/x-www-form-urlencoded']]);
+        $tokenInfo = $client->request('POST', $this->tokenUri, [
+            'body' => http_build_query($params),
+            'headers' => ['Content-Type' => 'application/x-www-form-urlencoded']
+        ]);
 
         $this->setToken(new Token(json_decode($tokenInfo, true)));
 
@@ -268,7 +285,8 @@ class Infusionsoft
 
         $client = $this->getHttpClient();
 
-        $tokenInfo = $client->request('POST', $this->tokenUri, ['body' => http_build_query($params), 'headers' => $headers]);
+        $tokenInfo = $client->request('POST', $this->tokenUri,
+            ['body' => http_build_query($params), 'headers' => $headers]);
 
         $this->setToken(new Token(json_decode($tokenInfo, true)));
 
@@ -334,6 +352,7 @@ class Infusionsoft
 
     /**
      * @param LoggerInterface $httpLogAdapter
+     *
      * @return \Infusionsoft\Infusionsoft
      */
     public function setHttpLogAdapter(LoggerInterface $httpLogAdapter)
@@ -348,10 +367,14 @@ class Infusionsoft
      */
     public function getLogs()
     {
-        if (!$this->debug) return array();
+        if (!$this->debug) {
+            return array();
+        }
 
         $logger = $this->getHttpLogAdapter();
-        if (!$logger instanceof ArrayLogger) return array();
+        if (!$logger instanceof ArrayLogger) {
+            return array();
+        }
 
         return $logger->getLogs();
     }
@@ -365,7 +388,7 @@ class Infusionsoft
     {
         $token = $this->getToken();
 
-        if ( ! is_object($token)) {
+        if (!is_object($token)) {
             return true;
         }
 
@@ -409,7 +432,8 @@ class Infusionsoft
     /**
      * @param string $method
      * @param string $url
-     * @param array  $params
+     * @param array $params
+     *
      * @throws InfusionsoftException
      * @return mixed
      */
@@ -418,35 +442,33 @@ class Infusionsoft
         // Before making the request, we can make sure that the token is still
         // valid by doing a check on the end of life.
         $token = $this->getToken();
-        if ($this->isTokenExpired())
-        {
+        if ($this->isTokenExpired()) {
             throw new TokenExpiredException;
         }
 
         $client = $this->getHttpClient();
         $full_params = [];
 
-        if (strtolower($method) === 'get')
-        {
+        if (strtolower($method) === 'get' || strtolower($method) === 'delete') {
             $params = array_merge(array('access_token' => $token->getAccessToken()), $params);
             $url = $url . '?' . http_build_query($params);
-        }
-        else
-        {
+        } else {
             $url = $url . '?' . http_build_query(array('access_token' => $token->getAccessToken()));
             $full_params['body'] = json_encode($params);
         }
 
         $full_params['headers'] = array(
-            'Content-Type'  => 'application/json',
+            'Content-Type' => 'application/json',
         );
 
-        $response = (string) $client->request($method, $url, $full_params);
+        $response = (string)$client->request($method, $url, $full_params);
+
         return json_decode($response, true);
     }
 
     /**
      * @param boolean $debug
+     *
      * @return \Infusionsoft\Infusionsoft
      */
     public function setDebug($debug)
@@ -458,6 +480,7 @@ class Infusionsoft
 
     /**
      * @param \DateTime|string $datetime
+     *
      * @return string
      */
     public function formatDate($datetime = 'now')
@@ -465,20 +488,34 @@ class Infusionsoft
         if (!$datetime instanceof \DateTime) {
             $datetime = new \DateTime($datetime, new \DateTimeZone('America/New_York'));
         }
+
         return $datetime->format('Y-m-d\TH:i:s');
     }
 
     /**
      * @param $name
+     *
      * @throws \UnexpectedValueException
      * @return mixed
      */
     public function __get($name)
     {
         $services = array(
-            'affiliatePrograms', 'affiliates', 'contacts', 'data', 'discounts',
-            'emails', 'files', 'funnels', 'invoices', 'orders', 'products',
-            'search', 'shipping', 'webForms', 'webTracking'
+            'affiliatePrograms',
+            'affiliates',
+            'contacts',
+            'data',
+            'discounts',
+            'emails',
+            'files',
+            'funnels',
+            'invoices',
+            'orders',
+            'products',
+            'search',
+            'shipping',
+            'webForms',
+            'webTracking'
         );
 
         if (method_exists($this, $name) and in_array($name, $services)) {
@@ -507,9 +544,13 @@ class Infusionsoft
     /**
      * @return \Infusionsoft\Api\ContactService
      */
-    public function contacts()
+    public function contacts($api = 'rest')
     {
-        return $this->getApi('ContactService');
+        if ($api == 'xml') {
+            return $this->getApi('ContactService');
+        }
+
+        return $this->getRestApi('ContactService');
     }
 
     /**
@@ -526,6 +567,14 @@ class Infusionsoft
     public function discounts()
     {
         return $this->getApi('DiscountService');
+    }
+
+    /**
+     * @return \Infusionsoft\Api\CreditCardSubmissionService
+     */
+    public function creditcards()
+    {
+        return $this->getApi('CreditCardSubmissionService');
     }
 
     /**
@@ -562,12 +611,12 @@ class Infusionsoft
 
     /**
      * @param string $api
+     *
      * @return mixed
      */
     public function orders($api = 'rest')
     {
-        if($api == 'xml')
-        {
+        if ($api == 'xml') {
             return $this->getApi('OrderService');
         }
 
@@ -576,12 +625,12 @@ class Infusionsoft
 
     /**
      * @param string $api
+     *
      * @return mixed
      */
     public function products($api = 'rest')
     {
-        if($api == 'xml')
-        {
+        if ($api == 'xml') {
             return $this->getApi('ProductService');
         }
 
@@ -644,6 +693,7 @@ class Infusionsoft
         return $this->getRestApi('AppointmentService');
     }
 
+
     /**
      * @return \Infusionsoft\Api\Rest\TransactionService
      */
@@ -653,10 +703,19 @@ class Infusionsoft
     }
 
     /**
+     * @return \Infusionsoft\Api\Rest\CampaignService
+     */
+    public function campaigns()
+    {
+        return $this->getRestApi('CampaignService');
+    }
+
+    /**
      * Returns the requested class name, optionally using a cached array so no
      * object is instantiated more than once during a request.
      *
      * @param string $class
+     *
      * @return mixed
      */
     public function getApi($class)
@@ -675,14 +734,14 @@ class Infusionsoft
      * object is instantiated more than once during a request.
      *
      * @param string $class
+     *
      * @return mixed
      */
     public function getRestApi($class)
     {
         $class = '\Infusionsoft\Api\Rest\\' . $class;
 
-        if ( ! array_key_exists($class, $this->apis))
-        {
+        if (!array_key_exists($class, $this->apis)) {
             $this->apis[$class] = new $class($this);
         }
 
