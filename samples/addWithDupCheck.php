@@ -26,26 +26,38 @@ if (isset($_GET['code']) and !$infusionsoft->getToken()) {
     $infusionsoft->requestAccessToken($_GET['code']);
 }
 
-function addWithDupCheck($infusionsoft) {
-    $contact = array('FirstName' => 'John', 'LastName' => 'Doe', 'Email' => 'johndoe@mailinator.com');
+function add($infusionsoft, $email)
+{
+    $email1 = new \stdClass;
+    $email1->field = 'EMAIL1';
+    $email1->email = $email;
+    $contact = ['given_name' => 'John', 'family_name' => 'Doe', 'email_addresses' => [$email1]];
 
-    return $infusionsoft->contacts->addWithDupCheck($contact, 'Email');
+    return $infusionsoft->contacts()->create($contact);
 }
 
 if ($infusionsoft->getToken()) {
     try {
-        $cid = addWithDupCheck($infusionsoft);
+
+        $email = 'john.doe4@example.com';
+
+        try {
+            $cid = $infusionsoft->contacts()->where('email', $email)->first();
+        } catch (\Infusionsoft\InfusionsoftException $e) {
+            $cid = add($infusionsoft, $email);
+        }
+
     } catch (\Infusionsoft\TokenExpiredException $e) {
         // If the request fails due to an expired access token, we can refresh
         // the token and then do the request again.
         $infusionsoft->refreshAccessToken();
 
-        $cid = addWithDupCheck($infusionsoft);
+        $cid = add($infusionsoft);
     }
 
-    $contact = $infusionsoft->contacts->load($cid, array('Id', 'FirstName', 'LastName', 'Email'));
+    $contact = $infusionsoft->contacts()->with('custom_fields')->find($cid->id);
 
-    var_dump($contact);
+    var_dump($contact->toArray());
 
     // Save the serialized token to the current session for subsequent requests
     $_SESSION['token'] = serialize($infusionsoft->getToken());
