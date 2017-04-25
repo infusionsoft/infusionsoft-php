@@ -693,6 +693,13 @@ class Infusionsoft
         return $this->getRestApi('AppointmentService');
     }
 
+    /**
+     * @return \Infusionsoft\Api\Rest\CustomFieldService
+     */
+    public function customfields()
+    {
+        return $this->getRestApi('CustomFieldService');
+    }
 
     /**
      * @return \Infusionsoft\Api\Rest\TransactionService
