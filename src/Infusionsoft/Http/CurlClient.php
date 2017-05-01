@@ -3,16 +3,20 @@
 namespace Infusionsoft\Http;
 
 use fXmlRpc\Transport\HttpAdapterTransport;
+use Ivory\HttpAdapter\Configuration;
 use Ivory\HttpAdapter\CurlHttpAdapter;
 
 class CurlClient implements ClientInterface {
 
 	/**
-	 * @return CurlTransport
+	 * @return \fXmlRpc\Transport\HttpAdapterTransport
 	 */
 	public function getXmlRpcTransport()
 	{
-		return new HttpAdapterTransport(new CurlHttpAdapter());
+		$config = new Configuration();
+		$config->setTimeout( 60 );
+
+		return new HttpAdapterTransport(new CurlHttpAdapter($config));
 	}
 
 	/**
