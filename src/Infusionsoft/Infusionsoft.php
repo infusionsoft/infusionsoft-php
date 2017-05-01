@@ -218,10 +218,10 @@ class Infusionsoft
     public function getAuthorizationUrl()
     {
         $params = array(
-            'client_id' => $this->clientId,
-            'redirect_uri' => $this->redirectUri,
+            'client_id'     => $this->clientId,
+            'redirect_uri'  => $this->redirectUri,
             'response_type' => 'code',
-            'scope' => 'full'
+            'scope'         => 'full'
         );
 
         return $this->auth . '?' . http_build_query($params);
@@ -236,17 +236,17 @@ class Infusionsoft
     public function requestAccessToken($code)
     {
         $params = array(
-            'client_id' => $this->clientId,
+            'client_id'     => $this->clientId,
             'client_secret' => $this->clientSecret,
-            'code' => $code,
-            'grant_type' => 'authorization_code',
-            'redirect_uri' => $this->redirectUri,
+            'code'          => $code,
+            'grant_type'    => 'authorization_code',
+            'redirect_uri'  => $this->redirectUri,
         );
 
         $client = $this->getHttpClient();
 
         $tokenInfo = $client->request('POST', $this->tokenUri, [
-            'body' => http_build_query($params),
+            'body'    => http_build_query($params),
             'headers' => ['Content-Type' => 'application/x-www-form-urlencoded']
         ]);
 
@@ -260,7 +260,7 @@ class Infusionsoft
      */
     public function getHttpClient()
     {
-        if (!$this->httpClient) {
+        if ( ! $this->httpClient) {
             return new Http\GuzzleHttpClient($this->debug, $this->getHttpLogAdapter());
         }
 
@@ -275,11 +275,11 @@ class Infusionsoft
     {
         $headers = array(
             'Authorization' => 'Basic ' . base64_encode($this->clientId . ':' . $this->clientSecret),
-            'Content-Type' => 'application/x-www-form-urlencoded'
+            'Content-Type'  => 'application/x-www-form-urlencoded'
         );
 
         $params = array(
-            'grant_type' => 'refresh_token',
+            'grant_type'    => 'refresh_token',
             'refresh_token' => $this->getToken()->getRefreshToken(),
         );
 
@@ -322,7 +322,7 @@ class Infusionsoft
      */
     public function getSerializer()
     {
-        if (!$this->serializer) {
+        if ( ! $this->serializer) {
             return new Http\InfusionsoftSerializer();
         }
 
@@ -343,7 +343,7 @@ class Infusionsoft
     public function getHttpLogAdapter()
     {
         // If a log adapter hasn't been set, we default to the null adapter
-        if (!$this->httpLogAdapter) {
+        if ( ! $this->httpLogAdapter) {
             $this->httpLogAdapter = new ArrayLogger();
         }
 
@@ -367,12 +367,12 @@ class Infusionsoft
      */
     public function getLogs()
     {
-        if (!$this->debug) {
+        if ( ! $this->debug) {
             return array();
         }
 
         $logger = $this->getHttpLogAdapter();
-        if (!$logger instanceof ArrayLogger) {
+        if ( ! $logger instanceof ArrayLogger) {
             return array();
         }
 
@@ -388,7 +388,7 @@ class Infusionsoft
     {
         $token = $this->getToken();
 
-        if (!is_object($token)) {
+        if ( ! is_object($token)) {
             return true;
         }
 
@@ -423,7 +423,7 @@ class Infusionsoft
         // Reset the empty key flag back to the default for the next request
         $this->needsEmptyKey = true;
 
-        $client = $this->getSerializer();
+        $client   = $this->getSerializer();
         $response = $client->request($method, $url, $params, $this->getHttpClient());
 
         return $response;
@@ -432,7 +432,7 @@ class Infusionsoft
     /**
      * @param string $method
      * @param string $url
-     * @param array $params
+     * @param array  $params
      *
      * @throws InfusionsoftException
      * @return mixed
@@ -446,14 +446,14 @@ class Infusionsoft
             throw new TokenExpiredException;
         }
 
-        $client = $this->getHttpClient();
+        $client      = $this->getHttpClient();
         $full_params = [];
 
         if (strtolower($method) === 'get' || strtolower($method) === 'delete') {
             $params = array_merge(array('access_token' => $token->getAccessToken()), $params);
-            $url = $url . '?' . http_build_query($params);
+            $url    = $url . '?' . http_build_query($params);
         } else {
-            $url = $url . '?' . http_build_query(array('access_token' => $token->getAccessToken()));
+            $url                 = $url . '?' . http_build_query(array('access_token' => $token->getAccessToken()));
             $full_params['body'] = json_encode($params);
         }
 
@@ -485,7 +485,7 @@ class Infusionsoft
      */
     public function formatDate($datetime = 'now')
     {
-        if (!$datetime instanceof \DateTime) {
+        if ( ! $datetime instanceof \DateTime) {
             $datetime = new \DateTime($datetime, new \DateTimeZone('America/New_York'));
         }
 
@@ -684,8 +684,8 @@ class Infusionsoft
     {
         return $this->getRestApi('TaskService');
     }
-    
-     /**
+
+    /**
      * @return \Infusionsoft\Api\Rest\AppointmentService
      */
     public function appointments()
@@ -729,7 +729,7 @@ class Infusionsoft
     {
         $class = '\Infusionsoft\Api\\' . $class;
 
-        if (!array_key_exists($class, $this->apis)) {
+        if ( ! array_key_exists($class, $this->apis)) {
             $this->apis[$class] = new $class($this);
         }
 
@@ -748,11 +748,7 @@ class Infusionsoft
     {
         $class = '\Infusionsoft\Api\Rest\\' . $class;
 
-        if (!array_key_exists($class, $this->apis)) {
-            $this->apis[$class] = new $class($this);
-        }
-
-        return $this->apis[$class];
+        return new $class($this);
     }
 
 }
