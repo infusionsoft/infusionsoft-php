@@ -28,7 +28,7 @@ Or manually add it to your composer.json:
 ``` json
 {
     "require": {
-        "infusionsoft/php-sdk": "1.2.*"
+        "infusionsoft/php-sdk": "1.3.*"
     }
 }
 ```
