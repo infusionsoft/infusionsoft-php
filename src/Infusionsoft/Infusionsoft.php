@@ -517,6 +517,7 @@ class Infusionsoft
             'orders',
             'products',
             'search',
+            'tags',
             'shipping',
             'webForms',
             'webTracking'
@@ -703,6 +704,14 @@ class Infusionsoft
     public function customfields()
     {
         return $this->getRestApi('CustomFieldService');
+    }
+
+    /**
+     * @return \Infusionsoft\Api\Rest\TagService
+     */
+    public function tags()
+    {
+        return $this->getRestApi('TagService');
     }
 
     /**
