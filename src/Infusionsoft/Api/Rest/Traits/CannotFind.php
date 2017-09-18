@@ -4,7 +4,7 @@ use Infusionsoft\InfusionsoftException;
 
 trait CannotFind {
 
-	public function find() {
+	public function find($id) {
 		throw new InfusionsoftException(
 			__CLASS__.' cannot use '.__FUNCTION__.' function.'
 		);
