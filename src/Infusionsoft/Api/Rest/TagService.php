@@ -12,7 +12,6 @@ use Infusionsoft\InfusionsoftException;
 class TagService extends RestModel
 {
     use CannotSync;
-    use CannotCreate;
     use CannotSave;
     use CannotDelete;
     use CannotFind;
