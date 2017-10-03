@@ -30,13 +30,13 @@ class ContactService extends RestModel
 
     public function addTags($tagIds)
     {
-        if (!is_array($tagIds)) {
+        if ( ! is_array($tagIds)) {
             throw new InfusionsoftException('Must be an array of tag ids');
         } elseif (count($tagIds) > 100) {
             throw new InfusionsoftException('A maximum of 100 tag ids can be added at once');
         }
 
-        $tags = new \stdClass;
+        $tags         = new \stdClass;
         $tags->tagIds = $tagIds;
 
         $response = $this->client->restfulRequest('post', $this->getFullUrl($this->id . '/tags'), $tags);
@@ -45,9 +45,22 @@ class ContactService extends RestModel
 
     }
 
+    public function create(array $attributes = [], $dupCheck = false)
+    {
+        $this->mock($attributes);
+        if ($dupCheck) {
+            $data = $this->client->restfulRequest('put', $this->getFullUrl($this->id), (array)$this->toArray());
+            $this->fill($data);
+        } else {
+            $this->save();
+        }
+
+        return $this;
+    }
+
     public function removeTags($tagIds)
     {
-        if (!is_array($tagIds)) {
+        if ( ! is_array($tagIds)) {
             throw new InfusionsoftException('Must be an array of tag ids');
         } elseif (count($tagIds) > 100) {
             throw new InfusionsoftException('A maximum of 100 tag ids can be deleted at once');
