@@ -31,7 +31,7 @@ class InfusionsoftSerializer implements SerializerInterface {
 		}
 		catch (fXmlRpcException $e)
 		{
-			throw new HttpException($e);
+			throw new HttpException($e->getMessage(), $e->getCode(), $e);
 		}
 	}
 
