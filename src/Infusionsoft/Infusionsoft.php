@@ -593,9 +593,14 @@ class Infusionsoft
     /**
      * @return \Infusionsoft\Api\FileService
      */
-    public function files()
+    public function files($api = 'rest')
     {
-        return $this->getApi('FileService');
+        if ($api == 'xml') {
+            return $this->getApi('FileService');
+        }
+
+        return $this->getRestApi('FileService');
+
     }
 
     /**
