@@ -78,10 +78,10 @@ require_once 'vendor/autoload.php';
 
 //
 // Setup your Infusionsoft object here, then set your token either via the request or from storage
-//
+// As of v1.3 contacts defaults to rest
 $infusionsoft->setToken($myTokenObject);
 
-$infusionsoft->contacts->add(array('FirstName' => 'John', 'LastName' => 'Doe'));
+$infusionsoft->contacts('xml')->add(array('FirstName' => 'John', 'LastName' => 'Doe'));
 
 ```
 
