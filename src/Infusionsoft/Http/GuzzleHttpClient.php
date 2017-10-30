@@ -74,7 +74,7 @@ class GuzzleHttpClient extends Client implements ClientInterface
         }
         catch (BadResponseException $e)
         {
-            throw new HttpException($e);
+            throw new HttpException($e->getMessage(), $e->getCode(), $e);
         }
     }
 }
