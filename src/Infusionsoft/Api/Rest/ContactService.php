@@ -28,6 +28,14 @@ class ContactService extends RestModel
         return $this;
     }
 
+    public function emails()
+    {
+        $data = $this->client->restfulRequest('get', $this->getFullUrl($this->id . '/emails'));
+        $this->fill($data);
+
+        return $this;
+    }
+
     public function addTags($tagIds)
     {
         if ( ! is_array($tagIds)) {
