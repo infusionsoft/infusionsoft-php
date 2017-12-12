@@ -1,6 +1,6 @@
 <?php
 
-namespace Infusionsoft\Api;
+namespace Infusionsoft\Api\Rest;
 
 use Infusionsoft\Infusionsoft;
 
