@@ -6,9 +6,7 @@ use Infusionsoft\Api\Rest\Traits\CannotSave;
 
 class ProductService extends RestModel {
 
-	use CannotCreate;
-	use CannotSave;
-	use CannotDelete;
+	use CannotCreate, CannotSave, CannotDelete;
 
 	public $full_url = 'https://api.infusionsoft.com/crm/rest/v1/products';
 	public $return_key = 'products';

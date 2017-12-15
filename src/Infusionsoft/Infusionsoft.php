@@ -20,6 +20,11 @@ class Infusionsoft
     protected $auth = 'https://signin.infusionsoft.com/app/oauth/authorize';
 
     /**
+     * @var string Base URL of all API requests
+     */
+    protected $baseUri = 'https://api.infusionsoft.com/crm';
+
+    /**
      * @var string URL used to request an access token
      */
     protected $tokenUri = 'https://api.infusionsoft.com/token';
@@ -112,6 +117,26 @@ class Infusionsoft
     public function setUrl($url)
     {
         $this->url = $url;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getBaseUrl()
+    {
+        return $this->baseUri;
+    }
+
+    /**
+     * @param $url
+     *
+     * @return $this
+     */
+    public function setBaseUrl($url)
+    {
+        $this->baseUri = $url;
 
         return $this;
     }
@@ -585,9 +610,14 @@ class Infusionsoft
     /**
      * @return \Infusionsoft\Api\APIEmailService
      */
-    public function emails()
+    public function emails($api = 'rest')
     {
-        return $this->getApi('APIEmailService');
+        if ($api == 'xml') {
+            return $this->getApi('APIEmailService');
+        }
+
+        return $this->getRestApi('EmailService');
+
     }
 
     /**
@@ -733,6 +763,14 @@ class Infusionsoft
     public function campaigns()
     {
         return $this->getRestApi('CampaignService');
+    }
+
+    /**
+     * @return \Infusionsoft\Api\Rest\OpportunityService
+     */
+    public function opportunities()
+    {
+        return $this->getRestApi('OpportunityService');
     }
 
     /**

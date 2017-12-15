@@ -36,7 +36,7 @@ class TagService extends RestModel
 
     public function removeContacts($contactIds)
     {
-        if (!is_array($contactIds)) {
+        if ( ! is_array($contactIds)) {
             throw new InfusionsoftException('Must be an array of contact ids');
         } elseif (count($contactIds) > 100) {
             throw new InfusionsoftException('A maximum of 100 contact ids can be modified at once');
@@ -51,16 +51,26 @@ class TagService extends RestModel
 
     public function addContacts($contactIds)
     {
-        if (!is_array($contactIds)) {
+        if ( ! is_array($contactIds)) {
             throw new InfusionsoftException('Must be an array of contact ids');
         } elseif (count($contactIds) > 100) {
             throw new InfusionsoftException('A maximum of 100 contact ids can be modified at once');
         }
 
-        $contacts = new \stdClass();
+        $contacts      = new \stdClass();
         $contacts->ids = $contactIds;
 
         $response = $this->client->restfulRequest('post', $this->getFullUrl($this->id . '/contacts'), $contacts);
+
+        return $response;
+    }
+
+    public function addCategory($name, $description)
+    {
+
+        $body = ['description' => $description, 'name' => $name];
+
+        $response = $this->client->restfulRequest('post', $this->getFullUrl('/categories'), $body);
 
         return $response;
     }
