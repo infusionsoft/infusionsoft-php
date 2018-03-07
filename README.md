@@ -9,6 +9,8 @@
 
 This version implements RESTful endpoints, a new version of Guzzle, and a restructured request handler.
 
+As of version 1.4, PHP 7+ is required.
+
 ### Breaking Change
 
 If you use the `Contacts`, `Orders` or `Products` services, there are now two different classes handling each service - one for REST, one for XML-RPC. *This version of the SDK will load the REST class by default.* If you still need the XML-RPC class, pass `'xml'` as an argument when requesting the object: `$infusionsoft->orders('xml')'`
@@ -28,7 +30,7 @@ Or manually add it to your composer.json:
 ``` json
 {
     "require": {
-        "infusionsoft/php-sdk": "1.3.*"
+        "infusionsoft/php-sdk": "1.4.*"
     }
 }
 ```
