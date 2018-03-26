@@ -4,6 +4,12 @@
 [![Total Downloads](https://poser.pugx.org/infusionsoft/php-sdk/downloads.png)](https://packagist.org/packages/infusionsoft/php-sdk)
 [![Latest Stable Version](https://poser.pugx.org/infusionsoft/php-sdk/v/stable.png)](https://packagist.org/packages/infusionsoft/php-sdk)
 
+## REST and XML-RPC
+This SDK uses two different methods for communicating with Infusionsoft servers. **NOTE:** Some methods available to the XML-RPC method are not available in the REST method and vice versa. 
+
+The XML-RPC methods are defined in the classes contained in `/src/Infusionsoft/Api/`.
+
+The REST methods are defined in the classes contained in `/src/Infusionsoft/Api/Rest/`.
 
 ## Version Notes
 
