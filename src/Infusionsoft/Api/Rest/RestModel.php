@@ -283,6 +283,15 @@ abstract class RestModel implements ArrayAccess, JsonSerializable
 
     }
 
+    public function count()
+    {
+        $this->where('limit', 1);
+
+        $data = $this->client->restfulRequest('get', $this->getIndexUrl(), $this->where);
+
+        return $data['count'];
+    }
+
     public function all()
     {
         $data = $this->client->restfulRequest('get', $this->getIndexUrl());

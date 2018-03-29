@@ -765,6 +765,11 @@ class Infusionsoft
         return $this->getRestApi('CampaignService');
     }
 
+    public function userinfo()
+    {
+        return $this->getRestApi('UserInfoService');
+    }
+
     /**
      * @return \Infusionsoft\Api\Rest\OpportunityService
      */
