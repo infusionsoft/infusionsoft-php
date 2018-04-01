@@ -12,10 +12,7 @@ use Infusionsoft\InfusionsoftException;
 class TagService extends RestModel
 {
     use CannotSync;
-    use CannotSave;
     use CannotDelete;
-    use CannotFind;
-    use CannotWhere;
 
     public $full_url = 'https://api.infusionsoft.com/crm/rest/v1/tags';
 
