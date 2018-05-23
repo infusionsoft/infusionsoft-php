@@ -82,4 +82,12 @@ class ContactService extends RestModel
 
     }
 
+    public function model()
+    {
+        $data = $this->client->restfulRequest('get', $this->getFullUrl('model'));
+        $this->fill($data);
+
+        return $this;
+    }
+
 }
