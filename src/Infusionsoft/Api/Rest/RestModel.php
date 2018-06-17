@@ -307,6 +307,15 @@ abstract class RestModel implements ArrayAccess, JsonSerializable
         return $collection;
     }
 
+	public function model()
+	{
+		$data = $this->client->restfulRequest('get', $this->getFullUrl('model'));
+		$this->fill($data);
+
+		return $this;
+	}
+
+
     public function collect(array $array, $cursor = [])
     {
         $items = [];
