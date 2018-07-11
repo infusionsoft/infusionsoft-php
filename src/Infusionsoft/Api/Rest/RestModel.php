@@ -261,8 +261,13 @@ abstract class RestModel implements ArrayAccess, JsonSerializable
 
         $this->where('limit', 1);
 
-        if (!empty($this->where)) {
-            $data = $this->client->restfulRequest('get', $this->getIndexUrl(), $this->where);
+        $params = $this->where;
+        if (!empty($this->optionalProperities)) {
+          $params['optional_properties'] = implode(',', $this->optionalProperities);
+        }
+
+        if (!empty($params)) {
+            $data = $this->client->restfulRequest('get', $this->getIndexUrl(), $params);
         } else {
             $data = $this->client->restfulRequest('get', $this->getIndexUrl());
         }
