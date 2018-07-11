@@ -35,6 +35,34 @@ class RestModelTest extends \PHPUnit_Framework_TestCase
     );
   }
 
+  public function testFirstWithClauses() {
+    $this->mockRestfulRequest([
+      'get',
+      'https://api.infusionsoft.com/crm/rest/v1/contacts',
+      [
+        // params should be folded in
+        'limit' => 1,
+        'optional_properties' => 'custom_fields,job_title',
+        'email' => 'bob@example.com',
+      ],
+    ],
+    [
+      'count' => 1,
+      'contacts' => [['first_name' => 'Bob']],
+    ]);
+
+    $bob = $this->model
+      ->where('email', 'bob@example.com')
+      ->with(['custom_fields', 'job_title'])
+      ->first();
+
+    $this->assertEquals(
+      'Bob',
+      $bob->first_name
+    );
+
+  }
+
   protected function mockRestfulRequest($args = [], $return = []) {
     $this->client->shouldReceive('restfulRequest')
       ->once()
