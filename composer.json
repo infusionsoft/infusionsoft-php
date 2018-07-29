@@ -33,5 +33,12 @@
         "psr-0": {
             "Infusionsoft": ["src", "tests"]
         }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Infusionsoft\\FrameworkSupport\\Laravel\\InfusionsoftServiceProvider"
+            ]
+        }
     }
 }
