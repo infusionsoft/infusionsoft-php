@@ -7,7 +7,7 @@ use Infusionsoft\Api\Rest\Traits\CannotSync;
 
 class EmailService extends RestModel
 {
-    use CannotSync, CannotSave, CannotDelete, CannotModel;
+    use CannotSync, CannotDelete, CannotModel;
 
     public $full_url = 'https://api.infusionsoft.com/crm/rest/v1/emails';
 
