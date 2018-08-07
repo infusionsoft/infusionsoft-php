@@ -726,6 +726,14 @@ class Infusionsoft
     }
 
     /**
+     * @return \Infusionsoft\Api\Rest\NoteService
+     */
+    public function notes()
+    {
+        return $this->getRestApi('NoteService');
+    }
+
+    /**
      * @return \Infusionsoft\Api\Rest\AppointmentService
      */
     public function appointments()
