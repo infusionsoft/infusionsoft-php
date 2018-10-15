@@ -539,6 +539,7 @@ class Infusionsoft
             'files',
             'funnels',
             'invoices',
+            'merchants',
             'orders',
             'products',
             'search',
@@ -647,6 +648,14 @@ class Infusionsoft
     public function invoices()
     {
         return $this->getApi('InvoiceService');
+    }
+
+    /**
+     * @return \Infusionsoft\Api\Rest\MerchantService
+     */
+    public function merchants()
+    {
+        return $this->getRestApi('MerchantService');
     }
 
     /**
