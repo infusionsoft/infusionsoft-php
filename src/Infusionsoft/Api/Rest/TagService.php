@@ -23,9 +23,9 @@ class TagService extends RestModel
         parent::__construct($client);
     }
 
-    public function contacts()
+    public function contacts($where = [])
     {
-        $data = $this->client->restfulRequest('get', $this->getFullUrl($this->id . '/contacts'));
+        $data = $this->client->restfulRequest('get', $this->getFullUrl($this->id . '/contacts'), $where);
         $this->fill($data);
 
         return $this;
