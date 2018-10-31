@@ -2,7 +2,6 @@
 
 use Infusionsoft\Api\Rest\Traits\CannotDelete;
 use Infusionsoft\Api\Rest\Traits\CannotFind;
-use Infusionsoft\Api\Rest\Traits\CannotSave;
 use Infusionsoft\Api\Rest\Traits\CannotSync;
 
 class CompanyService extends RestModel
