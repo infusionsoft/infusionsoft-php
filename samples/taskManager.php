@@ -24,6 +24,9 @@ if (isset($_SESSION['token'])) {
 // access token.
 if (isset($_GET['code']) and !$infusionsoft->getToken()) {
 	$infusionsoft->requestAccessToken($_GET['code']);
+
+    // Save the serialized token to the current session for subsequent requests
+    $_SESSION['token'] = serialize($infusionsoft->getToken());
 }
 
 function taskManager($infusionsoft) {
