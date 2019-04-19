@@ -510,6 +510,7 @@ class Infusionsoft
     /**
      * @param \DateTime|string $datetime
      *
+     * @throws \Exception
      * @return string
      */
     public function formatDate($datetime = 'now')
@@ -573,7 +574,9 @@ class Infusionsoft
     }
 
     /**
-     * @return \Infusionsoft\Api\ContactService
+     * @param string $api
+     *
+     * @return \Infusionsoft\Api\ContactService | \Infusionsoft\Api\Rest\ContactService
      */
     public function contacts($api = 'rest')
     {
@@ -609,7 +612,9 @@ class Infusionsoft
     }
 
     /**
-     * @return \Infusionsoft\Api\APIEmailService
+     * @param string $api
+     *
+     * @return \Infusionsoft\Api\APIEmailService | \Infusionsoft\Api\Rest\EmailService
      */
     public function emails($api = 'rest')
     {
@@ -618,11 +623,12 @@ class Infusionsoft
         }
 
         return $this->getRestApi('EmailService');
-
     }
 
     /**
-     * @return \Infusionsoft\Api\FileService
+     * @param string $api
+     *
+     * @return \Infusionsoft\Api\FileService | \Infusionsoft\Api\Rest\FileService
      */
     public function files($api = 'rest')
     {
@@ -631,7 +637,6 @@ class Infusionsoft
         }
 
         return $this->getRestApi('FileService');
-
     }
 
     /**
@@ -661,7 +666,7 @@ class Infusionsoft
     /**
      * @param string $api
      *
-     * @return mixed
+     * @return \Infusionsoft\Api\OrderService | \Infusionsoft\Api\Rest\OrderService
      */
     public function orders($api = 'rest')
     {
@@ -675,7 +680,7 @@ class Infusionsoft
     /**
      * @param string $api
      *
-     * @return mixed
+     * @return \Infusionsoft\Api\ProductService | \Infusionsoft\Api\Rest\ProductService
      */
     public function products($api = 'rest')
     {
@@ -790,7 +795,9 @@ class Infusionsoft
 		return $this->getRestApi('CompanyService');
 	}
 
-
+    /**
+     * @return \Infusionsoft\Api\Rest\UserInfoService
+     */
     public function userinfo()
     {
         return $this->getRestApi('UserInfoService');
