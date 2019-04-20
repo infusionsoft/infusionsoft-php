@@ -9,6 +9,7 @@ class OpportunityService extends RestModel
 
     public $full_url = 'https://api.infusionsoft.com/crm/rest/v1/opportunities';
 	public $return_key = 'opportunities';
+	protected $updateVerb = 'patch';
 
     public function stage_pipeline()
     {
