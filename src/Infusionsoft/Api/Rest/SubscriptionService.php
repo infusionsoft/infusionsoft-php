@@ -10,10 +10,4 @@ class SubscriptionService extends RestModel
     public $full_url = 'https://api.infusionsoft.com/crm/rest/v1//subscriptions';
 
     public $return_key = 'subscriptions';
-
-    public function list($attributes = [])
-    {
-        $response = $this->client->restfulRequest('get', $this->getFullUrl(), $attributes);
-        return $response;
-    }
 }
