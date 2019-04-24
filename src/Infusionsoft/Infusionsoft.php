@@ -812,6 +812,14 @@ class Infusionsoft
     }
 
     /**
+     * @return \Infusionsoft\Api\Rest\SubscriptionService
+     */
+    public function subscriptions()
+    {
+        return $this->getRestApi('SubscriptionService');
+    }
+
+    /**
      * Returns the requested class name, optionally using a cached array so no
      * object is instantiated more than once during a request.
      *
