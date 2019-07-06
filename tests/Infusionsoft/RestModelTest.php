@@ -5,14 +5,15 @@ namespace Infusionsoft;
 use Infusionsoft\Api\Rest\ContactService;
 use Mockery as m;
 use Psr\Log\NullLogger;
+use PHPUnit\Framework\TestCase;
 
-class RestModelTest extends \PHPUnit_Framework_TestCase
+class RestModelTest extends TestCase
 {
   protected $model;
 
   protected $client;
 
-  public function setUp()
+  public function setUp() : void
   {
     $this->client = m::mock('Infusionsoft\Infusionsoft');
     $this->model = new ContactService($this->client);

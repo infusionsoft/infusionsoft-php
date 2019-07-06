@@ -5,8 +5,9 @@ namespace Infusionsoft;
 use Infusionsoft\Http\CurlClient;
 use Mockery as m;
 use Psr\Log\NullLogger;
+use PHPUnit\Framework\TestCase;
 
-class InfusionsoftTest extends \PHPUnit_Framework_TestCase
+class InfusionsoftTest extends TestCase
 {
 
     /**
@@ -14,7 +15,7 @@ class InfusionsoftTest extends \PHPUnit_Framework_TestCase
      */
     protected $ifs;
 
-    public function setUp()
+    public function setUp() : void
     {
         $this->ifs = new Infusionsoft(array(
             'clientId'     => 'foo',
