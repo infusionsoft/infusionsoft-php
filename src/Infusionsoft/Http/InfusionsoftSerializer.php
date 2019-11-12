@@ -23,7 +23,7 @@ class InfusionsoftSerializer implements SerializerInterface {
 		{
 			$transport = $client->getXmlRpcTransport();
 
-			$client = new Client($uri, $transport);
+			$client = new Client($uri, $transport, extension_loaded('xmlrpc') ? new NativeParser() : null);
 
 			$response = $client->call($method, $params);
 
