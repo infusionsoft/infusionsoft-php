@@ -4,6 +4,7 @@ namespace Infusionsoft\Http;
 
 use fXmlRpc\Client;
 use fXmlRpc\Exception\ExceptionInterface as fXmlRpcException;
+use fXmlRpc\Parser\NativeParser;
 
 class InfusionsoftSerializer implements SerializerInterface {
 
