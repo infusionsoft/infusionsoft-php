@@ -3,6 +3,8 @@ language: php
 sudo: false
 
 php:
+  - 7
+  - 7.1
   - 7.2
   - 7.3
   - 7.4
@@ -16,4 +18,5 @@ script: phpunit
 matrix:
   allow_failures:
     - php: 7
+    - php: 7.1
   fast_finish: true
