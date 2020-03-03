@@ -2,7 +2,6 @@
 
 namespace Infusionsoft;
 
-use Infusionsoft\Http\CurlClient;
 use Mockery as m;
 use Psr\Log\NullLogger;
 use PHPUnit\Framework\TestCase;
@@ -134,12 +133,6 @@ class InfusionsoftTest extends TestCase
     public function testDefaultHttpClientShouldBeGuzzle()
     {
         $this->assertInstanceOf('Infusionsoft\Http\GuzzleHttpClient', $this->ifs->getHttpClient());
-    }
-
-    public function testSettingHttpClientToCurl()
-    {
-        $this->ifs->setHttpClient(new CurlClient());
-        $this->assertInstanceOf('Infusionsoft\Http\CurlClient', $this->ifs->getHttpClient());
     }
 
     public function testRequestingAccessTokenSetsAccessToken()
