@@ -246,7 +246,7 @@ class Infusionsoft
         $client = $this->getHttpClient();
 
         $tokenInfo = $client->request('POST', $this->tokenUri, [
-            'body' => http_build_query($params),
+            'body'    => http_build_query($params),
             'headers' => ['Content-Type' => 'application/x-www-form-urlencoded']
         ]);
 
