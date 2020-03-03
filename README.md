@@ -230,6 +230,240 @@ Access Infusionsoft from the Facade or Binding
 
  $data = app('infusionsoft')->query("Contact",1000,0,['Id' => '123'],['Id','FirstName','LastName','Email'], 'Id', false);
 ```
+## Codeigniter 4.0.2 (Stable Version) Support
+
+- Install Codeigniter 4.0.2 framework app
+- Install Infusionsoft-php SDK via composer (Codeigniter 4.0.2 Framework support added)
+
+- Set your env variables
+
+```
+ INFUSIONSOFT_CLIENT_ID = 'xxxx'
+ INFUSIONSOFT_SECRET = 'xxx'
+ INFUSIONSOFT_REDIRECT= 'http://localhost/ci4/public/infusionsoftgithub/generatetokens'
+```
+- Create new Controller e.g Infusionsoftgithub.php in CI Controller folder
+
+```
+<?php
+namespace App\Controllers;
+
+use Infusionsoft;
+use Infusionsoft\Http;
+
+class Infusionsoftgithub extends BaseController {
+
+    
+    public function __construct() {
+
+        $this->infusionsoft_oauth = new Infusionsoft\FrameworkSupport\Codeigniter\Codeigniter;
+        
+    }
+
+    public function generateTokens() {
+        
+        //get infusionsoft objectS
+            $infusionsoft = $this->infusionsoft_oauth->setvariables();
+        
+        //check if code exists in URL
+                if ($this->request->getGet('code') != NULL) {
+                    
+        //try to exchange code with tokens        
+                    try {
+                    //generate token (this is a tokenized object and not a json string)
+                        $tokens = $infusionsoft->requestAccessToken($this->request->getGet('code'));
+                        
+                    //store token parts in variables
+                        
+                        $extraInfo = $tokens->extraInfo;
+                        $data['code'] = $this->request->getGet('code');
+                        $data['full'] = $tokens;
+                        $data['token_type'] = $extraInfo['token_type'];
+                        $data['scope'] = $extraInfo['scope'];
+                        $data['tokens'] = $tokens;
+                        $data['accessToken'] = $tokens->accessToken;
+                        $data['refreshToken'] = $tokens->refreshToken;
+                        
+                        //date and time of access token expiration expressed in seconds
+                        $data['endOfLife'] = $tokens->endOfLife;
+                        $appURL = substr($data['scope'], strpos($data['scope'], "|") + 1);
+                        $data['appURL'] = $appURL;
+                        $appName = str_replace(".infusionsoft.com","",$appURL);
+                        $data['appName'] = $appName;
+                        
+                        //convert date and time of access token expiration from seconds to actual datetime
+                        $data['expireTime'] = date('d-m-Y H:i:s', $tokens->endOfLife);
+                        //time of token generation i.e the time when client authorized app to generate tokens
+                        $data['tokentime'] = date('d-m-Y H:i:s',time());
+                        
+                    //create token string from generated token parts
+                        $createdToken = [
+                            "access_token" => $data['accessToken'],
+                            "token_type" => $data['token_type'],
+                            "expires_in" => 86400,
+                            "refresh_token" => $data['refreshToken'],
+                            "scope" => $data['scope']
+                        ];
+                        $data['fullCreated'] = json_encode($createdToken);
+                        
+                        $data['message'] = "Tokens generated successfully...";
+                        $data['infusionsoft'] = $infusionsoft;
+                        $data['buttontext'] = 'Click here to re-authorize';
+                        
+            //send data to a function to save tokens in db (this function is present in this controller)            
+//                        $data['savetokensresult'] = $this->savetokens($data);
+                        $data['savetokensresult'] = "Fake Saved";
+                        
+            //Load view with generate tokens and prompt to re-authorize app if client wants
+                        echo view('infusionsoftgithub/generatetokens', $data);
+                        
+                            } 
+            //catch error
+                    catch (Http\HttpException $e) {
+                        $data['date'] = date('d-m-Y H:i:s',time());
+                        $data['message'] = $e->getMessage();
+                        $data['infusionsoft'] = $infusionsoft;
+                        $data['buttontext'] = 'Click here to re-authorize';
+                        
+            //Load view and show the error and prompt to authorize app
+                        echo view('infusionsoftgithub/generatetokens', $data);
+                        
+//                      print_r($e);
+//                      echo "Token Expired/Invalid Code...<br>";
+                            
+                            }
+            
+        }
+        else {
+                        $data['date'] = date('d-m-Y H:i:s',time());
+                        $data['message'] = "Please authorize the app...";
+                        $data['infusionsoft'] = $infusionsoft;
+                        $data['buttontext'] = 'Click here to authorize';
+            
+            //Load view
+                        echo view('infusionsoftgithub/generatetokens', $data);
+        }
+    }
+    
+```
+
+- Create new view files e.g infusionsoftgithub/generatetokens (create new folder 'infusionsoftgithub' in view folder and new file generatetokens.php
+
+```
+<?php
+$request = \Config\Services::request();
+?><!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+	<title><?php echo site_name; ?></title>
+
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="https://accounts.infusionsoft.com/bootstrap-3.2.0-dist/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://accounts.infusionsoft.com/css/bootstrap-app-central.css?b=1.0.210">
+    <link rel="stylesheet" href="https://accounts.infusionsoft.com/css/keap-branding.css?b=1.0.210">
+	<style type="text/css">
+
+	</style>
+</head>
+<body>
+	<nav class="navbar navbar-inverse" role="navigation">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#central-navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="https://accounts.infusionsoft.com/app/central/home">
+                <img src="https://accounts.infusionsoft.com/img/keap_logo.svg?b=1.0.210" height="30px" width="18px">
+                    <span class="vertical-bar">|</span>
+                    Infusionsoft
+                </a>
+            </div>
+            
+                <div class="hidden-xs">
+                    <p class="navbar-text navbar-right">
+                        <strong>Infusionsoft | Codeigniter4</strong>
+                        Generate Tokens for Infusionsoft
+                        <span class="vertical-bar">|</span>
+                        <a class="navbar-link" href="<?php echo base_url() ?>">Home</a>
+                    </p>
+                </div>
+            
+
+        </div>
+    </nav>
+    <div class="container">
+    <div class="row">
+        <div class="col-xs-12 text-center">
+            <div class="page-header">
+                
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-12 col-sm-9 col-md-6 col-lg-5 col-centered">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <?php if($request->getVar('error') != NULL){ ?>
+                    <p><?php echo $request->getVar('error_description'); } else { ?></p>
+                    <p><?php echo $message; } ?></p>
+                    
+                    <?php if (isset($appName)): ?>
+                    <p><?php   
+//                        print_r($tokens);
+//                        echo "<br>";
+                        print_r("<strong>code</strong>: ".$request->getVar('code')."<br>");
+                        print_r("<strong>accessToken</strong>: ".$accessToken."<br>");
+                        print_r("<strong>refreshToken:</strong> ".$refreshToken."<br>");
+                        print_r("<strong>endOfLife:</strong> ".$endOfLife."<br>");
+                        print_r("<strong>token_type:</strong> ".$token_type."<br>");
+                        print_r("<strong>scope:</strong> ".$scope."<br>");
+                        print_r("<strong>appURL:</strong> ".$appURL."<br>");
+                        print_r("<strong>appName:</strong> ".$appName."<br>");
+                        print_r("<strong>accessToken expireTime:</strong> ".$expireTime."<br>");
+                        print_r("<strong>Token Saved in db:</strong> ".$savetokensresult."<br>");
+                        
+                        
+                        //add contact
+                        $contactDetails =[
+            'FirstName' => "jhon", 
+            'LastName' => "doe", 
+            'Email' => "johndoe@johndoe.com"
+        ];
+
+        
+        echo "<pre>";
+        
+
+
+    $conID = $infusionsoft->contacts('xml')->addWithDupCheck($contactDetails, 'Email');
+    
+    print_r($conID);
+                        
+                        
+                        
+                        ?></p>
+                    <?php else: ?>
+                    <?php endif ?>
+                    
+<?php echo '<a class="btn btn-primary center-block" href="' . $infusionsoft->getAuthorizationUrl() . '">'.$buttontext.'</a>'; ?>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+</body>
+</html>
+```
+
+Access 'Allow'/'Deny' Screen from your controller by accessing the URL in browser e.g http://base_url/infusionsoftgithub/generateTokens.
 
 ## Lumen Service Provider
 
