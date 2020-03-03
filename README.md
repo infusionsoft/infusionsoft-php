@@ -437,13 +437,14 @@ $request = \Config\Services::request();
         ];
 
         
-        echo "<pre>";
+        echo "<pre>Sample data: <br>";
         
 
 
     $conID = $infusionsoft->contacts('xml')->addWithDupCheck($contactDetails, 'Email');
-    
-    print_r($conID);
+    print_r(json_encode($contactDetails, JSON_PRETTY_PRINT));
+    print_r("<br>added in IS, conID: ".$conID);
+                        echo "</pre>";
                         
                         
                         
@@ -460,6 +461,7 @@ $request = \Config\Services::request();
 
 
 </body>
+</html>
 </html>
 ```
 
