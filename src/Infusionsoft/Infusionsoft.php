@@ -367,7 +367,7 @@ class Infusionsoft
      */
     public function getLogs()
     {
-        if (!$this->debug) {
+        if ( !$this->debug) {
             return array();
         }
 
