@@ -20,6 +20,11 @@ class Infusionsoft
     protected $auth = 'https://signin.infusionsoft.com/app/oauth/authorize';
 
     /**
+     * @var string Base URL of all API requests
+     */
+    protected $baseUri = 'https://api.infusionsoft.com/crm';
+
+    /**
      * @var string URL used to request an access token
      */
     protected $tokenUri = 'https://api.infusionsoft.com/token';
@@ -112,6 +117,26 @@ class Infusionsoft
     public function setUrl($url)
     {
         $this->url = $url;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getBaseUrl()
+    {
+        return $this->baseUri;
+    }
+
+    /**
+     * @param $url
+     *
+     * @return $this
+     */
+    public function setBaseUrl($url)
+    {
+        $this->baseUri = $url;
 
         return $this;
     }
@@ -215,14 +240,18 @@ class Infusionsoft
     /**
      * @return string
      */
-    public function getAuthorizationUrl()
+    public function getAuthorizationUrl($state = null)
     {
         $params = array(
-            'client_id' => $this->clientId,
-            'redirect_uri' => $this->redirectUri,
+            'client_id'     => $this->clientId,
+            'redirect_uri'  => $this->redirectUri,
             'response_type' => 'code',
-            'scope' => 'full'
+            'scope'         => 'full'
         );
+
+        if ( ! is_null($state) && $state !== null && is_string($state)) {
+            $params['state'] = (string)$state;
+        }
 
         return $this->auth . '?' . http_build_query($params);
     }
@@ -236,11 +265,11 @@ class Infusionsoft
     public function requestAccessToken($code)
     {
         $params = array(
-            'client_id' => $this->clientId,
+            'client_id'     => $this->clientId,
             'client_secret' => $this->clientSecret,
-            'code' => $code,
-            'grant_type' => 'authorization_code',
-            'redirect_uri' => $this->redirectUri,
+            'code'          => $code,
+            'grant_type'    => 'authorization_code',
+            'redirect_uri'  => $this->redirectUri,
         );
 
         $client = $this->getHttpClient();
@@ -260,7 +289,7 @@ class Infusionsoft
      */
     public function getHttpClient()
     {
-        if (!$this->httpClient) {
+        if ( ! $this->httpClient) {
             return new Http\GuzzleHttpClient($this->debug, $this->getHttpLogAdapter());
         }
 
@@ -275,11 +304,11 @@ class Infusionsoft
     {
         $headers = array(
             'Authorization' => 'Basic ' . base64_encode($this->clientId . ':' . $this->clientSecret),
-            'Content-Type' => 'application/x-www-form-urlencoded'
+            'Content-Type'  => 'application/x-www-form-urlencoded'
         );
 
         $params = array(
-            'grant_type' => 'refresh_token',
+            'grant_type'    => 'refresh_token',
             'refresh_token' => $this->getToken()->getRefreshToken(),
         );
 
@@ -322,7 +351,7 @@ class Infusionsoft
      */
     public function getSerializer()
     {
-        if (!$this->serializer) {
+        if ( ! $this->serializer) {
             return new Http\InfusionsoftSerializer();
         }
 
@@ -343,7 +372,7 @@ class Infusionsoft
     public function getHttpLogAdapter()
     {
         // If a log adapter hasn't been set, we default to the null adapter
-        if (!$this->httpLogAdapter) {
+        if ( ! $this->httpLogAdapter) {
             $this->httpLogAdapter = new ArrayLogger();
         }
 
@@ -367,12 +396,12 @@ class Infusionsoft
      */
     public function getLogs()
     {
-        if (!$this->debug) {
+        if ( ! $this->debug) {
             return array();
         }
 
         $logger = $this->getHttpLogAdapter();
-        if (!$logger instanceof ArrayLogger) {
+        if ( ! $logger instanceof ArrayLogger) {
             return array();
         }
 
@@ -423,7 +452,7 @@ class Infusionsoft
         // Reset the empty key flag back to the default for the next request
         $this->needsEmptyKey = true;
 
-        $client = $this->getSerializer();
+        $client   = $this->getSerializer();
         $response = $client->request($method, $url, $params, $this->getHttpClient());
 
         return $response;
@@ -432,7 +461,7 @@ class Infusionsoft
     /**
      * @param string $method
      * @param string $url
-     * @param array $params
+     * @param array  $params
      *
      * @throws InfusionsoftException
      * @return mixed
@@ -446,14 +475,14 @@ class Infusionsoft
             throw new TokenExpiredException;
         }
 
-        $client = $this->getHttpClient();
+        $client      = $this->getHttpClient();
         $full_params = [];
 
         if (strtolower($method) === 'get' || strtolower($method) === 'delete') {
             $params = array_merge(array('access_token' => $token->getAccessToken()), $params);
-            $url = $url . '?' . http_build_query($params);
+            $url    = $url . '?' . http_build_query($params);
         } else {
-            $url = $url . '?' . http_build_query(array('access_token' => $token->getAccessToken()));
+            $url                 = $url . '?' . http_build_query(array('access_token' => $token->getAccessToken()));
             $full_params['body'] = json_encode($params);
         }
 
@@ -481,11 +510,12 @@ class Infusionsoft
     /**
      * @param \DateTime|string $datetime
      *
+     * @throws \Exception
      * @return string
      */
     public function formatDate($datetime = 'now')
     {
-        if (!$datetime instanceof \DateTime) {
+        if ( ! $datetime instanceof \DateTime) {
             $datetime = new \DateTime($datetime, new \DateTimeZone('America/New_York'));
         }
 
@@ -510,9 +540,11 @@ class Infusionsoft
             'files',
             'funnels',
             'invoices',
+            'merchants',
             'orders',
             'products',
             'search',
+            'tags',
             'shipping',
             'webForms',
             'webTracking'
@@ -542,7 +574,9 @@ class Infusionsoft
     }
 
     /**
-     * @return \Infusionsoft\Api\ContactService
+     * @param string $api
+     *
+     * @return \Infusionsoft\Api\ContactService | \Infusionsoft\Api\Rest\ContactService
      */
     public function contacts($api = 'rest')
     {
@@ -578,19 +612,31 @@ class Infusionsoft
     }
 
     /**
-     * @return \Infusionsoft\Api\APIEmailService
+     * @param string $api
+     *
+     * @return \Infusionsoft\Api\APIEmailService | \Infusionsoft\Api\Rest\EmailService
      */
-    public function emails()
+    public function emails($api = 'rest')
     {
-        return $this->getApi('APIEmailService');
+        if ($api == 'xml') {
+            return $this->getApi('APIEmailService');
+        }
+
+        return $this->getRestApi('EmailService');
     }
 
     /**
-     * @return \Infusionsoft\Api\FileService
+     * @param string $api
+     *
+     * @return \Infusionsoft\Api\FileService | \Infusionsoft\Api\Rest\FileService
      */
-    public function files()
+    public function files($api = 'rest')
     {
-        return $this->getApi('FileService');
+        if ($api == 'xml') {
+            return $this->getApi('FileService');
+        }
+
+        return $this->getRestApi('FileService');
     }
 
     /**
@@ -610,9 +656,17 @@ class Infusionsoft
     }
 
     /**
+     * @return \Infusionsoft\Api\Rest\MerchantService
+     */
+    public function merchants()
+    {
+        return $this->getRestApi('MerchantService');
+    }
+
+    /**
      * @param string $api
      *
-     * @return mixed
+     * @return \Infusionsoft\Api\OrderService | \Infusionsoft\Api\Rest\OrderService
      */
     public function orders($api = 'rest')
     {
@@ -626,7 +680,7 @@ class Infusionsoft
     /**
      * @param string $api
      *
-     * @return mixed
+     * @return \Infusionsoft\Api\ProductService | \Infusionsoft\Api\Rest\ProductService
      */
     public function products($api = 'rest')
     {
@@ -686,11 +740,35 @@ class Infusionsoft
     }
 
     /**
+     * @return \Infusionsoft\Api\Rest\NoteService
+     */
+    public function notes()
+    {
+        return $this->getRestApi('NoteService');
+    }
+
+    /**
      * @return \Infusionsoft\Api\Rest\AppointmentService
      */
     public function appointments()
     {
         return $this->getRestApi('AppointmentService');
+    }
+
+    /**
+     * @return \Infusionsoft\Api\Rest\CustomFieldService
+     */
+    public function customfields()
+    {
+        return $this->getRestApi('CustomFieldService');
+    }
+
+    /**
+     * @return \Infusionsoft\Api\Rest\TagService
+     */
+    public function tags()
+    {
+        return $this->getRestApi('TagService');
     }
 
     /**
@@ -709,6 +787,38 @@ class Infusionsoft
         return $this->getRestApi('CampaignService');
     }
 
+	/**
+	 * @return \Infusionsoft\Api\Rest\CampaignService
+	 */
+	public function companies()
+	{
+		return $this->getRestApi('CompanyService');
+	}
+
+    /**
+     * @return \Infusionsoft\Api\Rest\UserInfoService
+     */
+    public function userinfo()
+    {
+        return $this->getRestApi('UserInfoService');
+    }
+
+    /**
+     * @return \Infusionsoft\Api\Rest\OpportunityService
+     */
+    public function opportunities()
+    {
+        return $this->getRestApi('OpportunityService');
+    }
+
+    /**
+     * @return \Infusionsoft\Api\Rest\SubscriptionService
+     */
+    public function subscriptions()
+    {
+        return $this->getRestApi('SubscriptionService');
+    }
+
     /**
      * Returns the requested class name, optionally using a cached array so no
      * object is instantiated more than once during a request.
@@ -721,7 +831,7 @@ class Infusionsoft
     {
         $class = '\Infusionsoft\Api\\' . $class;
 
-        if (!array_key_exists($class, $this->apis)) {
+        if ( ! array_key_exists($class, $this->apis)) {
             $this->apis[$class] = new $class($this);
         }
 
@@ -740,11 +850,7 @@ class Infusionsoft
     {
         $class = '\Infusionsoft\Api\Rest\\' . $class;
 
-        if (!array_key_exists($class, $this->apis)) {
-            $this->apis[$class] = new $class($this);
-        }
-
-        return $this->apis[$class];
+        return new $class($this);
     }
 
 }
