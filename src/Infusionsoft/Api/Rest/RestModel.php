@@ -21,6 +21,8 @@ abstract class RestModel implements ArrayAccess, JsonSerializable
 
     protected $updateVerb = 'put';
 
+    protected $primaryKey = 'id';
+
     protected $optionalProperities = [];
 
     protected $return_key = null;
@@ -164,8 +166,9 @@ abstract class RestModel implements ArrayAccess, JsonSerializable
     {
         // well, is it a post or a put? we need to figure out if this thing exists or not
         // long story short, if the "id" is set, it's an update.
-        if (isset($this->id)) {
-            $data = $this->client->restfulRequest(strtolower($this->updateVerb), $this->getFullUrl($this->id),
+        if (isset($this->{$this->primaryKey})) {
+            $data = $this->client->restfulRequest(strtolower($this->updateVerb),
+                $this->getFullUrl($this->{$this->primaryKey}),
                 (array)$this->toArray());
         } else {
             $data = $this->client->restfulRequest('post', $this->getFullUrl(), (array)$this->toArray());
@@ -228,7 +231,8 @@ abstract class RestModel implements ArrayAccess, JsonSerializable
 
     public function delete()
     {
-        $response = $this->client->restfulRequest('delete', $this->getFullUrl($this->id ? $this->id : $this->key));
+        $response = $this->client->restfulRequest('delete',
+            $this->getFullUrl($this->{$this->primaryKey}));
 
         return true;
     }
@@ -257,8 +261,13 @@ abstract class RestModel implements ArrayAccess, JsonSerializable
 
         $this->where('limit', 1);
 
-        if (!empty($this->where)) {
-            $data = $this->client->restfulRequest('get', $this->getIndexUrl(), $this->where);
+        $params = $this->where;
+        if (!empty($this->optionalProperities)) {
+          $params['optional_properties'] = implode(',', $this->optionalProperities);
+        }
+
+        if (!empty($params)) {
+            $data = $this->client->restfulRequest('get', $this->getIndexUrl(), $params);
         } else {
             $data = $this->client->restfulRequest('get', $this->getIndexUrl());
         }
@@ -279,6 +288,15 @@ abstract class RestModel implements ArrayAccess, JsonSerializable
 
     }
 
+    public function count()
+    {
+        $this->where('limit', 1);
+
+        $data = $this->client->restfulRequest('get', $this->getIndexUrl(), $this->where);
+
+        return $data['count'];
+    }
+
     public function all()
     {
         $data = $this->client->restfulRequest('get', $this->getIndexUrl());
@@ -293,6 +311,15 @@ abstract class RestModel implements ArrayAccess, JsonSerializable
 
         return $collection;
     }
+
+	public function model()
+	{
+		$data = $this->client->restfulRequest('get', $this->getFullUrl('model'));
+		$this->fill($data);
+
+		return $this;
+	}
+
 
     public function collect(array $array, $cursor = [])
     {
@@ -413,6 +440,18 @@ abstract class RestModel implements ArrayAccess, JsonSerializable
         $this->updateVerb = $verb;
 
         return $this->updateVerb;
+    }
+
+    /**
+     * Sets the primary key on the object
+     *
+     * @return string
+     */
+    public function setPrimaryKey($key = 'id')
+    {
+        $this->primaryKey = $key;
+
+        return $this->primaryKey;
     }
 
     /**

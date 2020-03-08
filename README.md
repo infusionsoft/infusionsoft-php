@@ -9,6 +9,8 @@
 
 This version implements RESTful endpoints, a new version of Guzzle, and a restructured request handler.
 
+As of version 1.4, PHP 7+ is required.
+
 ### Breaking Change
 
 If you use the `Contacts`, `Orders` or `Products` services, there are now two different classes handling each service - one for REST, one for XML-RPC. *This version of the SDK will load the REST class by default.* If you still need the XML-RPC class, pass `'xml'` as an argument when requesting the object: `$infusionsoft->orders('xml')'`
@@ -28,7 +30,7 @@ Or manually add it to your composer.json:
 ``` json
 {
     "require": {
-        "infusionsoft/php-sdk": "1.2.*"
+        "infusionsoft/php-sdk": "1.4.*"
     }
 }
 ```
@@ -38,6 +40,9 @@ Or manually add it to your composer.json:
 The client ID and secret are the key and secret for your OAuth2 application found at the [Infusionsoft Developers](https://keys.developer.infusionsoft.com/apps/mykeys) website.
 
 ```php
+
+if(empty(session_id();)) session_start();
+
 require_once 'vendor/autoload.php';
 
 $infusionsoft = new \Infusionsoft\Infusionsoft(array(
@@ -55,7 +60,7 @@ if (isset($_SESSION['token'])) {
 // If we are returning from Infusionsoft we need to exchange the code for an
 // access token.
 if (isset($_GET['code']) and !$infusionsoft->getToken()) {
-	$infusionsoft->requestAccessToken($_GET['code']);
+	$_SESSION['token'] = serialize($infusionsoft->requestAccessToken($_GET['code']));
 }
 
 if ($infusionsoft->getToken()) {
@@ -75,10 +80,10 @@ require_once 'vendor/autoload.php';
 
 //
 // Setup your Infusionsoft object here, then set your token either via the request or from storage
-//
+// As of v1.3 contacts defaults to rest
 $infusionsoft->setToken($myTokenObject);
 
-$infusionsoft->contacts->add(array('FirstName' => 'John', 'LastName' => 'Doe'));
+$infusionsoft->contacts('xml')->add(array('FirstName' => 'John', 'LastName' => 'Doe'));
 
 ```
 
@@ -226,9 +231,9 @@ INFUSIONSOFT_REDIRECT_URL=http://localhost/auth/callback
 Access Infusionsoft from the Facade or Binding
 
 ```
- $data = Infusionsoft::query("Contact",1000,0,['Id' => '123'],['Id','FirstName','LastName','Email'], 'Id', false);
+ $data = Infusionsoft::data()->query("Contact",1000,0,['Id' => '123'],['Id','FirstName','LastName','Email'], 'Id', false);
 
- $data = app('infusionsoft')->query("Contact",1000,0,['Id' => '123'],['Id','FirstName','LastName','Email'], 'Id', false);
+ $data = app('infusionsoft')->data()->query("Contact",1000,0,['Id' => '123'],['Id','FirstName','LastName','Email'], 'Id', false);
 ```
 ## Codeigniter 4.0.2 (Stable Version) Support
 
@@ -486,7 +491,7 @@ INFUSIONSOFT_REDIRECT_URL=http://localhost/auth/callback
 Access Infusionsoft from the Binding
 
 ```
- $data = app('infusionsoft')->query("Contact",1000,0,['Id' => '123'],['Id','FirstName','LastName','Email'], 'Id', false);
+ $data = app('infusionsoft')->data()->query("Contact",1000,0,['Id' => '123'],['Id','FirstName','LastName','Email'], 'Id', false);
 ```
 
 ## Contributing

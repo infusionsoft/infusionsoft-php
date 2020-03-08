@@ -7,7 +7,7 @@ class InvoiceService extends AbstractApi {
 	/**
 	 * @param integer $contactId
 	 * @param string $description
-	 * @param string $orderDate
+	 * @param \DateTime $orderDate
 	 * @param integer $leadAffiliateId
 	 * @param integer $saleAffiliateId
 	 * @return mixed

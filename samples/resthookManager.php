@@ -1,6 +1,7 @@
 <?php
 
 session_start();
+//session_destroy();
 
 require_once '../vendor/autoload.php';
 
@@ -24,30 +25,26 @@ if (isset($_SESSION['token'])) {
 // access token.
 if (isset($_GET['code']) and !$infusionsoft->getToken()) {
 	$infusionsoft->requestAccessToken($_GET['code']);
-
-    // Save the serialized token to the current session for subsequent requests
-    $_SESSION['token'] = serialize($infusionsoft->getToken());
+	$_SESSION['token'] = serialize($infusionsoft->getToken());
 }
 
-function taskManager($infusionsoft) {
-	$tasks = $infusionsoft->tasks();
+function resthookManager($infusionsoft) {
+	$resthooks = $infusionsoft->resthooks();
 
 	// first, create a new task
-	$task = $tasks->create([
-		'title' => 'Test Task',
-		'description' => 'This is the task description'
+	$resthook = $resthooks->create([
+		'eventKey' => 'contact.add',
+		'hookUrl' => 'http://infusionsoft.app/verifyRestHook.php'
 	]);
+    var_dump($resthook);
+	$resthook = $resthooks->find($resthook->id)->verify();
 
-	// oops, we wanted a different title
-	$task->title = 'Real Test Task';
-	$task->save();
-
-	return $task;
+	return $resthook;
 }
 
 if ($infusionsoft->getToken()) {
 	try {
-		$task = taskManager($infusionsoft);
+		$resthook = resthookManager($infusionsoft);
 	}
 	catch (\Infusionsoft\TokenExpiredException $e) {
 		// If the request fails due to an expired access token, we can refresh
@@ -57,10 +54,10 @@ if ($infusionsoft->getToken()) {
 		// Save the serialized token to the current session for subsequent requests
 		$_SESSION['token'] = serialize($infusionsoft->getToken());
 
-		$task = taskManager($infusionsoft);
+		$resthook = resthookManager($infusionsoft);
 	}
 
-	var_dump($task);
+	var_dump($resthook);
 }
 else {
 	echo '<a href="' . $infusionsoft->getAuthorizationUrl() . '">Click here to authorize</a>';
