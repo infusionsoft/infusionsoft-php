@@ -18,11 +18,20 @@ class OrderService extends RestModel {
 
     public function deleteOrderItem($id = null)
     { 
-	if(!$id) return false;
+	    
+        if(!$id) return false;
 		
         $response = $this->client->restfulRequest('delete', $this->getFullUrl($this->id . '/items/'. $id));
 
         return $response;
 		
    }
+    public function transactions()
+    {
+        
+        $response = $this->client->restfulRequest('get', $this->getFullUrl($this->id . '/transactions'));
+
+        return $response;
+    }
+
 }
