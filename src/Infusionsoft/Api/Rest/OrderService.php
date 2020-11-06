@@ -16,4 +16,12 @@ class OrderService extends RestModel {
         return $response;
     }
 
+    public function transactions()
+    {
+
+        $response = $this->client->restfulRequest('get', $this->getFullUrl($this->id . '/transactions'));
+
+        return $response;
+    }
+
 }
