@@ -82,5 +82,22 @@ class ContactService extends RestModel
 
     }
 
+    public function creditCards()
+    {
+        $data = $this->client->restfulRequest('get', $this->getFullUrl($this->id . '/creditCards'));
+        $this->fill($data);
 
+        return $this;
+    }
+
+    public function addCreditCard($cardDetails)
+    {
+        if (!is_array($cardDetails)) {
+            throw new InfusionsoftException('Must be an array of card details');
+        }
+
+        $response = $this->client->restfulRequest('post', $this->getFullUrl($this->id . '/creditCards'), $cardDetails);
+
+        return $response;
+    }
 }
