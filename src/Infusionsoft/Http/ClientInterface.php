@@ -20,6 +20,6 @@ interface ClientInterface {
 	 * @internal param array $headers
 	 * @internal param string $method
 	 */
-	public function request($method, $uri, array $options);
+	public function call($method, $uri, array $options);
 
 }
