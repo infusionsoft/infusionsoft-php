@@ -15,11 +15,11 @@
     ],
     "require": {
         "php": ">=7.3",
-        "guzzlehttp/guzzle": "~6.1",
+        "guzzlehttp/guzzle": "^7",
         "lstrojny/fxmlrpc": "^0.15.0",
         "psr/log": "~1.0",
         "laminas/laminas-diactoros": "^2.0",
-        "php-http/guzzle6-adapter": "^2.0",
+        "php-http/guzzle7-adapter": "^0.1",
         "php-http/message": "^1.6"
     },
     "require-dev": {

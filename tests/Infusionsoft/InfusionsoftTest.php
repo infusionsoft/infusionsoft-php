@@ -138,7 +138,7 @@ class InfusionsoftTest extends TestCase
     public function testRequestingAccessTokenSetsAccessToken()
     {
         $client = m::mock('Infusionsoft\Http\GuzzleHttpClient');
-        $client->shouldReceive('request')->once()->withAnyArgs()->andReturn(json_encode(['access_token' => 'access_token']));
+        $client->shouldReceive('call')->once()->withAnyArgs()->andReturn(json_encode(['access_token' => 'access_token']));
 
         $this->ifs->setClientId('foo');
         $this->ifs->setClientSecret('bar');
