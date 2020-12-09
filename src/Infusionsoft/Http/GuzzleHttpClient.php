@@ -39,7 +39,7 @@ class GuzzleHttpClient extends Client implements ClientInterface
     public function getXmlRpcTransport()
     {
 
-        $adapter = new \Http\Adapter\Guzzle6\Client($this);
+        $adapter = new \Http\Adapter\Guzzle7\Client($this);
 
         return new HttpAdapterTransport(new \Http\Message\MessageFactory\DiactorosMessageFactory(),
             $adapter);
