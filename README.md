@@ -202,7 +202,9 @@ $infusionsoft->setHttpLogAdapter($logger);
 $ phpunit
 ```
 
-## Laravel 5.1 Service Provider
+## Laravel Framework Support
+
+### Laravel < 5.5
 
 In config/app.php, register the service provider
 
@@ -215,6 +217,10 @@ Register the Facade (optional)
 ```
 'Infusionsoft'       => Infusionsoft\FrameworkSupport\Laravel\InfusionsoftFacade::class
 ```
+
+### Laravel >= 5.5
+
+In Laravel 5.5, package auto-discovery was added. The service provider and facade will be detected for you. Continue by publishing the vendor assets and adding your env variables.
 
 Publish the config
 
