@@ -37,7 +37,10 @@
         "laravel": {
             "providers": [
                 "Infusionsoft\\FrameworkSupport\\Laravel\\InfusionsoftServiceProvider"
-            ]
+            ],
+            "aliases": {
+                "Infusionsoft": "Infusionsoft\\FrameworkSupport\\Laravel\\InfusionsoftFacade"
+            }
         }
     }
 }
