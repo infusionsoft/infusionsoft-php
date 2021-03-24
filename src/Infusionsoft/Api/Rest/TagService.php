@@ -46,27 +46,20 @@ class TagService extends RestModel
         return $response;
     }
 
-    /**
-     * @param array $contactIds
-     * @param int $tagId
-     *
-     * @return mixed
-     * @throws InfusionsoftException
-     */
-    public function addContacts($contactIds, $tagId)
+    public function addContacts($contactIds)
     {
-        if ( ! is_array($contactIds) ) {
+        if ( ! is_array($contactIds)) {
             throw new InfusionsoftException('Must be an array of contact ids');
-        }
-        if ( count($contactIds) > 100 ) {
+        } elseif (count($contactIds) > 100) {
             throw new InfusionsoftException('A maximum of 100 contact ids can be modified at once');
         }
-        if ( !is_int($tagId) ) {
-            throw new InfusionsoftException('Tag id must be an integer.');
-        }
+
         $contacts      = new \stdClass();
         $contacts->ids = $contactIds;
-        return $this->client->restfulRequest('post', $this->getFullUrl($this->id . '/' . $tagId . '/contacts'), $contacts);
+
+        $response = $this->client->restfulRequest('post', $this->getFullUrl($this->id . '/contacts'), $contacts);
+
+        return $response;
     }
 
     public function addCategory($name, $description)
