@@ -568,9 +568,13 @@ class Infusionsoft
     /**
      * @return \Infusionsoft\Api\AffiliateService
      */
-    public function affiliates()
+    public function affiliates($api = 'rest')
     {
-        return $this->getApi('AffiliateService');
+        if ($api == 'xml') {
+            return $this->getApi('AffiliateService');
+        }
+
+        return $this->getRestApi('AffiliateService');
     }
 
     /**
@@ -653,6 +657,14 @@ class Infusionsoft
     public function invoices()
     {
         return $this->getApi('InvoiceService');
+    }
+
+    /**
+     * @return \Infusionsoft\Api\Rest\LocaleService
+     */
+    public function locales()
+    {
+        return $this->getRestApi('LocaleService');
     }
 
     /**
@@ -854,4 +866,3 @@ class Infusionsoft
     }
 
 }
-
