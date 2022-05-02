@@ -1,0 +1,24 @@
+version: "3.3"
+services:
+#  infusionsoft-php:
+#    container_name: infusionsoft-php
+#    build: .
+#    ports:
+#      - "80:8080"
+#    volumes:
+#      - ".:/var/www/html"
+  web:
+    container_name: infusionsoft-php
+    image: nginx:latest
+    ports:
+      - "80:80"
+    volumes:
+      - ".:/var/www/html"
+      - "./docker-nginx-config:/etc/nginx/conf.d"
+    links:
+      - php
+  php:
+    image: php:8.1-fpm
+    volumes:
+      - ".:/var/www/html"
+  
