@@ -22,6 +22,5 @@ services:
     image: composer:latest
     volumes:
       - ${INFUSIONSOFT_PHP_WORKING_DIR-.}:/app
-    command: "ls -al /app"
-#    command: "composer install --optimize-autoloader --no-interaction --no-progress"  
+    command: "composer install --optimize-autoloader --no-interaction --no-progress"
     profiles: ["install"]
