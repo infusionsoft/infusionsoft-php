@@ -1,24 +1,27 @@
 version: "3.3"
 services:
-#  infusionsoft-php:
-#    container_name: infusionsoft-php
-#    build: .
-#    ports:
-#      - "80:8080"
-#    volumes:
-#      - ".:/var/www/html"
+
   web:
-    container_name: infusionsoft-php
     image: nginx:latest
+    container_name: infusionsoft-php-nginx
     ports:
       - "80:80"
     volumes:
-      - ".:/var/www/html"
-      - "./docker-nginx-config:/etc/nginx/conf.d"
+      - "${INFUSIONSOFT_PHP_WORKING_DIR-.}:/var/www/html"
+      - "${INFUSIONSOFT_PHP_WORKING_DIR-.}/docker-nginx-config:/etc/nginx/conf.d"
     links:
       - php
+
   php:
     image: php:8.1-fpm
+    container_name: infusionsoft-php
     volumes:
-      - ".:/var/www/html"
-  
+      - "${INFUSIONSOFT_PHP_WORKING_DIR-.}:/var/www/html"
+
+  composer:
+    image: composer:latest
+    volumes:
+      - ${INFUSIONSOFT_PHP_WORKING_DIR-.}:/app
+    command: "ls -al /app"
+#    command: "composer install --optimize-autoloader --no-interaction --no-progress"  
+    profiles: ["install"]
