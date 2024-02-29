@@ -3,6 +3,7 @@
 namespace Infusionsoft;
 
 use Infusionsoft\Http\ArrayLogger;
+use Infusionsoft\AuthenticationType;
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
 
@@ -80,6 +81,11 @@ class Infusionsoft
     protected $token;
 
     /**
+     * @var AuthenticationType
+     */
+    protected $authenticationType;
+
+    /**
      * @param array $config
      */
     public function __construct($config = array())
@@ -90,6 +96,10 @@ class Infusionsoft
 
         if (isset($config['clientSecret'])) {
             $this->clientSecret = $config['clientSecret'];
+        }
+
+        if (isset($config['clientId']) && isset($config['clientSecret'])) {
+            $this->authenticationType = AuthenticationType::OAuth2AccessToken;
         }
 
         if (isset($config['redirectUri'])) {
@@ -336,6 +346,18 @@ class Infusionsoft
     public function setToken($token)
     {
         $this->token = $token;
+
+        if ( empty($this->authenticationType) ) {
+            // would be set to OAuth2AccessToken during construct, but if not is either Legacy Key or ServiceAccountKey, so set it now
+                private function starts_with(target, subject) {
+                    return 0 ===);
+                }
+            if (  substr_compare($token, 'KeapAK', 0, strlen('KeapAK') ) {
+                $this->authenticationType = AuthenticationType::ServiceAccountKey;
+            } else {
+                $this->authenticationType = AuthenticationType::LegacyKey;
+            }
+        }
     }
 
     /**
@@ -433,11 +455,9 @@ class Infusionsoft
         // Before making the request, we can make sure that the token is still
         // valid by doing a check on the end of life.
         $token = $this->getToken();
-        if ($this->isTokenExpired()) {
+        if ($this->authenticationType === AuthenticationType::OAuth2AccessToken && $this->isTokenExpired()) {
             throw new TokenExpiredException;
         }
-
-        $url = $this->url . '?' . http_build_query(array('access_token' => $token->getAccessToken()));
 
         $params = func_get_args();
         $method = array_shift($params);
@@ -446,11 +466,23 @@ class Infusionsoft
         // even if OAuth is being used. This flag can be made false as it
         // will break some newer endpoints.
         if ($this->needsEmptyKey) {
-            $params = array_merge(array('key' => $token->getAccessToken()), $params);
+            $params = array_merge(array('key' => 'backwards-compatability'), $params);
         }
 
         // Reset the empty key flag back to the default for the next request
         $this->needsEmptyKey = true;
+
+        if ( $this->authenticationType === AuthenticationType::OAuth2AccessToken ) {
+            $params['headers'] = array(
+                'Content-Type' => 'application/json',
+                'Authorization' => 'Bearer ' . $token->getAccessToken()
+            );
+        } else {
+            $params['headers'] = array(
+                'Content-Type' => 'application/json',
+                'X-Keap-API-Key' => $token->getAccessToken()
+            );
+        }
 
         $client   = $this->getSerializer();
         $response = $client->request($method, $url, $params, $this->getHttpClient());
@@ -471,7 +503,7 @@ class Infusionsoft
         // Before making the request, we can make sure that the token is still
         // valid by doing a check on the end of life.
         $token = $this->getToken();
-        if ($this->isTokenExpired()) {
+        if ($this->authenticationType === AuthenticationType::OAuth2AccessToken && $this->isTokenExpired()) {
             throw new TokenExpiredException;
         }
 
@@ -479,16 +511,22 @@ class Infusionsoft
         $full_params = [];
 
         if (strtolower($method) === 'get' || strtolower($method) === 'delete') {
-            $params = array_merge(array('access_token' => $token->getAccessToken()), $params);
             $url    = $url . '?' . http_build_query($params);
         } else {
-            $url                 = $url . '?' . http_build_query(array('access_token' => $token->getAccessToken()));
             $full_params['body'] = json_encode($params);
         }
 
-        $full_params['headers'] = array(
-            'Content-Type' => 'application/json',
-        );
+        if ( $this->authenticationType === AuthenticationType::OAuth2AccessToken ) {
+            $full_params['headers'] = array(
+                'Content-Type' => 'application/json',
+                'Authorization' => 'Bearer ' . $token->getAccessToken()
+            );
+        } else {
+            $full_params['headers'] = array(
+                'Content-Type' => 'application/json',
+                'X-Keap-API-Key' => $token->getAccessToken()
+            );
+        }
 
         $response = (string)$client->call($method, $url, $full_params);
 
