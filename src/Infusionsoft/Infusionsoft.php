@@ -2,10 +2,11 @@
 
 namespace Infusionsoft;
 
-use Infusionsoft\Http\ArrayLogger;
 use Infusionsoft\AuthenticationType;
+use Infusionsoft\Http\ArrayLogger;
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
+use function PHPUnit\Framework\throwException;
 
 class Infusionsoft
 {
@@ -44,6 +45,11 @@ class Infusionsoft
      * @var string
      */
     protected $redirectUri;
+
+    /**
+     * @var string
+     */
+    protected $apikey;
 
     /**
      * @var array Cache for services so they aren't created multiple times
@@ -100,6 +106,16 @@ class Infusionsoft
 
         if (isset($config['clientId']) && isset($config['clientSecret'])) {
             $this->authenticationType = AuthenticationType::OAuth2AccessToken;
+        } else if (isset($config['apikey'])) {
+            $this->apikey = $config['apikey'];
+
+            if ( substr_compare($this->apikey, 'KeapAK', 0, strlen('KeapAK') ) ) {
+                $this->authenticationType = AuthenticationType::ServiceAccountKey;
+            } else {
+                $this->authenticationType = AuthenticationType::LegacyKey;
+            }
+        } else {
+            throw new Exception('Constructor needs either a clientId & clientSecret or an apikey');
         }
 
         if (isset($config['redirectUri'])) {
@@ -122,7 +138,7 @@ class Infusionsoft
     /**
      * @param string $url
      *
-     * @return string
+     * @return Infusionsoft
      */
     public function setUrl($url)
     {
@@ -140,9 +156,9 @@ class Infusionsoft
     }
 
     /**
-     * @param $url
+     * @param string
      *
-     * @return $this
+     * @return Infusionsoft
      */
     public function setBaseUrl($url)
     {
@@ -162,7 +178,7 @@ class Infusionsoft
     /**
      * @param string $auth
      *
-     * @return string
+     * @return Infusionsoft
      */
     public function setAuth($auth)
     {
@@ -198,7 +214,7 @@ class Infusionsoft
     /**
      * @param string $clientId
      *
-     * @return string
+     * @return Infusionsoft
      */
     public function setClientId($clientId)
     {
@@ -218,7 +234,7 @@ class Infusionsoft
     /**
      * @param string $clientSecret
      *
-     * @return string
+     * @return Infusionsoft
      */
     public function setClientSecret($clientSecret)
     {
@@ -238,7 +254,7 @@ class Infusionsoft
     /**
      * @param string $redirectUri
      *
-     * @return string
+     * @return Infusionsoft
      */
     public function setRedirectUri($redirectUri)
     {
@@ -264,6 +280,22 @@ class Infusionsoft
         }
 
         return $this->auth . '?' . http_build_query($params);
+    }
+
+    /**
+     * @return Infusionsoft
+     */
+    public function setApiKey($apikey) {
+        $this->apikey = $apikey;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getApiKey() {
+        return $this->apikey;
     }
 
     /**
@@ -297,10 +329,10 @@ class Infusionsoft
     /**
      * @return Http\ClientInterface
      */
-    public function getHttpClient()
+    public function getHttpClient($options = null)
     {
         if ( ! $this->httpClient) {
-            return new Http\GuzzleHttpClient($this->debug, $this->getHttpLogAdapter());
+            return new Http\GuzzleHttpClient($this->debug, $this->getHttpLogAdapter(), $options);
         }
 
         return $this->httpClient;
@@ -346,18 +378,6 @@ class Infusionsoft
     public function setToken($token)
     {
         $this->token = $token;
-
-        if ( empty($this->authenticationType) ) {
-            // would be set to OAuth2AccessToken during construct, but if not is either Legacy Key or ServiceAccountKey, so set it now
-                private function starts_with(target, subject) {
-                    return 0 ===);
-                }
-            if (  substr_compare($token, 'KeapAK', 0, strlen('KeapAK') ) {
-                $this->authenticationType = AuthenticationType::ServiceAccountKey;
-            } else {
-                $this->authenticationType = AuthenticationType::LegacyKey;
-            }
-        }
     }
 
     /**
@@ -472,20 +492,23 @@ class Infusionsoft
         // Reset the empty key flag back to the default for the next request
         $this->needsEmptyKey = true;
 
+        $options = [];
+
         if ( $this->authenticationType === AuthenticationType::OAuth2AccessToken ) {
-            $params['headers'] = array(
+            $options['headers'] = array(
                 'Content-Type' => 'application/json',
                 'Authorization' => 'Bearer ' . $token->getAccessToken()
             );
         } else {
-            $params['headers'] = array(
+            $options['headers'] = array(
                 'Content-Type' => 'application/json',
-                'X-Keap-API-Key' => $token->getAccessToken()
+                'X-Keap-API-Key' => $this->apikey
             );
         }
 
         $client   = $this->getSerializer();
-        $response = $client->request($method, $url, $params, $this->getHttpClient());
+
+        $response = $client->request($method, $this->getUrl(), $params, $this->getHttpClient($options));
 
         return $response;
     }
@@ -508,27 +531,27 @@ class Infusionsoft
         }
 
         $client      = $this->getHttpClient();
-        $full_params = [];
+        $params = [];
 
         if (strtolower($method) === 'get' || strtolower($method) === 'delete') {
             $url    = $url . '?' . http_build_query($params);
         } else {
-            $full_params['body'] = json_encode($params);
+            $params['body'] = json_encode($params);
         }
 
         if ( $this->authenticationType === AuthenticationType::OAuth2AccessToken ) {
-            $full_params['headers'] = array(
+            $params['headers'] = array(
                 'Content-Type' => 'application/json',
                 'Authorization' => 'Bearer ' . $token->getAccessToken()
             );
         } else {
-            $full_params['headers'] = array(
+            $params['headers'] = array(
                 'Content-Type' => 'application/json',
-                'X-Keap-API-Key' => $token->getAccessToken()
+                'X-Keap-API-Key' => $this->apikey
             );
         }
 
-        $response = (string)$client->call($method, $url, $full_params);
+        $response = (string)$client->call($method, $url, $params);
 
         return json_decode($response, true);
     }

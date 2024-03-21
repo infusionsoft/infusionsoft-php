@@ -7,5 +7,3 @@ enum AuthenticationType {
     case LegacyKey;
     case ServiceAccountKey;
 }
-
-?>
