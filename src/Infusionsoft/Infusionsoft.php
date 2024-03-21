@@ -492,25 +492,11 @@ class Infusionsoft
         // Reset the empty key flag back to the default for the next request
         $this->needsEmptyKey = true;
 
-        $options = [];
+        $options = $this->setOptionsForRequest([]);
 
-        if ( $this->authenticationType === AuthenticationType::OAuth2AccessToken ) {
-            $options['headers'] = array(
-                'Content-Type' => 'application/json',
-                'Authorization' => 'Bearer ' . $token->getAccessToken()
-            );
-        } else {
-            $options['headers'] = array(
-                'Content-Type' => 'application/json',
-                'X-Keap-API-Key' => $this->apikey
-            );
-        }
+        $client = $this->getSerializer();
 
-        $client   = $this->getSerializer();
-
-        $response = $client->request($method, $this->getUrl(), $params, $this->getHttpClient($options));
-
-        return $response;
+        return $client->request($method, $this->getUrl(), $params, $this->getHttpClient($options));
     }
 
     /**
@@ -539,17 +525,7 @@ class Infusionsoft
             $params['body'] = json_encode($params);
         }
 
-        if ( $this->authenticationType === AuthenticationType::OAuth2AccessToken ) {
-            $params['headers'] = array(
-                'Content-Type' => 'application/json',
-                'Authorization' => 'Bearer ' . $token->getAccessToken()
-            );
-        } else {
-            $params['headers'] = array(
-                'Content-Type' => 'application/json',
-                'X-Keap-API-Key' => $this->apikey
-            );
-        }
+        $params = $this->setOptionsForRequest($params);
 
         $response = (string)$client->call($method, $url, $params);
 
@@ -912,6 +888,26 @@ class Infusionsoft
         $class = '\Infusionsoft\Api\Rest\\' . $class;
 
         return new $class($this);
+    }
+
+    /**
+     * @param array $options
+     * @return array
+     */
+    public function setOptionsForRequest(array $options): array
+    {
+        if ($this->authenticationType === AuthenticationType::OAuth2AccessToken) {
+            $options['headers'] = array(
+                'Content-Type' => 'application/json',
+                'Authorization' => 'Bearer ' . $this->getToken()->getAccessToken()
+            );
+        } else {
+            $options['headers'] = array(
+                'Content-Type' => 'application/json',
+                'X-Keap-API-Key' => $this->apikey
+            );
+        }
+        return $options;
     }
 
 }

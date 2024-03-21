@@ -86,7 +86,7 @@ API Keys are a "password" for your data in an application and should always be t
 
 In our UI you will find an API Settings screen which divides API Keys into two distinct categories:
 * Personal Access Tokens, which are scoped to your own user account and can only see and manipulate the data you have access to
-* Service Account Keys, which can only be authorized by an Admin and have full access to the data stored in the application
+* Service Account Keys, which can only be authorized by an Administrator and have full access to the data stored in the application
 
 For additional information on how to authorize and use PATs and SAKs please see our [developer documentation](https://developer.infusionsoft.com/pat-and-sak/).
 
