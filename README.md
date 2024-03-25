@@ -39,7 +39,12 @@ Or manually add it to your composer.json:
 
 ## Authentication
 
-The client ID and secret are the key and secret for your OAuth2 application found at the [Infusionsoft Developers](https://keys.developer.infusionsoft.com/apps/mykeys) website.
+Currently Keap supports two types of authentication for our APIs: the OAuth2 Access Code Grant and API Keys.  
+Developers of third-party integrations should always use our OAuth2 authentication, but developers building integrations for a single tenant may find the use of API Keys much simpler.
+
+### OAuth2 Access Code Grant
+
+The client ID and secret are the key and secret for your OAuth2 application found at the [Infusionsoft Developers](https://keys.developer.keap.com) website.
 
 ```php
 
@@ -73,6 +78,26 @@ if ($infusionsoft->getToken()) {
 } else {
 	echo '<a href="' . $infusionsoft->getAuthorizationUrl() . '">Click here to authorize</a>';
 }
+```
+
+### API Keys
+
+API Keys are a "password" for your data in an application and should always be treated like a dangerous secret. 
+
+In our UI you will find an API Settings screen which divides API Keys into two distinct categories:
+* `Personal Access Tokens`, which are scoped to your own user account and can only see and manipulate the data you have access to.
+* `Service Account Keys`, which can only be authorized by an Administrator and have full access to the data stored in the application.
+
+For additional information on how to authorize and use PATs and SAKs please see our [developer documentation](https://developer.infusionsoft.com/pat-and-sak/).
+
+```php
+require_once 'vendor/autoload.php';
+
+$infusionsoft = new \Infusionsoft\Infusionsoft(array(
+  'apikey' => $APIKeyRetrievedFromCredentialStorage,
+));
+
+// MAKE INFUSIONSOFT REQUEST
 ```
 
 ## Making XML-RPC Requests

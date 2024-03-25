@@ -2,9 +2,11 @@
 
 namespace Infusionsoft;
 
+use Infusionsoft\AuthenticationType;
 use Infusionsoft\Http\ArrayLogger;
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
+use function PHPUnit\Framework\throwException;
 
 class Infusionsoft
 {
@@ -45,6 +47,11 @@ class Infusionsoft
     protected $redirectUri;
 
     /**
+     * @var string
+     */
+    protected $apikey;
+
+    /**
      * @var array Cache for services so they aren't created multiple times
      */
     protected $apis = array();
@@ -80,6 +87,11 @@ class Infusionsoft
     protected $token;
 
     /**
+     * @var AuthenticationType
+     */
+    protected $authenticationType;
+
+    /**
      * @param array $config
      */
     public function __construct($config = array())
@@ -90,6 +102,20 @@ class Infusionsoft
 
         if (isset($config['clientSecret'])) {
             $this->clientSecret = $config['clientSecret'];
+        }
+
+        if (isset($config['clientId']) && isset($config['clientSecret'])) {
+            $this->authenticationType = AuthenticationType::OAuth2AccessToken;
+        } else if (isset($config['apikey'])) {
+            $this->apikey = $config['apikey'];
+
+            if ( substr_compare($this->apikey, 'KeapAK', 0, strlen('KeapAK') ) ) {
+                $this->authenticationType = AuthenticationType::ServiceAccountKey;
+            } else {
+                $this->authenticationType = AuthenticationType::LegacyKey;
+            }
+        } else {
+            throw new Exception('Constructor needs either a clientId & clientSecret or an apikey');
         }
 
         if (isset($config['redirectUri'])) {
@@ -112,7 +138,7 @@ class Infusionsoft
     /**
      * @param string $url
      *
-     * @return string
+     * @return Infusionsoft
      */
     public function setUrl($url)
     {
@@ -130,9 +156,9 @@ class Infusionsoft
     }
 
     /**
-     * @param $url
+     * @param string
      *
-     * @return $this
+     * @return Infusionsoft
      */
     public function setBaseUrl($url)
     {
@@ -152,7 +178,7 @@ class Infusionsoft
     /**
      * @param string $auth
      *
-     * @return string
+     * @return Infusionsoft
      */
     public function setAuth($auth)
     {
@@ -188,7 +214,7 @@ class Infusionsoft
     /**
      * @param string $clientId
      *
-     * @return string
+     * @return Infusionsoft
      */
     public function setClientId($clientId)
     {
@@ -208,7 +234,7 @@ class Infusionsoft
     /**
      * @param string $clientSecret
      *
-     * @return string
+     * @return Infusionsoft
      */
     public function setClientSecret($clientSecret)
     {
@@ -228,7 +254,7 @@ class Infusionsoft
     /**
      * @param string $redirectUri
      *
-     * @return string
+     * @return Infusionsoft
      */
     public function setRedirectUri($redirectUri)
     {
@@ -254,6 +280,22 @@ class Infusionsoft
         }
 
         return $this->auth . '?' . http_build_query($params);
+    }
+
+    /**
+     * @return Infusionsoft
+     */
+    public function setApiKey($apikey) {
+        $this->apikey = $apikey;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getApiKey() {
+        return $this->apikey;
     }
 
     /**
@@ -287,10 +329,10 @@ class Infusionsoft
     /**
      * @return Http\ClientInterface
      */
-    public function getHttpClient()
+    public function getHttpClient($options = null)
     {
         if ( ! $this->httpClient) {
-            return new Http\GuzzleHttpClient($this->debug, $this->getHttpLogAdapter());
+            return new Http\GuzzleHttpClient($this->debug, $this->getHttpLogAdapter(), $options);
         }
 
         return $this->httpClient;
@@ -433,11 +475,9 @@ class Infusionsoft
         // Before making the request, we can make sure that the token is still
         // valid by doing a check on the end of life.
         $token = $this->getToken();
-        if ($this->isTokenExpired()) {
+        if ($this->authenticationType === AuthenticationType::OAuth2AccessToken && $this->isTokenExpired()) {
             throw new TokenExpiredException;
         }
-
-        $url = $this->url . '?' . http_build_query(array('access_token' => $token->getAccessToken()));
 
         $params = func_get_args();
         $method = array_shift($params);
@@ -446,16 +486,17 @@ class Infusionsoft
         // even if OAuth is being used. This flag can be made false as it
         // will break some newer endpoints.
         if ($this->needsEmptyKey) {
-            $params = array_merge(array('key' => $token->getAccessToken()), $params);
+            $params = array_merge(array('key' => 'backwards-compatability'), $params);
         }
 
         // Reset the empty key flag back to the default for the next request
         $this->needsEmptyKey = true;
 
-        $client   = $this->getSerializer();
-        $response = $client->request($method, $url, $params, $this->getHttpClient());
+        $options = $this->setOptionsForRequest([]);
 
-        return $response;
+        $client = $this->getSerializer();
+
+        return $client->request($method, $this->getUrl(), $params, $this->getHttpClient($options));
     }
 
     /**
@@ -471,26 +512,22 @@ class Infusionsoft
         // Before making the request, we can make sure that the token is still
         // valid by doing a check on the end of life.
         $token = $this->getToken();
-        if ($this->isTokenExpired()) {
+        if ($this->authenticationType === AuthenticationType::OAuth2AccessToken && $this->isTokenExpired()) {
             throw new TokenExpiredException;
         }
 
         $client      = $this->getHttpClient();
-        $full_params = [];
+        $params = [];
 
         if (strtolower($method) === 'get' || strtolower($method) === 'delete') {
-            $params = array_merge(array('access_token' => $token->getAccessToken()), $params);
             $url    = $url . '?' . http_build_query($params);
         } else {
-            $url                 = $url . '?' . http_build_query(array('access_token' => $token->getAccessToken()));
-            $full_params['body'] = json_encode($params);
+            $params['body'] = json_encode($params);
         }
 
-        $full_params['headers'] = array(
-            'Content-Type' => 'application/json',
-        );
+        $params = $this->setOptionsForRequest($params);
 
-        $response = (string)$client->call($method, $url, $full_params);
+        $response = (string)$client->call($method, $url, $params);
 
         return json_decode($response, true);
     }
@@ -851,6 +888,26 @@ class Infusionsoft
         $class = '\Infusionsoft\Api\Rest\\' . $class;
 
         return new $class($this);
+    }
+
+    /**
+     * @param array $options
+     * @return array
+     */
+    public function setOptionsForRequest(array $options): array
+    {
+        if ($this->authenticationType === AuthenticationType::OAuth2AccessToken) {
+            $options['headers'] = array(
+                'Content-Type' => 'application/json',
+                'Authorization' => 'Bearer ' . $this->getToken()->getAccessToken()
+            );
+        } else {
+            $options['headers'] = array(
+                'Content-Type' => 'application/json',
+                'X-Keap-API-Key' => $this->apikey
+            );
+        }
+        return $options;
     }
 
 }

@@ -7,7 +7,7 @@ interface ClientInterface {
 	/**
 	 * @return \fXmlRpc\Transport\TransportInterface
 	 */
-	public function getXmlRpcTransport();
+	public function getXmlRpcTransport($options);
 
 	/**
 	 * Sends a request to the given URI and returns the raw response.
