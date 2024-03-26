@@ -511,16 +511,14 @@ class Infusionsoft
     {
         // Before making the request, we can make sure that the token is still
         // valid by doing a check on the end of life.
-        $token = $this->getToken();
         if ($this->authenticationType === AuthenticationType::OAuth2AccessToken && $this->isTokenExpired()) {
             throw new TokenExpiredException;
         }
 
-        $client      = $this->getHttpClient();
-        $params = [];
+        $client = $this->getHttpClient();
 
         if (strtolower($method) === 'get' || strtolower($method) === 'delete') {
-            $url    = $url . '?' . http_build_query($params);
+            $url = $url . '?' . http_build_query($params);
         } else {
             $params['body'] = json_encode($params);
         }
