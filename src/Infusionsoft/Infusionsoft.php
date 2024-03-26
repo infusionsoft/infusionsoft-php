@@ -517,17 +517,17 @@ class Infusionsoft
         }
 
         $client      = $this->getHttpClient();
-        $params = [];
+        $requestParams = [];
 
         if (strtolower($method) === 'get' || strtolower($method) === 'delete') {
             $url    = $url . '?' . http_build_query($params);
         } else {
-            $params['body'] = json_encode($params);
+            $requestParams['body'] = json_encode($params);
         }
 
-        $params = $this->setOptionsForRequest($params);
+        $requestParams = $this->setOptionsForRequest($requestParams);
 
-        $response = (string)$client->call($method, $url, $params);
+        $response = (string)$client->call($method, $url, $requestParams);
 
         return json_decode($response, true);
     }
