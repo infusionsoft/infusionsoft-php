@@ -54,8 +54,8 @@ class TagService extends RestModel
             throw new InfusionsoftException('A maximum of 100 contact ids can be modified at once');
         }
 
-        $contacts      = new \stdClass();
-        $contacts->ids = $contactIds;
+        $contacts      = [];
+        $contacts['ids'] = $contactIds;
 
         $response = $this->client->restfulRequest('post', $this->getFullUrl($this->id . '/contacts'), $contacts);
 
