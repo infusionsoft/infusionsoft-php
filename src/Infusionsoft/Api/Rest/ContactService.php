@@ -44,8 +44,8 @@ class ContactService extends RestModel
             throw new InfusionsoftException('A maximum of 100 tag ids can be added at once');
         }
 
-        $tags         = new \stdClass;
-        $tags->tagIds = $tagIds;
+        $tags         = [];
+        $tags['tagIds'] = $tagIds;
 
         $response = $this->client->restfulRequest('post', $this->getFullUrl($this->id . '/tags'), $tags);
 
