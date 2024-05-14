@@ -32,7 +32,7 @@ Or manually add it to your composer.json:
 ``` json
 {
     "require": {
-        "infusionsoft/php-sdk": "1.4.*"
+        "infusionsoft/php-sdk": "1.6.*"
     }
 }
 ```
