@@ -1,6 +1,5 @@
 # Infusionsoft PHP SDK
 
-[![Build Status](https://travis-ci.org/infusionsoft/infusionsoft-php.png?branch=master)](https://travis-ci.org/infusionsoft/infusionsoft-php)
 [![Total Downloads](https://poser.pugx.org/infusionsoft/php-sdk/downloads.png)](https://packagist.org/packages/infusionsoft/php-sdk)
 [![Latest Stable Version](https://poser.pugx.org/infusionsoft/php-sdk/v/stable.png)](https://packagist.org/packages/infusionsoft/php-sdk)
 
@@ -9,7 +8,7 @@
 
 This version implements RESTful endpoints, a new version of Guzzle, and a restructured request handler.
 
-As of version 1.4, PHP 7+ is required.
+As of version 1.6, PHP 7+ is required.
 
 ### Breaking Change
 
@@ -32,7 +31,7 @@ Or manually add it to your composer.json:
 ``` json
 {
     "require": {
-        "infusionsoft/php-sdk": "1.4.*"
+        "infusionsoft/php-sdk": "1.6.*"
     }
 }
 ```
