@@ -9,7 +9,7 @@
 
 This version implements RESTful endpoints, a new version of Guzzle, and a restructured request handler.
 
-As of version 1.4, PHP 7+ is required.
+As of version 1.6, PHP 7+ is required.
 
 ### Breaking Change
 
