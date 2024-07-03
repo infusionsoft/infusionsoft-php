@@ -2,6 +2,7 @@
 
 namespace Infusionsoft;
 
+use Exception;
 use Infusionsoft\AuthenticationType;
 use Infusionsoft\Http\ArrayLogger;
 use Psr\Log\LoggerInterface;
