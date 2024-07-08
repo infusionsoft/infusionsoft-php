@@ -4,8 +4,7 @@ namespace Infusionsoft\Http;
 
 use fXmlRpc\Client;
 use fXmlRpc\Exception\ExceptionInterface as fXmlRpcException;
-use fXmlRpc\Parser\BestParserDelegate;
-use fXmlRpc\Parser\NativeParser;
+use fXmlRpc\Parser\XmlReaderParser;
 
 class InfusionsoftSerializer implements SerializerInterface {
 
@@ -24,11 +23,8 @@ class InfusionsoftSerializer implements SerializerInterface {
 		try
 		{
 			$transport = $client->getXmlRpcTransport();
-			$parser = null;
 
-			if(extension_loaded('xmlrpc')) {
-			    $parser = new BestParserDelegate();
-			}
+            $parser = new XmlReaderParser(true);
 
 			$client = new Client($uri, $transport, $parser);
 
