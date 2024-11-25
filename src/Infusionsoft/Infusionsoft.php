@@ -110,7 +110,7 @@ class Infusionsoft
         } else if (isset($config['apikey'])) {
             $this->apikey = $config['apikey'];
 
-            if ( substr_compare($this->apikey, 'KeapAK', 0, strlen('KeapAK') ) ) {
+            if ( substr_compare($this->apikey, 'KeapAK', 0, strlen('KeapAK') ) === 0) {
                 $this->authenticationType = AuthenticationType::ServiceAccountKey;
             } else {
                 $this->authenticationType = AuthenticationType::LegacyKey;
