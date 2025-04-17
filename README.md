@@ -293,12 +293,12 @@ Access Infusionsoft from the Binding
 ## SDK Development
 You can install the Composer dependencies without installing Composer:
 ```
-docker-compose run composer
+docker compose run composer
 ```
 
 You can access the samples by spinning up the Docker container for the Composer dependencies:
 ```
-docker-compose up -d
+docker compose up -d
 ```
 
 Tests can be executed without installing PHP in the host environment (while the main container is running):
