@@ -1,5 +1,12 @@
 # Infusionsoft PHP SDK
 
+> [!WARNING]
+> **⚠️ Deprecated**
+> This SDK is no longer actively maintained.
+> Please migrate to the replacement: [`keap-sdk-php`](https://github.com/infusionsoft/keap-sdk-php), available on [Packagist](https://packagist.org/packages/keap/keap-sdk).
+> 
+> You can use the [Migration guide from infusionsoft/php-sdk](https://github.com/infusionsoft/keap-sdk-php/blob/main/MigrationFromInfusionsoftPhpSdk.md).
+
 [![Total Downloads](https://poser.pugx.org/infusionsoft/php-sdk/downloads.png)](https://packagist.org/packages/infusionsoft/php-sdk)
 [![Latest Stable Version](https://poser.pugx.org/infusionsoft/php-sdk/v/stable.png)](https://packagist.org/packages/infusionsoft/php-sdk)
 
