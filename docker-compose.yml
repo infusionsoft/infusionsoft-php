@@ -19,7 +19,7 @@ services:
       - "${INFUSIONSOFT_PHP_WORKING_DIR-.}:/var/www/html"
 
   composer:
-    image: composer:latest
+    image: composer:2.7
     volumes:
       - ${INFUSIONSOFT_PHP_WORKING_DIR-.}:/app
     command: "composer install --optimize-autoloader --no-interaction --no-progress"
