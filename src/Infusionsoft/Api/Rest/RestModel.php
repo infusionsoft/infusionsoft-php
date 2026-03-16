@@ -571,6 +571,7 @@ abstract class RestModel implements ArrayAccess, JsonSerializable
      *
      * @return array
      */
+    #[\ReturnTypeWillChange]
     public function jsonSerialize()
     {
         return $this->toArray();
@@ -982,6 +983,7 @@ abstract class RestModel implements ArrayAccess, JsonSerializable
      *
      * @return bool
      */
+    #[\ReturnTypeWillChange]
     public function offsetExists($offset)
     {
         return isset($this->$offset);
@@ -994,6 +996,7 @@ abstract class RestModel implements ArrayAccess, JsonSerializable
      *
      * @return mixed
      */
+    #[\ReturnTypeWillChange]
     public function offsetGet($offset)
     {
         return $this->$offset;
@@ -1007,6 +1010,7 @@ abstract class RestModel implements ArrayAccess, JsonSerializable
      *
      * @return void
      */
+    #[\ReturnTypeWillChange]
     public function offsetSet($offset, $value)
     {
         $this->$offset = $value;
@@ -1019,6 +1023,7 @@ abstract class RestModel implements ArrayAccess, JsonSerializable
      *
      * @return void
      */
+    #[\ReturnTypeWillChange]
     public function offsetUnset($offset)
     {
         unset($this->$offset);
