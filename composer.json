@@ -14,7 +14,7 @@
         }
     ],
     "require": {
-        "php": ">=8.1",
+        "php": ">=8.3",
         "guzzlehttp/guzzle": "^7.4.2",
         "lstrojny/fxmlrpc": "^0.22.0",
         "psr/log": "^1.0|^2.0|^3.0",
@@ -25,7 +25,7 @@
     },
     "require-dev": {
         "mockery/mockery": "^1.2",
-        "phpunit/phpunit": "~9",
+        "phpunit/phpunit": "^12.5.21",
         "doctrine/instantiator": "^1.3.0",
         "squizlabs/php_codesniffer": "3.*"
     },
