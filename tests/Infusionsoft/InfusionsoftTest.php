@@ -42,17 +42,16 @@ class InfusionsoftTest extends TestCase
     }
 
     /**
-     * @dataProvider dataStates
-     *
      * @param $state
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('dataStates')]
     public function testGetAuthorizationUrlWithState($state)
     {
         $this->assertEquals('https://signin.infusionsoft.com/app/oauth/authorize?client_id=foo&redirect_uri=http%3A%2F%2Fexample.com%2F&response_type=code&scope=full&state=' . $state,
             $this->ifs->getAuthorizationUrl((string)$state));
     }
 
-    public static function dataStates()
+    public static function dataStates(): array
     {
         return [
             [0],

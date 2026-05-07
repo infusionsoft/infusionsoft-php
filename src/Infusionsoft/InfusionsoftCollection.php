@@ -110,9 +110,9 @@ class InfusionsoftCollection implements ArrayAccess, Countable, JsonSerializable
 	/**
 	 * Convert the object into something JSON serializable.
 	 *
-	 * @return array
+	 * @return mixed
 	 */
-	public function jsonSerialize()
+	public function jsonSerialize(): mixed
 	{
 		return $this->toArray();
 	}
@@ -133,7 +133,7 @@ class InfusionsoftCollection implements ArrayAccess, Countable, JsonSerializable
 	 *
 	 * @return int
 	 */
-	public function count()
+	public function count(): int
 	{
 		return count($this->items);
 	}
@@ -144,7 +144,7 @@ class InfusionsoftCollection implements ArrayAccess, Countable, JsonSerializable
 	 * @param  mixed  $key
 	 * @return bool
 	 */
-	public function offsetExists($key)
+	public function offsetExists($key): bool
 	{
 		return array_key_exists($key, $this->items);
 	}
@@ -155,7 +155,7 @@ class InfusionsoftCollection implements ArrayAccess, Countable, JsonSerializable
 	 * @param  mixed  $key
 	 * @return mixed
 	 */
-	public function offsetGet($key)
+	public function offsetGet($key): mixed
 	{
 		return $this->items[$key];
 	}
@@ -167,7 +167,7 @@ class InfusionsoftCollection implements ArrayAccess, Countable, JsonSerializable
 	 * @param  mixed  $value
 	 * @return void
 	 */
-	public function offsetSet($key, $value)
+	public function offsetSet($key, $value): void
 	{
 		if (is_null($key)) {
 			$this->items[] = $value;
@@ -179,10 +179,10 @@ class InfusionsoftCollection implements ArrayAccess, Countable, JsonSerializable
 	/**
 	 * Unset the item at a given offset.
 	 *
-	 * @param  string  $key
+	 * @param  mixed  $key
 	 * @return void
 	 */
-	public function offsetUnset($key)
+	public function offsetUnset($key): void
 	{
 		unset($this->items[$key]);
 	}
