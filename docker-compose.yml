@@ -2,7 +2,7 @@ version: "3.3"
 services:
 
   web:
-    image: nginx:latest
+    image: public.ecr.aws/nginx/nginx:1.30.4-alpine-slim@sha256:98a6950962de90dfd5b3d4480d35ef74817dea7082fd67b9bd9ba13725622452
     container_name: infusionsoft-php-nginx
     ports:
       - "80:80"
